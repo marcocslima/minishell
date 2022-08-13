@@ -1,0 +1,42 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc arquivo de build ativo",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-g",
+                "-Wall", "-Wextra", "-Werror",
+                "/home/chaves_14/42/vamosl/srcs/args.c",
+				"/home/chaves_14/42/vamosl/srcs/bash.c",
+				"/home/chaves_14/42/vamosl/srcs/bin.c",
+				"/home/chaves_14/42/vamosl/srcs/builtins.c",
+				"/home/chaves_14/42/vamosl/srcs/cd.c",
+				"/home/chaves_14/42/vamosl/srcs/command.c",
+				"/home/chaves_14/42/vamosl/srcs/exit.c",
+				"/home/chaves_14/42/vamosl/srcs/export.c",
+				"/home/chaves_14/42/vamosl/srcs/lens.c",
+				"/home/chaves_14/42/vamosl/srcs/main.c",
+				"/home/chaves_14/42/vamosl/srcs/parser.c",
+				"/home/chaves_14/42/vamosl/srcs/remove.c",
+				"/home/chaves_14/42/vamosl/srcs/unset.c",
+				"/home/chaves_14/42/vamosl/srcs/utils.c",
+				"/home/chaves_14/42/vamosl/srcs/libft/libft.a",
+                "-o",
+                "/home/chaves_14/42/vamosl/minishell"
+            ],
+            "options": {
+                "cwd": "/home/chaves_14/42/vamosl"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarefa gerada pelo Depurador."
+        }
+    ],
+    "version": "2.0.0"
+}
