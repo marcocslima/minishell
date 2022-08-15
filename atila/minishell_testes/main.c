@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/14 14:16:00 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/15 15:22:58 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	open_prompt(char **envp)
 	ft_putstr_fd( path , 1);
 	free(path);
 }
+/*
 static void		get_input(char **input)
 {
 	char	buf;
@@ -90,12 +91,13 @@ static void		get_input(char **input)
 	int		i;
 	int		count;
 
-	*input = 
+	*input =
 }
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-	char	*input;
+//	char	*input;
 
 	if (argc != 1)
 		error_msg("Please type only one argument");
@@ -105,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		open_prompt(data->envp);
 		signal(SIGINT, signal_handler);
-		get_input(char **input);
+//		get_input(char **input);
 
 
 	}
