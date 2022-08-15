@@ -7,26 +7,26 @@
             "args": [
                 "-g",
                 "-Wall", "-Wextra", "-Werror",
-                "/home/chaves_14/42/vamosl/srcs/args.c",
-				"/home/chaves_14/42/vamosl/srcs/bash.c",
-				"/home/chaves_14/42/vamosl/srcs/bin.c",
-				"/home/chaves_14/42/vamosl/srcs/builtins.c",
-				"/home/chaves_14/42/vamosl/srcs/cd.c",
-				"/home/chaves_14/42/vamosl/srcs/command.c",
-				"/home/chaves_14/42/vamosl/srcs/exit.c",
-				"/home/chaves_14/42/vamosl/srcs/export.c",
-				"/home/chaves_14/42/vamosl/srcs/lens.c",
-				"/home/chaves_14/42/vamosl/srcs/main.c",
-				"/home/chaves_14/42/vamosl/srcs/parser.c",
-				"/home/chaves_14/42/vamosl/srcs/remove.c",
-				"/home/chaves_14/42/vamosl/srcs/unset.c",
-				"/home/chaves_14/42/vamosl/srcs/utils.c",
-				"/home/chaves_14/42/vamosl/srcs/libft/libft.a",
+                "/home/coder/Formacao_42/minitest/srcs/args.c",
+				"/home/coder/Formacao_42/minitest/srcs/bash.c",
+				"/home/coder/Formacao_42/minitest/srcs/bin.c",
+				"/home/coder/Formacao_42/minitest/srcs/builtins.c",
+				"/home/coder/Formacao_42/minitest/srcs/cd.c",
+				"/home/coder/Formacao_42/minitest/srcs/command.c",
+				"/home/coder/Formacao_42/minitest/srcs/exit.c",
+				"/home/coder/Formacao_42/minitest/srcs/export.c",
+				"/home/coder/Formacao_42/minitest/srcs/lens.c",
+				"/home/coder/Formacao_42/minitest/srcs/main.c",
+				"/home/coder/Formacao_42/minitest/srcs/parser.c",
+				"/home/coder/Formacao_42/minitest/srcs/remove.c",
+				"/home/coder/Formacao_42/minitest/srcs/unset.c",
+				"/home/coder/Formacao_42/minitest/srcs/utils.c",
+				"/home/coder/Formacao_42/minitest/libft/libft.a",
                 "-o",
-                "/home/chaves_14/42/vamosl/minishell"
+                "/home/coder/Formacao_42/minitest/minishell"
             ],
             "options": {
-                "cwd": "/home/chaves_14/42/vamosl"
+                "cwd": "/home/coder/Formacao_42/minitest"
             },
             "problemMatcher": [
                 "$gcc"

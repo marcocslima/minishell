@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/14 14:16:00 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/16 00:59:31 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,24 @@ char	*get_env(char **envp, char *env)
 		tmp = 0;
 	free(env);
 	return (tmp);
-
 }
+
+char	*get_home(char **envp)
+{
+	while (ft_memcmp("HOME=", *envp, 5))
+		envp++;
+	return (*envp + 5);
+}
+
+
 void	open_prompt(char **envp)
 {
 	char	*home;
 	char	cwd[4097];
 	char	*path;
 
-	home = get_env(envp, "HOME");
+	home = get_home(envp); // Substituí a função get_env por essa!!
+	//home = get_env(envp, "HOME");
 	getcwd(cwd, 4096);
 	if (ft_memcmp(cwd, home, ft_strlen(home)))
 		path = ft_strdup(cwd);
