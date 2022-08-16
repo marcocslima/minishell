@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/16 00:08:19 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/16 10:24:49 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void		get_input(t_data **data)//adicionei essa função que está lendo o que fo
 		(*data)->input = ft_strjoin((*data)->input,bufstring);
 		i++;
 	}
+	free(bufstring);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/08/14 12:00:02 by acosta-a         ###   ########.fr        #
+#    Updated: 2022/08/16 09:57:42 by mcesar-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,5 +46,6 @@ fclean: clean
 	make fclean -C ${LIBFT_PATH}
 
 re: fclean all
+	make clean
 
 .PHONY: clean fclean re
