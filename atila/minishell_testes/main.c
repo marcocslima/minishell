@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/16 20:32:11 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/17 12:03:10 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_struct(t_data **data, char **argv, char **envp)
 	(*data)->envp = copy_env(envp, 0);
 	(*data)->argv = argv;
 	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
-
+	(*data)->pars_inpt = (char **)ft_calloc(sizeof(char *), (4097));
 
 }
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, signal_handler);
 		get_input(&data);
 		parser(&data);
-
+		exit (0); //retirar
 
 	}
 
