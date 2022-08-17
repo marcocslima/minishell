@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/16 10:24:49 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/08/16 20:32:11 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 
 #include "minishell2.h"
-#include <stdio.h> //deletar
 
 char	**copy_env(char **envp, int add)
 {
@@ -107,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		open_prompt(data->envp);
 		signal(SIGINT, signal_handler);
 		get_input(&data);
+		parser(&data);
 
 
 	}

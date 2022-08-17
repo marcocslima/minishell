@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/16 00:07:49 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/16 20:33:30 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <stdio.h> //deletar
 # define ERROR 1
 
 typedef struct s_data
@@ -37,6 +38,7 @@ int		no_error_msg(char *message);
 int		error_msg(char *message);
 void	signal_handler(int	input);
 char	*ft_strjoin_2(char *s1, char *s2);
+void	parser(t_data **data);
 
 
 #endif
