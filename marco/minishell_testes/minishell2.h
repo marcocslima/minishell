@@ -44,6 +44,7 @@ typedef struct s_data
 {
 	char	**envp;
 	char	**argv;
+	int		**tokens;
 	int		argc;
 	char	*input;
 	char	**pars_inpt;
@@ -56,6 +57,4 @@ int		error_msg(char *message);
 void	signal_handler(int	input);
 char	*ft_strjoin_2(char *s1, char *s2);
 void	parser(t_data **data);
-
-
 #endif

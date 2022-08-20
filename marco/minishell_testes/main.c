@@ -70,6 +70,7 @@ void	open_prompt(char **envp)
 	else
 		path = ft_strjoin_2("~", cwd + ft_strlen(home));
 	ft_putstr_fd( path , 1);
+	ft_putstr_fd( ": " , 1);
 	free(path);
 }
 
