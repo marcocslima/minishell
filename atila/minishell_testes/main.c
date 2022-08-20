@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/17 12:03:10 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:12:48 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,11 @@ void		get_input(t_data **data)//adicionei essa função que está lendo o que fo
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-//	char	*input;
 
 	if (argc != 1)
 		error_msg("Please type only one argument");
 	init_struct(&data, argv, envp);
-//	signal(SIGQUIT, sig_handler);
+	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
 		open_prompt(data->envp);
