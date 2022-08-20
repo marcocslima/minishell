@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/20 00:42:19 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:53:15 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,8 @@ void		parser(t_data **data)
 				printf("pars_inpt[%d] input: %s  ",k,(*data)->pars_inpt[k]);}
 		j = quotes[q] + 1;
 		k++;
-//		i++;
 		q++;
 		}
-//	}
-}
-
 //função abaixo retorna a posição onde a aspas mãe é fechada caso exista uma, caso não ela retorna zero Exemplo: "a 'b'" retorna 6 diferente de "a" 'b' que retorna 0
 	i = 0;
 	int finalquoteindex = 0;
@@ -105,3 +101,4 @@ void		parser(t_data **data)
 	}
 	printf("finalquoteindex[%d] ",quotes[finalquoteindex]);
 
+}
