@@ -41,6 +41,7 @@ $(NAME): $(SRC.O)
 clean:
 	$(RM) $(SRC.O)
 	make clean -C ${LIBFT_PATH}
+
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C ${LIBFT_PATH}
