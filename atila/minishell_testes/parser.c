@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/20 00:53:15 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/08/21 09:17:04 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	cmd_space_substitution(t_data **data)
 			while ((*data)->input[i] != '\'' && (*data)->input[i] != '\"' && (*data)->input[i])
 			{
 				if ((*data)->input[i] == ' ')
-					(*data)->input[i] = '9';
+					(*data)->input[i] = 1;
 				i++;
 			}
 		}
@@ -55,8 +55,8 @@ void		parser(t_data **data)
 
 	len = ft_strlen((*data)->input);
 
-	quotes = calloc(len,sizeof(int));
-	spaces = calloc(len,sizeof(int));
+	quotes = ft_calloc(len,sizeof(int));
+	spaces = ft_calloc(len,sizeof(int));
 //	slice = calloc(len,sizeof(int));
 
 	while((*data)->input[i++])
@@ -76,29 +76,63 @@ void		parser(t_data **data)
 	q = 0;
 	quotes[-1] = 0;
 
-//função abaixo está separando os inputs fora e dentro das aspas mas essa função apenas verifica se elas forem fechadas e abertas consecutivamente exemplo:
-//echo 'a' "b"  .....No caso de ' "a" "b" ' ela não funciona
-		while(quotes[q]){
-			if (q % 2 == 0){
-				(*data)->pars_inpt[k] = ft_substr((*data)->input,j,quotes[q] - j);
-				printf("pars_inpt[%d] input: %s  ",k,(*data)->pars_inpt[k]);}
-			if (q % 2 != 0){
-				(*data)->pars_inpt[k] = ft_substr((*data)->input,j - 1,quotes[q] - j + 2);
-				printf("pars_inpt[%d] input: %s  ",k,(*data)->pars_inpt[k]);}
-		j = quotes[q] + 1;
-		k++;
-		q++;
-		}
-//função abaixo retorna a posição onde a aspas mãe é fechada caso exista uma, caso não ela retorna zero Exemplo: "a 'b'" retorna 6 diferente de "a" 'b' que retorna 0
+	//função abaixo retorna a posição onde a aspas mãe é fechada caso exista uma, caso não ela retorna zero Exemplo: "a 'b'" retorna 6 diferente de "a" 'b' que retorna 0
 	i = 0;
-	int finalquoteindex = 0;
+	int finalquoteindex = 1;
 	while(quotes[finalquoteindex])
 	{
 		if ((*data)->input[quotes[0]] != (*data)->input[quotes[1]])
-			if ((*data)->input[quotes[0]] == (*data)->input[quotes[finalquoteindex]])
+		{
+			if ((*data)->input[quotes[finalquoteindex + 1]] && (*data)->input[quotes[finalquoteindex]] == (*data)->input[quotes[finalquoteindex + 1]])
+				finalquoteindex +=2;
+			else if ((*data)->input[quotes[0]] == (*data)->input[quotes[finalquoteindex]])
 				break;
+		}
 	finalquoteindex ++;
 	}
 	printf("finalquoteindex[%d] ",quotes[finalquoteindex]);
 
+//função abaixo está separando os inputs fora e dentro das aspas mas essa função apenas verifica se elas forem fechadas e abertas consecutivamente exemplo:
+//echo 'a' "b"  .....No caso de ' "a" "b" ' ela não funciona
+	if ((*data)->input[quotes[0]] == (*data)->input[quotes[1]])
+	{
+		while(quotes[q])
+		{
+			if (q % 2 == 0){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j,quotes[q] - j);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);}
+			if (q % 2 != 0){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j - 1,quotes[q] - j + 2);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);}
+			j = quotes[q] + 1;
+			k++;
+			q++;
+		}
+	}
+	if ((*data)->input[quotes[0]] != (*data)->input[quotes[1]]){
+//		q++;
+		while(quotes[q])
+		{
+			if (q == 0){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j,quotes[q] - j);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);
+				k++;
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,quotes[q],1);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);
+				q++;
+					}
+			else if (q == finalquoteindex){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j,quotes[q] - j + 1);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);}
+			else if (q % 2 != 0){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j,quotes[q] - j);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);}
+			else if (q % 2 == 0){
+				(*data)->pars_inpt[k] = ft_substr((*data)->input,j - 1,quotes[q] - j + 2);
+					printf("pars_inpt[%d] input:%s  ",k,(*data)->pars_inpt[k]);}
+			j = quotes[q] + 1;
+			k++;
+			q++;
+		}
+	}
 }
