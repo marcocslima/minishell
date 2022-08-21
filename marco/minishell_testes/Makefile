@@ -22,7 +22,7 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./exits.c ./signal.c ./main.c ./utils.c parser.c\
+SRC = ./exits.c ./signal.c ./main.c ./utils.c ./parser.c \
 
 #BONUS =
 
