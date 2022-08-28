@@ -10,11 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell2
+NAME = minishell
 
 # Compilation #
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g -Wall -Wextra -Werror
 OPTCC=  -I. -c
 RM = rm -rf
 
@@ -48,5 +48,10 @@ fclean: clean
 
 re: fclean all
 	make clean
+
+debug:
+					$(MAKE) -C $(LIBFT_PATH)
+					$(CC) -g $(CFLAGS) $(SRC) $(LIBFT) -o $@
+					gdb --tui --args ./minishell
 
 .PHONY: clean fclean re
