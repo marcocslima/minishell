@@ -1,6 +1,30 @@
 
 #include "minishell.h"
 
+
+//@@@@@@@@ Para testes @@@@@@@@
+void	ver(char *scr)
+{
+	t_cursors	*crs;
+
+	init_crs(&crs);
+	while(scr[crs->i])
+	{
+		ft_putchar_fd(scr[crs->i], 1);
+		crs->i++;
+	}
+	ft_putchar_fd('\n', 1);
+	while(scr[crs->j])
+	{
+		ft_putnbr_fd(scr[crs->j], 1);
+		ft_putchar_fd(' ', 1);
+		crs->j++;
+	}
+	ft_putchar_fd('\n', 1);
+	free(crs);
+}
+//@@@@@@@@ Para testes @@@@@@@@
+
 void	get_token(t_data **data, char token, int n)
 {
 	int	*tok;
@@ -29,98 +53,60 @@ void	get_token(t_data **data, char token, int n)
 	}
 }
 
-typedef struct s_cursors
+void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		l;
-	int		m;
-	int		begin;
-	int		last;
-	char	c;
-	char	q;
-	char	h;
-	int		counter;
-	int		flag;
-	int		len;
-}	t_cursors;
-
-void	reset_conters(t_cursors	*cursor)
-{
-	cursor->counter = 0;
-	cursor->flag = 0;
-}
-
-void	init_cursors(t_cursors	*cursor)
-{
-	reset_conters(cursor);
-	cursor->i 		= 0;
-	cursor->j 		= 0;
-	cursor->k 		= 0;
-	cursor->l 		= 0;
-	cursor->m 		= -1;
-	cursor->begin	= 0;
-	cursor->last	= 0;
-	cursor->c		= '\0';
-	cursor->q		= '\0';
-	cursor->h		= '\0';
-	cursor->len		= 0;
-}
-
-void	len_limits(t_cursors *crs, char **st_cmds, int n)
-{
-	while (crs->i < crs->len)
+	(*crs)->flag = 0;
+	while (i < (*crs)->len)
 	{
-		if(st_cmds[n][crs->i] == '\'' && crs->flag == 0)
+		if(st_cmds[n][i] == '\'' && (*crs)->flag == 0)
 		{
-			crs->q = '\'';
-			crs->flag = 1;
-			crs->begin = crs->i;
+			(*crs)->q = '\'';
+			(*crs)->flag = 1;
+			(*crs)->begin = i;
 		}
-		else if(st_cmds[n][crs->i] == '"' && crs->flag == 0)
+		else if(st_cmds[n][i] == '"' && (*crs)->flag == 0)
 		{
-			crs->q = '"';
-			crs->flag = 1;
-			crs->begin = crs->i;
+			(*crs)->q = '"';
+			(*crs)->flag = 1;
+			(*crs)->begin = i;
 		}
-		if (crs->q)
-			crs->last = ft_findrchr(st_cmds[n], crs->q);
-		crs->i++;
+		if ((*crs)->q && (*crs)->last < (*crs)->begin)
+			(*crs)->last = ft_findrchr(st_cmds[n], (*crs)->q);
+		i++;
 	}
 }
 
-void get_params(t_data ** data, char **st_cmds, int n)
+void get_params(t_data ** data, char *st_cmd, int n)
 {
 	t_cursors	*crs;
 
-	crs = malloc(sizeof(t_cursors));
-	init_cursors(crs);
-	crs->len = ft_strlen(st_cmds[n]);
-	len_limits(crs, st_cmds, n);
-	while (crs->m++ < crs->len)
+	init_crs(&crs);
+	crs->len = ft_strlen(st_cmd);
+	get_limits(&crs, &st_cmd, 0, crs->i); // 0 era n : VERIFICAR !!
+	while (crs->l++ < crs->len)
 	{
-		if(crs->m > crs->begin && crs->m < crs->last)
-			if(st_cmds[n][crs->m] == ' ')
-				st_cmds[n][crs->m] = 1;
+		if(crs->l > crs->last)
+			get_limits(&crs, &st_cmd, 0, crs->i = crs->l);
+		if(crs->l > crs->begin && crs->l < crs->last)
+			if(st_cmd[crs->l] == ' ')
+				st_cmd[crs->l] = 1;
 	}
-	(*data)->params = ft_split(st_cmds[n], ' ');
-	while((*data)->params[crs->l] != NULL)
+	(*data)->params = ft_split(st_cmd, ' ');
+	while((*data)->params[crs->r] != NULL)
 	{
-		while((*data)->params[crs->l][crs->k])
-			if((*data)->params[crs->l][crs->k++] == 1)
-				(*data)->params[crs->l][crs->k] = ' ';
-		crs->k = 0;
-		crs->l++;
+		while((*data)->params[crs->r][crs->m])
+			if((*data)->params[crs->r][++crs->m] == 1)
+				(*data)->params[crs->r][crs->m] = ' ';
+		crs->m = 0;
+		crs->r++;
 	}
 	(*data)->cmds[n] = (*data)->params;
 	free(crs);
 }
 
-
 void get_cmds(t_data ** data, t_cursors *cursor)
 {
-	init_cursors(cursor);
+	init_crs(&cursor);
 	cursor->len = ft_strlen((*data)->input);
 	while (cursor->i < cursor->len)
 	{
@@ -139,8 +125,11 @@ void get_cmds(t_data ** data, t_cursors *cursor)
 	while (cursor->k < cursor->counter + 1)
 		(*data)->cmds[cursor->k++] = malloc(sizeof(size_t));
 	(*data)->st_cmds = ft_split((*data)->input, 1);
-	while (cursor->l < cursor->counter + 1)
-		get_params(data, (*data)->st_cmds, cursor->l++);
+	while (cursor->r < cursor->counter + 1)
+	{
+		get_params(data, (*data)->st_cmds[cursor->r], cursor->r);
+		cursor->r++;
+	}
 	free(cursor);
 }
 
@@ -148,7 +137,7 @@ void	get_slicers(t_data **data, t_cursors *cursor, char slc, int index)
 {
 	while(cursor->i < (*data)->len_tokens[index])
 	{
-		reset_conters(cursor);
+		reset_conters(&cursor);
 		while(cursor->k < (*data)->tokens[index][cursor->i])
 		{
 			if(((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k] == '"'))
@@ -164,7 +153,7 @@ void	get_slicers(t_data **data, t_cursors *cursor, char slc, int index)
 			{
 				(*data)->slicers[cursor->k] = (*data)->tokens[index][cursor->i];
 				(*data)->slicers_types[cursor->k] = cursor->q;
-				reset_conters(cursor);
+				reset_conters(&cursor);
 			}
 			cursor->k++;
 		}
@@ -175,7 +164,7 @@ void	get_slicers(t_data **data, t_cursors *cursor, char slc, int index)
 void parser(t_data	**data)
 {
 	char		token[9] = ";|'\" $\\<>";
-	char		slicers[1] = ";";
+	char		slicers[2] = ";|";
 	t_cursors	*cursor;
 	int			i;
 	int			s;
@@ -188,10 +177,9 @@ void parser(t_data	**data)
 		get_token(data, token[i], i);
 	(*data)->slicers = ft_calloc(ft_strlen((*data)->input),sizeof(int));
 	(*data)->slicers_types = ft_calloc(ft_strlen((*data)->input),sizeof(int));
-	cursor = malloc(sizeof(t_cursors));
-	while(++s < 1)
+	while(++s < 2)
 	{
-		init_cursors(cursor);
+		init_crs(&cursor);
 		get_slicers(data, cursor, slicers[s], s);
 	}
 	get_cmds(data, cursor);
