@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/03 15:42:05 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/03 23:33:15 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_echo(t_data **data, char *input)
 	if (input[i] == '-' && input [i + 1] == 'n')
 	{
 		n_flag = 1;
-		i+=3;
+		i += 3;
 	}
 	input = ft_substr(input, i, ft_strlen(input) - i);
 	ft_putstr_fd (input, 1);

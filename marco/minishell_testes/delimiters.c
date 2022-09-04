@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/03 15:41:32 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/04 00:50:24 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,20 @@ void	execute(char *argv, t_data **data)
 }
 
 
-void		ft_pipe(t_data **data)
+void		ft_pipe(t_data **data, int i, int j)
 {
 	int		pipefd[2];
 	pid_t	pid;
 	int		status;
-	char	*cmd1 = "ls -l";
-	char	*cmd2 = "wc -l";
+	char	*cmd1; //= "ls -l";
+	char	*cmd2; // = "wc -l";
+
+	cmd1 = strdup((*data)->cmds[i][j-2]);
+	cmd2 = strdup((*data)->cmds[i + 1][0]);
+	ft_strlcat(cmd1, " ", 10);
+	ft_strlcat(cmd2, " ", 10);
+	ft_strlcat(cmd1, (*data)->cmds[i][j-1], 10);
+	ft_strlcat(cmd2, (*data)->cmds[i + 1][1], 10);
 
 	pipe (pipefd);
 	pid = fork();
