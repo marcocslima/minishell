@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/04 00:42:09 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:25:01 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ int		ft_pwd(void);
 void	ft_echo(t_data **data, char *input);
 void	one_substitution_2(char **cmd, int i, int x);
 char	**cmd_one_substitution(char **cmd);
-void	ft_pipe(t_data **data, int i, int j);
+void	ft_pipe(t_data **data);
 void	ft_output(t_data **data);
-void	builtin_execute(t_data **data, int i);
 
 #endif
