@@ -6,15 +6,15 @@
 #    By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/08/16 20:32:41 by acosta-a         ###   ########.fr        #
+#    Updated: 2022/09/03 10:52:05 by acosta-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell2
+NAME = minishell
 
 # Compilation #
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g -Wall -Wextra -Werror
 OPTCC=  -I. -c
 RM = rm -rf
 
@@ -22,7 +22,9 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./exits.c ./signal.c ./main.c ./utils.c parser.c\
+SRC = ./exits.c ./signal.c ./main.c ./utils.c ./parser.c \
+./export.c ./cd_pwd.c ./delimiters.c ./echo_exit.c ./cmd_exec.c
+
 
 #BONUS =
 
@@ -48,5 +50,10 @@ fclean: clean
 
 re: fclean all
 	make clean
+
+debug:
+					$(MAKE) -C $(LIBFT_PATH)
+					$(CC) -g $(CFLAGS) $(SRC) $(LIBFT) -o $@
+					gdb --tui --args ./minishell
 
 .PHONY: clean fclean re
