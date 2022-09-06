@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/04 06:40:18 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/05 23:15:10 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	get_cmds(t_data **data, t_cursors *cursor)
 			get_params(data, (*data)->st_cmds[cursor->r], cursor->r);
 		cursor->r++;
 	}
+	(*data)->cmds[cursor->r] = NULL;
 	free(cursor);
 }
 
