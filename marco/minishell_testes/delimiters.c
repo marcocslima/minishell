@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:16:11 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:41:32 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,38 +138,31 @@ void	execute(char *argv, t_data **data)
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp) == -1)
 		exit(ERROR);
-
 }
 
 
-void		ft_pipe(t_data **data, int i, int j)
+void		ft_pipe(t_data **data)
 {
 	int		pipefd[2];
 	pid_t	pid;
 	int		status;
-	char	*cmd1;
+	char	*cmd1 = "ls -l";
+	char	*cmd2 = "wc -l";
 
-	if (ft_strncmp((*data)->cmds[i][1], "|", 2) != 0)
-	{
-		cmd1 = strdup((*data)->cmds[i][j - 2]);
-		ft_strlcat(cmd1, " ", 4096);
-		ft_strlcat(cmd1, (*data)->cmds[i][j - 1], 4096);
-	}
-	else
-		cmd1 = strdup((*data)->cmds[i][j - 1]);
 	pipe (pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
-		close (pipefd[IN]);
 		dup2 (pipefd[OUT], STDOUT);
-		builtin_execute(data, i);
+		close (pipefd[IN]);
+		execute (cmd1, data);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		dup2(pipefd[IN], STDIN);
 		close(pipefd[OUT]);
+		execute(cmd2, data);
 	}
 }
 

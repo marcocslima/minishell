@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/04 18:25:39 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:36:30 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void clean_data(t_data **data)
 	t_cursors *crs;
 	
 	init_crs(&crs);
-	destroy_mat_char(data, (*data)->cmds, crs);
+	if((*data)->cmds)
+		destroy_mat_char(data, (*data)->cmds, crs);
 	destroy_pointers_int((*data)->tokens);
 	free((*data)->len_tokens);
 	free((*data)->slicers);
@@ -77,9 +78,7 @@ void clean_data(t_data **data)
 	free((*data)->slicers_seq);
 	free((*data)->quotes_types);
 	free((*data)->input);
-	destroy_pointers_char((*data)->pars_inpt);
-	//destroy_pointers_char((*data)->pars_type);
 	free((*data)->path);
-	destroy_pointers_char((*data)->st_cmds);
 	destroy_pointers_char((*data)->params);
+	(*data)->crs = 0;
 }
