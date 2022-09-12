@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/08 23:17:33 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/11 00:43:57 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	builtin_execute(t_data **data, int i, int flag)
 	j = 2;
 	cmd1 = strdup((*data)->cmds[i][j - 2]);
 	ft_strlcat(cmd1, " ", 4096);
-	if ((*data)->cmds[i][j - 1])
+	if ((*data)->cmds[i][j - 1] && ft_strncmp((*data)->cmds[i][j - 1], "<", 2))
 		ft_strlcat(cmd1, (*data)->cmds[i][j - 1], 4096);
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 		ft_echo(data, (*data)->cmds[i][1]);

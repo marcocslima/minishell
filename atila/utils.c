@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/30 02:51:51 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/10 08:56:40 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor)->n 		= -1;
 	(*cursor)->begin	= 0;
 	(*cursor)->last		= 0;
+	(*cursor)->str		= NULL;
 	(*cursor)->c		= '\0';
 	(*cursor)->q		= '\0';
 	(*cursor)->h		= '\0';

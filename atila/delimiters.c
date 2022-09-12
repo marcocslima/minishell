@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/08 23:33:11 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/11 09:58:32 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,37 @@ void	ft_output(t_data **data, t_cursors *crs)
 	waitpid(pid, &crs->status, 0);
 }
 
+void	ft_output_doc(t_data **data, t_cursors *crs)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && !ft_strncmp
+			((*data)->cmds[crs->i + 1][0], ">", 2))
+			crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
+					| O_WRONLY | O_APPEND, S_IRWXU);
+		else if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && ft_strncmp
+			((*data)->cmds[crs->i + 1][0], ">", 2))
+		crs->output = open((*data)->cmds[crs->i + 1][0], O_CREAT | O_WRONLY
+					| O_TRUNC, S_IRWXU);
+		if (crs->output == -1)
+		{
+			ft_putstr_fd("bash: ", STDERR);
+			ft_putstr_fd((*data)->cmds[crs->i][1], STDERR);
+			ft_putendl_fd(": No such file or directory", STDERR);
+			(*data)->exit_return = 1;
+			return ;
+		}
+	crs->saved_stdout = dup(STDOUT);
+		dup2(crs->output, STDOUT);
+		builtin_execute(data, crs->i, crs->flag);
+		dup2(crs->saved_stdout, STDOUT);
+		close(crs->saved_stdout);
+	}
+	waitpid(pid, &crs->status, 0);
+}
 
 void	ft_input(t_data **data, t_cursors *crs)
 {
@@ -230,13 +261,9 @@ void	ft_input(t_data **data, t_cursors *crs)
 	pid = fork();
 	if (pid == 0)
 	{
-//		if (!ft_strncmp((*data)->cmds[crs->i][2], "<", 2) && !ft_strncmp
-//			((*data)->cmds[crs->i + 1][0], "<", 2))
-//			crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
-//					| O_WRONLY | O_APPEND, S_IRWXU);
 		if (!ft_strncmp((*data)->cmds[crs->i][2], "<", 2) && ft_strncmp
 			((*data)->cmds[crs->i + 1][0], "<", 2))
-		crs->input = open((*data)->cmds[crs->i + 1][0], O_RDONLY, S_IRWXU);
+			crs->input = open((*data)->cmds[crs->i + 1][0], O_RDONLY, S_IRWXU);
 		if (crs->input == -1)
 		{
 			ft_putstr_fd("bash: ", STDERR);
@@ -250,6 +277,23 @@ void	ft_input(t_data **data, t_cursors *crs)
 		builtin_execute(data, crs->i, crs->flag);
 		dup2(crs->saved_stdin, STDIN);
 		close(crs->saved_stdin);
+	}
+	if (!ft_strncmp((*data)->cmds[crs->i][crs->j], "<", 2) && !ft_strncmp
+			((*data)->cmds[crs->i + 1][0], "<", 1))
+	{
+			crs->flag = 1;
+			crs->j = 2;
+//			if (!ft_strncmp((*data)->cmds[crs->i + 1][crs->j], ">", 1))
+//			{
+//				crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
+//					| O_WRONLY | O_TRUNC, S_IRWXU);
+//				crs->saved_stdout = dup(STDOUT);
+//				dup2(crs->output, STDOUT);
+//			}
+			ft_here_doc(data, crs);
+//			dup2(crs->saved_stdout, STDOUT);
+//			close(crs->saved_stdout);
+	//		builtin_execute(data, crs->i, crs->flag);
 	}
 	waitpid(pid, &crs->status, 0);
 }

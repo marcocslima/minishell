@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/08 23:17:55 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/11 14:16:53 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <stdio.h> //deletar
+# include <stdio.h>
 # define ERROR 1
 # define EMPTY 0
 # define CMD 1
@@ -75,6 +75,9 @@ typedef struct s_cursors
 	char	c;
 	char	q;
 	char	h;
+	char	*str;
+	char	*temp;
+	char	*str2;
 	int		counter;
 	int		flag;
 	int		len;
@@ -107,6 +110,8 @@ void	ft_output(t_data **data, t_cursors *crs);
 void	ft_input(t_data **data, t_cursors *crs);
 void	builtin_execute(t_data **data, int i, int flag);
 void	execute(char *argv, t_data **data);
+void	ft_here_doc(t_data **data, t_cursors *crs);
+char	*here_doc_str(t_data **data, t_cursors *crs);
 //deletar
 void	execute_pipe(char *argv, t_data **data);
 void	builtin_execute_pipe(t_data **data, int i);
