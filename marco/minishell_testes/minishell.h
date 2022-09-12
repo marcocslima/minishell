@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:16:45 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/10 19:15:30 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ typedef struct s_data
 	int		*quotes_types;
 	int		argc;
 	char	*input;
-	char	**pars_inpt;
-	char	**pars_type;
 	char	*path;
+	char	*tmp;
 	char	**st_cmds;
 	char	**params;
 	char	***cmds;
+	int		qtd_cmds;
 	int		exit_return;
 }	t_data;
 
@@ -78,13 +78,15 @@ typedef struct s_cursors
 	int		counter;
 	int		flag;
 	int		len;
+	int		err;
+	char	*pointer;
 }	t_cursors;
 
 int		no_error_msg(char *message);
 int		error_msg(char *message);
 void	signal_handler(int	input);
 char	*ft_strjoin_2(char *s1, char *s2);
-void	parser(t_data **data);
+int		parser(t_data **data);
 void	reset_conters(t_cursors	**cursor);
 void	init_crs(t_cursors	**cursor);
 
@@ -94,15 +96,15 @@ int		ft_export(t_data **data, char *input);
 int		ft_unset(t_data **data, char *input);
 void	ft_cd(t_data **data, char *input);
 int		ft_pwd(void);
-void	ft_echo(t_data **data, char *input);
+void	ft_echo(t_data **data, char **input, t_cursors	*crs);
 void	one_substitution_2(char **cmd, int i, int x);
 char	**cmd_one_substitution(char **cmd);
-void	ft_pipe(t_data **data, int i, int j);
+void	ft_pipe(t_data **data);
 void	ft_output(t_data **data);
-void	builtin_execute(t_data **data, int i);
-void	execute(char *argv, t_data **data);
 
 //adicionado por Marco
 void clean_data(t_data **data);
+int	len_input(char **p);
+void print_error(int e);
 
 #endif

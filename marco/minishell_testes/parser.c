@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/05 23:15:10 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/09 16:47:26 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,28 @@
 
 void	get_token(t_data **data, char token, int n)
 {
+	t_cursors *crs;
 	int	*tok;
-	int	lenstr;
-	int	i;
-	int	t;
 
-	i = -1;
-	t = 0;
-	lenstr = ft_strlen((*data)->input);
-	while ((*data)->input[++i])
-		if ((*data)->input[i] == token)
-			t++;
-	if (t == 0)
+	init_crs(&crs);
+	crs->len = ft_strlen((*data)->input);
+	while ((*data)->input[++crs->l])
+		if ((*data)->input[crs->l] == token)
+			crs->k++;
+	if (crs->k == 0)
 		(*data)->tokens[n] = NULL;
 	else
 	{
-		(*data)->len_tokens[n] = t;
-		tok = ft_calloc(t, sizeof(int));
-		i = -1;
-		t = -1;
-		while (++i < lenstr)
-			if ((*data)->input[i] == token)
-				tok[++t] = i;
+		(*data)->len_tokens[n] = crs->k;
+		tok = ft_calloc(crs->k, sizeof(int));
+		crs->l = -1;
+		crs->k = -1;
+		while (++crs->l < crs->len)
+			if ((*data)->input[crs->l] == token)
+				tok[++crs->k] = crs->l;
 		(*data)->tokens[n] = tok;
 	}
+	free(crs);
 }
 
 void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
@@ -45,15 +43,12 @@ void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
 	(*crs)->flag = 0;
 	while (i < (*crs)->len)
 	{
-		if (st_cmds[n][i] == '\'' && (*crs)->flag == 0)
+		if ((st_cmds[n][i] == '\'' || st_cmds[n][i] == '"') && (*crs)->flag == 0)
 		{
-			(*crs)->q = '\'';
-			(*crs)->flag = 1;
-			(*crs)->begin = i;
-		}
-		else if (st_cmds[n][i] == '"' && (*crs)->flag == 0)
-		{
-			(*crs)->q = '"';
+			if (st_cmds[n][i] == '\'')
+				(*crs)->q = '\'';
+			else if (st_cmds[n][i] == '"')
+				(*crs)->q = '"';
 			(*crs)->flag = 1;
 			(*crs)->begin = i;
 		}
@@ -185,37 +180,41 @@ void	get_cmds(t_data **data, t_cursors *cursor)
 			get_params(data, (*data)->st_cmds[cursor->r], cursor->r);
 		cursor->r++;
 	}
-	(*data)->cmds[cursor->r] = NULL;
 	free(cursor);
 }
 
-void	get_slicers(t_data **data, t_cursors *cursor, char slc, int t)
+void	put_slicer(t_data **data, t_cursors *cursor, char slc, int t)
+{
+	(*data)->slicers[cursor->k] = (*data)->tokens[t][cursor->i];
+	(*data)->slicers_types[cursor->k] = slc;
+	reset_conters(&cursor);
+}
+
+int	get_slicers(t_data **data, t_cursors *cursor, char slc, int t)
 {
 	while (cursor->i < (*data)->len_tokens[t])
 	{
 		reset_conters(&cursor);
 		while (cursor->k < (*data)->tokens[t][cursor->i])
 		{
-			if (((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k] == '"'))
-				cursor->q = (*data)->input[cursor->k];
-			if (((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k] == '"') && cursor->flag == 0)
+			if (((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k] == '"')
+				&& cursor->flag == 0 && (*data)->input[cursor->k - 1] != '\\')
 			{
 				cursor->c = (*data)->input[cursor->k];
 				cursor->flag = 1;
 			}
-			if ((*data)->input[cursor->k] == cursor->c)
+			if ((*data)->input[cursor->k] == cursor->c && (*data)->input[cursor->k - 1] != '\\')
 				cursor->counter++;
 			if (cursor->counter % 2 == 0 && ((*data)->input[cursor->k + 1] == slc)
 				&& ((*data)->input[cursor->k] != slc))
-			{
-				(*data)->slicers[cursor->k] = (*data)->tokens[t][cursor->i];
-				(*data)->slicers_types[cursor->k] = slc;
-				reset_conters(&cursor);
-			}
+				put_slicer(data, cursor, slc, t);
 			cursor->k++;
 		}
+	if(cursor->counter % 2 != 0)
+		return (1);
 	cursor->i++;
 	}
+	return (0);
 }
 
 void	get_slc_seq(t_data **data)
@@ -233,10 +232,11 @@ void	get_slc_seq(t_data **data)
 			(*data)->slicers_seq[crs->j] = (*data)->slicers_types[crs->m];
 			crs->j++;
 		}
+	(*data)->qtd_cmds = crs->j + 1;
 	free(crs);
 }
 
-void parser(t_data	**data)
+int	parser(t_data	**data)
 {
 	char		token[9] = ";|'\" $\\<>";
 	char		slicers[4] = ";|<>";
@@ -257,9 +257,11 @@ void parser(t_data	**data)
 		t = 0;
 		while(token[t] != slicers[s])
 			t++;
-		get_slicers(data, cursor, slicers[s], t);
+		if (get_slicers(data, cursor, slicers[s], t) == 1)
+			return (1);
 	}
 	get_slc_seq(data);
 	init_crs(&cursor);
 	get_cmds(data, cursor);
+	return (0);
 }

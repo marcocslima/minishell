@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:29:06 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/10 19:45:29 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ void	init_struct(t_data **data, char **argv, char **envp)
 	(*data) = (t_data *)malloc(sizeof(t_data));
 	(*data)->envp = copy_env(envp, 3);
 	(*data)->argv = argv;
-	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
-	(*data)->pars_inpt = (char **)ft_calloc(sizeof(char *), (4097));
+	//(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
+	//(*data)->pars_inpt = (char **)ft_calloc(sizeof(char *), (4097));
 	(*data)->params = malloc(sizeof(char));
 	(*data)->cmds = NULL;
 	(*data)->crs = 0;
+	(*data)->qtd_cmds = 0;
 }
 
 void	open_prompt(char **envp)
@@ -72,6 +73,7 @@ void		get_input(t_data **data)
 
 	i = 0;
 	bufstring = ft_calloc(sizeof(char *), 2);
+	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
 	while((ret = read(0 , &buf, 1)) && buf != '\n')
 	{
 		bufstring[0] = buf;
@@ -97,10 +99,13 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&data);
 		data->slicers = ft_calloc(ft_strlen(data->input),sizeof(int));
 		data->slicers_types = ft_calloc(ft_strlen(data->input),sizeof(int));
-		parser(&data);
-		cmd_check(&data);
-//		clean_data(&data);
-		exit (0); //retirar
+		int tmp = parser(&data);
+		if (tmp == 0)
+			cmd_check(&data);
+		else
+			print_error(tmp);
+		clean_data(&data);
+		//exit (0); //retirar
 	}
 	return (0);
 }
