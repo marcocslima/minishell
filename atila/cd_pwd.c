@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:34:09 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/14 22:16:03 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	ft_cd_home(t_data **data, char *home_path, int i, char *input)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
 		(*data)->exit_return = 1;
+		return ;
 	}
-	while (input[i++])
-		if (input[i] == ' ')
-		{
-			ft_putstr_fd("cd: too many arguments", 2);
-			(*data)->exit_return = 1;
-		}
-	printf ("home_path: %s\n", home_path);
+	if ((*data)->cmds[i][2] && (((*data)->cmds[i][2][0] != '\0' && !is_token((*data)->cmds[i][2][0]))))
+	{
+		ft_putstr_fd("cd: too many arguments", 2);
+		(*data)->exit_return = 1;
+		return ;
+	}
 	if (!input || input[0] == '\0' || ft_memcmp("~", input, 1) == 0
 		|| ft_memcmp(input, "--", 2) == 0)
 	{
@@ -61,35 +61,38 @@ void	ft_cd_home(t_data **data, char *home_path, int i, char *input)
 		(*data)->exit_return = 2;
 }
 
-void	ft_cd(t_data **data, char *input)
+void	ft_cd_2(t_data **data, char *path)
 {
-	char	*home_path;
-	char	cwd[256];
-	char	*path;
-	int		i;
-
-	i = 0;
-	home_path = find_env_val(data, "HOME");
-	ft_cd_home(data, home_path, i, input);
-	if ((*data)->exit_return != 2)
-		return ;
-	printf("Current working dir: %s\n", getcwd(cwd, sizeof(cwd)));
-	if (ft_memcmp("-", input, ft_strlen(input)) == 0)
+	if (!(path))
 	{
-		path = find_env_val(data, "OLDPWD");
-		if (!(path))
-		{
-			ft_putstr_fd("cd: OLDPWD not set\n", 2);
-			(*data)->exit_return = 1;
-		}
-		ft_putstr_fd(path, 1);
-		ft_putstr_fd("\n", 1);
-		chdir(path);
-		(*data)->exit_return = 0;
+		ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		(*data)->exit_return = 1;
 		return ;
 	}
-	path = getcwd(cwd, sizeof(cwd));
-	printf("path: %s\n", path);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
+	chdir(path);
+	(*data)->exit_return = 0;
+}
+
+int	ft_cd(t_data **data, char *input, int i)
+{
+//	char	*home_path;
+//	char	*path;
+//	int		i;
+
+//	i = 0;
+	(*data)->home_path = find_env_val(data, "HOME");
+	(*data)->pathcd = find_env_val(data, "OLDPWD");
+	ft_cd_home(data, (*data)->home_path, i, input);
+	if ((*data)->exit_return != 2)
+		return ((*data)->exit_return);
+	else if (ft_memcmp("-", input, ft_strlen(input)) == 0)
+	{
+		(*data)->pathcd = find_env_val(data, "OLDPWD");
+		ft_cd_2(data, (*data)->pathcd);
+		return ((*data)->exit_return);
+	}
 	(*data)->exit_return = 1;
 	if (access(input, F_OK) == -1)
 		ft_putstr_fd("no such file or directory: ", 2);
@@ -100,8 +103,9 @@ void	ft_cd(t_data **data, char *input)
 		chdir(input);
 		(*data)->exit_return = 0;
 	}
-	printf("Current working dir2: %s\n", getcwd(cwd, sizeof(cwd)));
-	return ;
+//	free((*data)->home_path);
+//	free((*data)->pathcd);
+	return ((*data)->exit_return);
 }
 
 int	ft_pwd(void)

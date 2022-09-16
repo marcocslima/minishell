@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/11 09:58:32 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/16 09:22:09 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #include "minishell.h"
 
-//essa função testei separado, ainda não está embutida no parse
 void	*pathexec(char *cmd, char *envp[])
 {
 	char	**paths;
@@ -137,6 +136,7 @@ void	execute(char *argv, t_data **data)
 //		command_error(cmd);
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp)  == -1)
+//		exec_error_msg(path);
 		exit(ERROR);
 }
 
@@ -207,9 +207,8 @@ void	ft_output(t_data **data, t_cursors *crs)
 					| O_TRUNC, S_IRWXU);
 		if (crs->output == -1)
 		{
-			ft_putstr_fd("bash: ", STDERR);
-			ft_putstr_fd((*data)->cmds[crs->i][1], STDERR);
-			ft_putendl_fd(": No such file or directory", STDERR);
+			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
+			": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
@@ -239,9 +238,8 @@ void	ft_output_doc(t_data **data, t_cursors *crs)
 					| O_TRUNC, S_IRWXU);
 		if (crs->output == -1)
 		{
-			ft_putstr_fd("bash: ", STDERR);
-			ft_putstr_fd((*data)->cmds[crs->i][1], STDERR);
-			ft_putendl_fd(": No such file or directory", STDERR);
+			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
+				": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
@@ -266,9 +264,8 @@ void	ft_input(t_data **data, t_cursors *crs)
 			crs->input = open((*data)->cmds[crs->i + 1][0], O_RDONLY, S_IRWXU);
 		if (crs->input == -1)
 		{
-			ft_putstr_fd("bash: ", STDERR);
-			ft_putstr_fd((*data)->cmds[crs->i][1], STDERR);
-			ft_putendl_fd(": No such file or directory", STDERR);
+			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
+			": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
@@ -283,17 +280,7 @@ void	ft_input(t_data **data, t_cursors *crs)
 	{
 			crs->flag = 1;
 			crs->j = 2;
-//			if (!ft_strncmp((*data)->cmds[crs->i + 1][crs->j], ">", 1))
-//			{
-//				crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
-//					| O_WRONLY | O_TRUNC, S_IRWXU);
-//				crs->saved_stdout = dup(STDOUT);
-//				dup2(crs->output, STDOUT);
-//			}
 			ft_here_doc(data, crs);
-//			dup2(crs->saved_stdout, STDOUT);
-//			close(crs->saved_stdout);
-	//		builtin_execute(data, crs->i, crs->flag);
 	}
 	waitpid(pid, &crs->status, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:29:06 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/16 08:29:15 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,21 @@ int	main(int argc, char **argv, char **envp)
 		error_msg("Please type only one argument");
 	init_struct(&data, argv, envp);
 	signal(SIGQUIT, signal_handler);
-	while (1)
+	int i = 0;
+	while (i++ < 4)
 	{
 		open_prompt(data->envp);
 		signal(SIGINT, signal_handler);
 		get_input(&data);
+//		(*data).input = readline("> ");
+//		add_history((*data).input);
 		data->slicers = ft_calloc(ft_strlen(data->input),sizeof(int));
 		data->slicers_types = ft_calloc(ft_strlen(data->input),sizeof(int));
 		parser(&data);
+//		ft_bash(&data);
 		cmd_check(&data);
 //		clean_data(&data);
-		exit (0); //retirar
+//		exit (0); //retirar
 	}
 	return (0);
 }

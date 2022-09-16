@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/11 00:43:57 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/16 09:26:37 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	cmd_check(t_data **data)
 	ft_strlcat(cmd2, " ", 4096);
 	if ((*data)->cmds[crs->i][1])
 		ft_strlcat(cmd2, (*data)->cmds[crs->i][1], 4096);
-	builtin_execute(data, crs->i, crs->flag);
+	if (ft_memcmp((*data)->cmds[crs->i][0], ">", 2) && ft_memcmp((*data)->cmds[crs->i][0], ">", 2))
+		builtin_execute(data, crs->i, crs->flag);
 	return (0);
 }
 
@@ -74,7 +75,7 @@ void	builtin_execute(t_data **data, int i, int flag)
 	else if (!ft_memcmp((*data)->cmds[i][0], "pwd", 4))
 		ft_pwd();
 	else if (!ft_memcmp((*data)->cmds[i][0], "cd", 3))
-		ft_cd(data, (*data)->cmds[i][1]);
+		ft_cd(data, (*data)->cmds[i][1], i);
 	else if (!ft_memcmp((*data)->cmds[i][0], "export", 7))
 		ft_export(data, (*data)->cmds[i][1]);
 	else if (!ft_memcmp((*data)->cmds[i][0], "unset", 6))

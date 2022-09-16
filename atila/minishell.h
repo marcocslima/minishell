@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/11 14:16:53 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/16 08:41:41 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_data
 	char	**pars_inpt;
 	char	**pars_type;
 	char	*path;
+	char	*pathcd;
+	char	*home_path;
 	char	**st_cmds;
 	char	**params;
 	char	***cmds;
@@ -64,12 +66,15 @@ typedef struct s_data
 typedef struct s_cursors
 {
 	int		i;
+	int		i2;
 	int		j;
+	int		j2;
 	int		k;
 	int		r;
 	int		l;
 	int		m;
 	int		n;
+	int		o;
 	int		begin;
 	int		last;
 	char	c;
@@ -90,7 +95,7 @@ typedef struct s_cursors
 
 int		no_error_msg(char *message);
 int		error_msg(char *message);
-void	signal_handler(int	input);
+void	signal_handler(int input);
 char	*ft_strjoin_2(char *s1, char *s2);
 void	parser(t_data **data);
 void	reset_conters(t_cursors	**cursor);
@@ -100,7 +105,8 @@ void	init_crs(t_cursors	**cursor);
 int		cmd_check(t_data **data);
 int		ft_export(t_data **data, char *input);
 int		ft_unset(t_data **data, char *input);
-void	ft_cd(t_data **data, char *input);
+int		ft_cd(t_data **data, char *input, int i);
+void	ft_cd_2(t_data **data, char *path);
 int		ft_pwd(void);
 void	ft_echo(t_data **data, char *input);
 void	one_substitution_2(char **cmd, int i, int x);
@@ -112,11 +118,17 @@ void	builtin_execute(t_data **data, int i, int flag);
 void	execute(char *argv, t_data **data);
 void	ft_here_doc(t_data **data, t_cursors *crs);
 char	*here_doc_str(t_data **data, t_cursors *crs);
+void	ft_bash(t_data **data);
+int		exec_error_msg(char *path);
+
+//utils
+int		is_token(char s);
+
 //deletar
 void	execute_pipe(char *argv, t_data **data);
 void	builtin_execute_pipe(t_data **data, int i);
 
 //adicionado por Marco
-void clean_data(t_data **data);
+void	clean_data(t_data **data);
 
 #endif

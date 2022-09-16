@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/05 23:15:10 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/14 00:26:09 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,13 @@ void	get_params(t_data **data, char *st_cmd, int n)
 				st_cmd[crs->l] = 1;
 	}
 	(*data)->params = ft_split(st_cmd, ' ');
+	//ADICIONAR AO CÓDIGO DO MARCO
+	crs->o = 0;
+	while ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) == 1)
+		crs->o++;
+	if ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) != 1)
+		(*data)->params[crs->o][0] = '\0';
+	// PRECISA POR NULO APÓS CAPTAR COMANDOS PRA FAZER LEITURA
 	while ((*data)->params[crs->r] != NULL)
 	{
 		while ((*data)->params[crs->r][crs->m])

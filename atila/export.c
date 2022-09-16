@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/05 23:33:22 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/14 20:13:03 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	ft_export(t_data **data, char *input)
 				ft_strlen(input) - 1) == 0)
 		{
 			(*data)->envp[i] = ft_strdup(input);
-			printf("envp[%d]= %s \n", i, (*data)->envp[i]);
 			updated = 1;
 		}
 		i++;
@@ -80,11 +79,9 @@ int	ft_export(t_data **data, char *input)
 	{
 		free((*data)->envp[i]);
 		(*data)->envp[i] = ft_strdup(input);
-		printf("envp[%d]= %s \n", i - 1, (*data)->envp[i - 1]);
-		printf("envp[%d]= %s \n", i, (*data)->envp[i]);
 	}
+//	free(input);
 	return (0);
-	free(input);
 }
 
 int	ft_unset_errors(int i, char *input)
@@ -115,7 +112,6 @@ int	ft_unset(t_data **data, char *input)
 	len = 0;
 	while (input[len])
 		len++;
-	printf("input%s\n", input);
 	while ((*data)->envp[i])
 	{
 		if (ft_memcmp((*data)->envp[i], input, len) == 0)
@@ -128,16 +124,8 @@ int	ft_unset(t_data **data, char *input)
 				(*data)->envp[j] = ft_strdup((*data)->envp[j + 1]);
 			if ((*data)->envp[j] == NULL || (*data)->envp[j][0] == '\0')
 				(*data)->envp[j] = NULL;
-			printf("envp[%d]= %s \n", i, (*data)->envp[i]);
 		}
 		i++;
 	}
-	i = 0;
-	while ((*data)->envp[i])
-	{
-		printf("envp[%d]= %s \n", i, (*data)->envp[i]);
-		i++;
-	}
-	printf("deu certo\n");
 	return (0);
 }
