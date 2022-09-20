@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/13 17:15:34 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/18 02:04:53 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	get_expand(t_data **data, t_cursors *crs)
 		{
 			if ((*data)->cmds[0][crs->i][crs->j] == '$' && (*data)->cmds[0][crs->i][crs->j + 1] != ' ')
 			{
-				crs->begin = crs->i; 
+				crs->begin = crs->i;
 				crs->len = ft_strlen((*data)->cmds[0][crs->i]);
 			}
 				crs->j++;
@@ -194,6 +194,13 @@ void	get_params(t_data **data, char *st_cmd, int n)
 				st_cmd[crs->l] = 1;
 	}
 	(*data)->params = ft_split(st_cmd, ' ');
+	//ADICIONAR AO CÓDIGO DO MARCO
+	crs->o = 0;
+	while ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) == 1)
+		crs->o++;
+	if ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) != 1)
+		(*data)->params[crs->o][0] = '\0';
+	// PRECISA POR NULO APÓS CAPTAR COMANDOS PRA FAZER LEITURA
 	while ((*data)->params[crs->r] != NULL)
 	{
 		while ((*data)->params[crs->r][crs->m])
@@ -232,6 +239,7 @@ void	get_cmds(t_data **data, t_cursors *cursor)
 			get_params(data, (*data)->st_cmds[cursor->r], cursor->r);
 		cursor->r++;
 	}
+	(*data)->cmds[cursor->r] = NULL; //ADICIONADO NULL
 	free(cursor);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/13 17:21:47 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:25:27 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_data
 	int				argc;
 	char			*input;
 	char			*path;
+	char			*pathcd;
+	char			*home_path;
 	char			*tmp;
 	char			**st_cmds;
 	char			**params;
@@ -72,6 +74,9 @@ typedef struct s_cursors
 {
 	int				i;
 	int				j;
+	int				i2;
+	int				j2;
+	int				k2;
 	int				w;
 	int				k;
 	int				r;
@@ -79,14 +84,25 @@ typedef struct s_cursors
 	int				l;
 	int				m;
 	int				n;
+	int				o;
 	int				begin;
 	int				last;
 	char			c;
 	char			q;
 	char			h;
+	char			*str;//atila
+	char			*temp;//atila
+	char			*str2;//atila
 	int				counter;
 	int				flag;
+	int				flagecho;
 	int				len;
+	int				output;//atila
+	int				input;//atila
+	int				saved_stdout;//atila
+	int				saved_stdin;//atila
+	int				status;//atila
+	pid_t			pid;//atila
 	int				err;
 	char			*pos;
 	char			*ret;
@@ -102,16 +118,31 @@ void	reset_conters(t_cursors	**cursor);
 void	init_crs(t_cursors	**cursor);
 
 //adicionado atila
-int		cmd_check(t_data **data);
+//MAIN FUNCTIONS
+void		cmd_check(t_data **data);
+void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs);
+//BUILTINS
 int		ft_export(t_data **data, char *input);
 int		ft_unset(t_data **data, char *input);
-void	ft_cd(t_data **data, char *input);
+int		ft_cd(t_data **data, char *input, int i);
+void	ft_cd_2(t_data **data, char *path);
+int		ft_env(t_data **data, char *input);
 int		ft_pwd(void);
 void	ft_echo(t_data **data, char **input, t_cursors	*crs);
+void	ft_here_doc(t_data **data, t_cursors *crs);
+void	ft_bash(t_data **data);
+//DELIMITERS
 void	one_substitution_2(char **cmd, int i, int x);
 char	**cmd_one_substitution(char **cmd);
-void	ft_pipe(t_data **data);
-void	ft_output(t_data **data);
+void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs);
+void	ft_output(t_data **data, t_cursors *crs);
+void	ft_input(t_data **data, t_cursors *crs);
+void	execute(char *argv, t_data **data);
+void	execute_pipe(char *argv, t_data **data);
+
+//utils
+int		is_token(char s);
+int		exec_error_msg(char *path);
 
 //adicionado por Marco
 void	clean_data(t_data **data);

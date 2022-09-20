@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exits.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/08/13 11:51:07 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/09/17 00:57:01 by acosta-a          #+#    #+#             */
+/*   Updated: 2022/09/19 23:13:13 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	error_msg(char *message)
+int	ft_env(t_data **data, char *input)
 {
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
-	exit(ERROR);
-}
+	int i;
 
-int	no_error_msg(char *message)
-{
-	ft_putstr_fd(message, 1);
-	ft_putstr_fd("\n", 1);
-//	if (stack->array_a[0])
+	i = 0;
+	if (input && input[0] != '\0')
 	{
-//		free(stack->array_a);
-//		free(stack->array_b);
+		ft_putstrs ("env:'", input,
+			"': No such file or directory\n", 1);
+		return (127);
 	}
-	exit(0);
+	while ((*data)->envp[i])
+	{
+		ft_putstrs((*data)->envp[i], "\n", 0, 1);
+		i++;
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/17 17:48:51 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/18 01:54:16 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	ft_echo(t_data **data, char **input, t_cursors	*crs)
 		crs->counter = 0;
 		if (input[crs->i][crs->j] == '-' && input [crs->i][crs->j + 1] == 'n')
 		{
-			crs->flag = 1;
+			crs->flagecho = 1;
 			crs->i++;
 		}
 		crs->err = handle_quotes(data, input[crs->i]);
@@ -160,7 +160,7 @@ void	ft_echo(t_data **data, char **input, t_cursors	*crs)
 		else
 			print_error(crs->err);
 	}
-	if (crs->flag == 0)
+	if (crs->flagecho == 0)
 			write (1, "\n", 1);
 	(*data)->exit_return = 0;
 }

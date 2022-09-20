@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/11 17:44:36 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/18 02:15:19 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor)->flag		= 0;
 	(*cursor)->i 		= 0;
 	(*cursor)->j 		= 0;
+	(*cursor)->i2 		= 0;
+	(*cursor)->j2 		= 0;
+	(*cursor)->k2 		= 0;
 	(*cursor)->w 		= 0;
 	(*cursor)->k 		= 0;
 	(*cursor)->r 		= 0;
@@ -68,4 +71,17 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor)->h		= '\0';
 	(*cursor)->len		= 0;
 	(*cursor)->err		= 0;
+}
+
+int	is_token(char s)
+{
+	char	token[9] = ";|'\" $\\<>";
+	int		i;
+
+	i = 0;
+	while (token[i] != s)
+		i++;
+	if (token[i] == s)
+		return (1);
+	return (0);
 }

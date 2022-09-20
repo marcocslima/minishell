@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_putstrs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/13 08:38:04 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/04/15 15:45:05 by mcesar-d          #+#    #+#             */
+/*   Updated: 2022/09/12 21:39:50 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	signal_handler(int	input)
+void	ft_putstrs(char *before, char *str, char *after, int fd)
 {
-	char	cwd[4097];
-	if (input == SIGINT)
-	{
-		getcwd(cwd, 4096);
-		ft_putstr_fd("\n", 1);
-	//	open_prompt(data->envp);
-		signal(SIGINT, signal_handler);
-	}
+	if (before)
+		write(fd, before, ft_strlen(before));
+	if (str)
+		write(fd, str, ft_strlen(str));
+	if (after)
+		write(fd, after, ft_strlen(after));
 }

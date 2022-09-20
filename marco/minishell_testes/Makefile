@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/09/11 17:47:41 by mcesar-d         ###   ########.fr        #
+#    Updated: 2022/09/18 01:41:33 by acosta-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./exits.c ./signal.c ./main.c ./utils.c ./parser.c \
+SRC = ./exit_bash.c ./signal.c ./main.c ./utils.c ./parser.c \
 ./export.c ./cd_pwd.c ./delimiters.c ./echo_exit.c ./cmd_exec.c \
-clean_data.c error.c expand.c
+clean_data.c error.c expand.c env.c here_doc.c
 
 
 #BONUS =
@@ -39,7 +39,7 @@ all: $(NAME)
 $(NAME): $(SRC.O)
 	$(RM) $(NAME)
 	make -C ${LIBFT_PATH}
-	$(CC) $(CFLAGS) $(SRC.O) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC.O) $(LIBFT) -lreadline -o $(NAME)
 
 clean:
 	$(RM) $(SRC.O)
