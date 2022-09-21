@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/20 14:19:30 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/18 01:43:02 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,22 @@ void	open_prompt(char **envp)
 
 void		get_input(t_data **data)
 {
+	char	buf;
+	char*	bufstring;
+	int		ret;
+	int		i;
+
+	i = 0;
+	bufstring = ft_calloc(sizeof(char *), 2);
 	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
-	(*data)->input = readline(" ");
-	add_history((*data)->input);
+	while((ret = read(0 , &buf, 1)) && buf != '\n')
+	{
+		bufstring[0] = buf;
+		bufstring[1] = '\0';
+		(*data)->input = ft_strjoin((*data)->input,bufstring);
+		i++;
+	}
+	free(bufstring);
 }
 
 int	verify_quotes(t_data **data)
@@ -108,8 +121,8 @@ int	main(int argc, char **argv, char **envp)
 			cmd_check(&data);
 		else
 			print_error(ret_quotes);
-		clean_data(&data);
-	//	exit (0); //retirar
+	//	clean_data(&data);
+		exit (0); //retirar
 	}
 	return (0);
 }

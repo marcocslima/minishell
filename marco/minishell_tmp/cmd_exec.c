@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/19 23:24:56 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/18 02:21:31 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	cmd_check(t_data **data)
 		}
 		crs->i2++;
 	}
-	if ((*data)->cmds[crs->i2][0])
-		cmd2 = ft_strdup((*data)->cmds[crs->i2][0]);
+	cmd2 = strdup((*data)->cmds[crs->i2][0]);
 	ft_strlcat(cmd2, " ", 4096);
 	if ((*data)->cmds[crs->i2][1])
 		ft_strlcat(cmd2, (*data)->cmds[crs->i2][1], 4096);
@@ -67,17 +66,14 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 //	int		j;
 
 //	j = 2;
-	if((*data)->cmds[i][2 - 2])
-		cmd1 = ft_strdup((*data)->cmds[i][2 - 2]);
+	cmd1 = strdup((*data)->cmds[i][2 - 2]);
 	ft_strlcat(cmd1, " ", 4096);
-	if ((*data)->cmds[i][2 - 1] && ft_strncmp((*data)->cmds[i][2 - 1], "<", 1))
+	if ((*data)->cmds[i][2 - 1] && ft_strncmp((*data)->cmds[i][2 - 1], "<", 2))
 		ft_strlcat(cmd1, (*data)->cmds[i][2 - 1], 4096);
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 	{
 		crs->flagecho = 0;
 		ft_echo(data, (*data)->cmds[i], crs);
-		if ((*data)->cmds[i][2] && ft_memcmp((*data)->cmds[i][2], ";", 2))
-			exit(0) ;
 	}
 	else if (!ft_memcmp((*data)->cmds[i][0], "pwd", 4))
 		ft_pwd();
@@ -95,6 +91,5 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 		execute(cmd1, data);
 	else
 		execute_pipe(cmd1, data);
-//	crs->flagecho = 0;
 }
 
