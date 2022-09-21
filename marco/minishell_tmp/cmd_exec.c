@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/18 02:21:31 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/21 04:24:44 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 //	int		j;
 
 //	j = 2;
+	ft_bash(data);
+	//****************************************************************
 	cmd1 = strdup((*data)->cmds[i][2 - 2]);
 	ft_strlcat(cmd1, " ", 4096);
 	if ((*data)->cmds[i][2 - 1] && ft_strncmp((*data)->cmds[i][2 - 1], "<", 2))

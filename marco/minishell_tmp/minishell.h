@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/18 02:11:14 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/21 04:20:11 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	init_crs(t_cursors	**cursor);
 
 //adicionado atila
 //MAIN FUNCTIONS
-void		cmd_check(t_data **data);
+void	cmd_check(t_data **data);
 void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs);
 //BUILTINS
 int		ft_export(t_data **data, char *input);
