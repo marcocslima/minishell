@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 19:26:15 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/22 16:59:14 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/09/09 14:43:17 by mcesar-d          #+#    #+#             */
+/*   Updated: 2022/09/17 20:09:28 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+void	print_error(int e)
 {
-	char	*new_src;
-	size_t	index;
-
-	new_src = malloc((ft_strlen(s) + 1) * sizeof(char));
-	index = 0;
-	while (index < (ft_strlen(s) + 1))
-	{
-		new_src[index] = s[index];
-		index++;
-	}
-	return (new_src);
+	char *erros[] = {"OK", "unclosed quotes"};
+	ft_putstr_fd("Error: ", 1);
+	ft_putstr_fd(erros[e], 1);
+	ft_putstr_fd("\n", 1);
 }

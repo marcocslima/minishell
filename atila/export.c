@@ -6,11 +6,10 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/14 20:13:03 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:39:38 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
 #include "minishell.h"
 
 char	**copy_env2(t_data **data, int add)
@@ -96,6 +95,7 @@ int	ft_unset_errors(int i, char *input)
 		}
 		i++;
 	}
+	i = 0;
 	return (0);
 }
 
@@ -108,7 +108,6 @@ int	ft_unset(t_data **data, char *input)
 	i = -1;
 	if (ft_unset_errors(i, input) > 0)
 		return (ERROR);
-	i = 0;
 	len = 0;
 	while (input[len])
 		len++;

@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/14 22:09:44 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:48:31 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,23 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor)->flag		= 0;
 	(*cursor)->i 		= 0;
 	(*cursor)->j 		= 0;
+	(*cursor)->i2 		= 0;
+	(*cursor)->j2 		= 0;
+	(*cursor)->k2 		= 0;
+	(*cursor)->w 		= 0;
 	(*cursor)->k 		= 0;
 	(*cursor)->r 		= 0;
+	(*cursor)->s 		= 0;
 	(*cursor)->l 		= -1;
 	(*cursor)->m 		= -1;
 	(*cursor)->n 		= -1;
 	(*cursor)->begin	= 0;
 	(*cursor)->last		= 0;
-	(*cursor)->str		= NULL;
 	(*cursor)->c		= '\0';
 	(*cursor)->q		= '\0';
 	(*cursor)->h		= '\0';
 	(*cursor)->len		= 0;
+	(*cursor)->err		= 0;
 }
 
 int	is_token(char s)

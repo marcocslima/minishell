@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/14 22:16:03 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/16 23:35:52 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	ft_cd_home(t_data **data, char *home_path, int i, char *input)
 		(*data)->exit_return = 1;
 		return ;
 	}
-	if ((*data)->cmds[i][2] && (((*data)->cmds[i][2][0] != '\0' && !is_token((*data)->cmds[i][2][0]))))
+	if ((*data)->cmds[i][2] && (((*data)->cmds[i][2][0] != '\0' &&
+		!is_token((*data)->cmds[i][2][0]))))
 	{
 		ft_putstr_fd("cd: too many arguments", 2);
 		(*data)->exit_return = 1;
@@ -77,11 +78,6 @@ void	ft_cd_2(t_data **data, char *path)
 
 int	ft_cd(t_data **data, char *input, int i)
 {
-//	char	*home_path;
-//	char	*path;
-//	int		i;
-
-//	i = 0;
 	(*data)->home_path = find_env_val(data, "HOME");
 	(*data)->pathcd = find_env_val(data, "OLDPWD");
 	ft_cd_home(data, (*data)->home_path, i, input);
@@ -103,8 +99,7 @@ int	ft_cd(t_data **data, char *input, int i)
 		chdir(input);
 		(*data)->exit_return = 0;
 	}
-//	free((*data)->home_path);
-//	free((*data)->pathcd);
+	free(input);
 	return ((*data)->exit_return);
 }
 

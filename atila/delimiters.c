@@ -6,10 +6,8 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/16 09:22:09 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:35:58 by acosta-a         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
-
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -131,13 +129,15 @@ void	execute(char *argv, t_data **data)
 		free(cmd);
 //		entry_error();
 	}
+	if (cmd[0][0] && cmd[0][0] == '>')
+		exit(1) ;
 	path = pathexec(cmd[0], (*data)->envp);
 //	if (path == 0)
 //		command_error(cmd);
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp)  == -1)
-//		exec_error_msg(path);
-		exit(ERROR);
+//		exit(ERROR);
+		exec_error_msg(path);
 }
 
 void	execute_pipe(char *argv, t_data **data)
@@ -159,19 +159,22 @@ void	execute_pipe(char *argv, t_data **data)
 		free(cmd);
 //		entry_error();
 	}
+	if (cmd[0][0] && cmd[0][0] == '>')
+		exit(1) ;
 	path = pathexec(cmd[0], (*data)->envp);
 //	if (path == 0)
 //		command_error(cmd);
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp)  == -1)
-		exit(ERROR);
+//		exit(ERROR);
+		exec_error_msg(path);
 	}
 	waitpid(pid, &status, 0);
 //	dup2(pipefd[IN], STDIN);
 //	close(pipefd[OUT]);
 }
 
-void	ft_pipe(t_data **data, int i, int flag)
+void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -183,11 +186,11 @@ void	ft_pipe(t_data **data, int i, int flag)
 	{
 		close (pipefd[IN]);
 		dup2 (pipefd[OUT], STDOUT);
-		builtin_execute(data, i, flag);
+		builtin_execute(data, i, flag, crs);
 	}
 	waitpid(pid, &status, 0);
-	dup2(pipefd[IN], STDIN);
 	close(pipefd[OUT]);
+	dup2(pipefd[IN], STDIN);
 }
 
 void	ft_output(t_data **data, t_cursors *crs)
@@ -197,59 +200,30 @@ void	ft_output(t_data **data, t_cursors *crs)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && !ft_strncmp
-			((*data)->cmds[crs->i + 1][0], ">", 2))
-			crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
+		if (!ft_strncmp((*data)->cmds[crs->i2][crs->j2], ">", 2) && !ft_strncmp
+			((*data)->cmds[crs->i2 + 1][0], ">", 2))
+			crs->output = open((*data)->cmds[crs->i2 + 1][1], O_CREAT
 					| O_WRONLY | O_APPEND, S_IRWXU);
-		else if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && ft_strncmp
-			((*data)->cmds[crs->i + 1][0], ">", 2))
-		crs->output = open((*data)->cmds[crs->i + 1][0], O_CREAT | O_WRONLY
+		else if (!ft_strncmp((*data)->cmds[crs->i2][crs->j2], ">", 2) && ft_strncmp
+			((*data)->cmds[crs->i2 + 1][0], ">", 2))
+		crs->output = open((*data)->cmds[crs->i2 + 1][0], O_CREAT | O_WRONLY
 					| O_TRUNC, S_IRWXU);
 		if (crs->output == -1)
 		{
-			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
+			ft_putstrs("bash:", (*data)->cmds[crs->i2][1],
 			": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
-	crs->saved_stdout = dup(STDOUT);
+		crs->saved_stdout = dup(STDOUT);
 		dup2(crs->output, STDOUT);
-		builtin_execute(data, crs->i, crs->flag);
+		close(crs->output);
+		builtin_execute(data, crs->i2, crs->flag, crs);
 		dup2(crs->saved_stdout, STDOUT);
 		close(crs->saved_stdout);
+		crs->j2++; //adicionado erro*/
 	}
-	waitpid(pid, &crs->status, 0);
-}
-
-void	ft_output_doc(t_data **data, t_cursors *crs)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && !ft_strncmp
-			((*data)->cmds[crs->i + 1][0], ">", 2))
-			crs->output = open((*data)->cmds[crs->i + 1][1], O_CREAT
-					| O_WRONLY | O_APPEND, S_IRWXU);
-		else if (!ft_strncmp((*data)->cmds[crs->i][crs->j], ">", 2) && ft_strncmp
-			((*data)->cmds[crs->i + 1][0], ">", 2))
-		crs->output = open((*data)->cmds[crs->i + 1][0], O_CREAT | O_WRONLY
-					| O_TRUNC, S_IRWXU);
-		if (crs->output == -1)
-		{
-			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
-				": No such file or directory" , STDERR);
-			(*data)->exit_return = 1;
-			return ;
-		}
-	crs->saved_stdout = dup(STDOUT);
-		dup2(crs->output, STDOUT);
-		builtin_execute(data, crs->i, crs->flag);
-		dup2(crs->saved_stdout, STDOUT);
-		close(crs->saved_stdout);
-	}
-	waitpid(pid, &crs->status, 0);
+		waitpid(pid, &crs->status, 0);
 }
 
 void	ft_input(t_data **data, t_cursors *crs)
@@ -259,29 +233,28 @@ void	ft_input(t_data **data, t_cursors *crs)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!ft_strncmp((*data)->cmds[crs->i][2], "<", 2) && ft_strncmp
-			((*data)->cmds[crs->i + 1][0], "<", 2))
-			crs->input = open((*data)->cmds[crs->i + 1][0], O_RDONLY, S_IRWXU);
+		if (((*data)->cmds[crs->i2][2] && (!ft_strncmp((*data)->cmds[crs->i2][2], "<", 2) && ft_strncmp((*data)->cmds[crs->i2 + 1][0], "<", 2))) || (!ft_strncmp((*data)->cmds[crs->i2][1], "<", 2) && ft_strncmp
+					((*data)->cmds[crs->i2 + 1][0], "<", 2)))
+			crs->input = open((*data)->cmds[crs->i2 + 1][0], O_RDONLY, S_IRWXU);
 		if (crs->input == -1)
 		{
-			ft_putstrs("bash:", (*data)->cmds[crs->i][1],
+			ft_putstrs("bash:", (*data)->cmds[crs->i2][1],
 			": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
 	crs->saved_stdin = dup(STDIN);
 		dup2(crs->input, STDIN);
-		builtin_execute(data, crs->i, crs->flag);
+		builtin_execute(data, crs->i, crs->flag, crs);
 		dup2(crs->saved_stdin, STDIN);
 		close(crs->saved_stdin);
 	}
-	if (!ft_strncmp((*data)->cmds[crs->i][crs->j], "<", 2) && !ft_strncmp
-			((*data)->cmds[crs->i + 1][0], "<", 1))
+	if (!ft_strncmp((*data)->cmds[crs->i2][crs->j2], "<", 2) && !ft_strncmp
+			((*data)->cmds[crs->i2 + 1][0], "<", 1))
 	{
 			crs->flag = 1;
-			crs->j = 2;
+			crs->j2 = 2;
 			ft_here_doc(data, crs);
 	}
 	waitpid(pid, &crs->status, 0);
 }
-

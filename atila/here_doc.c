@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/11 14:36:34 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:53:35 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@
 
 char	*here_doc_str(t_data **data, t_cursors *crs)
 {
-	crs->len = ft_strlen((*data)->cmds[crs->i + 1][1]);
-	while (!crs ->str || ft_strncmp(crs->temp, (*data)->cmds[crs->i + 1][1], crs->len))
+//	char	*temp;
+
+//	temp = ft_calloc (4096, sizeof(char));
+	crs->len = ft_strlen((*data)->cmds[crs->i2 + 1][1]);
+	while (!crs ->str || ft_strncmp(crs->temp, (*data)->cmds[crs->i2 + 1][1], crs->len))
 	{
-	//	crs->temp = crs->str;
-	//	crs->str = ft_strjoin(crs->str, crs->str);
-	//	free (crs->str);
 		crs->temp = readline("> ");
-//		if (!crs ->str && !ft_strncmp(crs->temp, (*data)->cmds[crs->i + 1][1], crs->len))
-//			return (0);
-		if (!ft_strncmp(crs->temp, (*data)->cmds[crs->i + 1][1], crs->len))
+		if (!ft_strncmp(crs->temp, (*data)->cmds[crs->i2 + 1][1], crs->len))
 			return (crs->str);
 		crs->str = ft_strjoin(crs->str, crs->temp);
 		crs->str = ft_strjoin(crs->str, "\n");
@@ -48,7 +46,7 @@ void	ft_here_doc(t_data **data, t_cursors *crs)
 			crs->i++;;
 			return ;
 		}
-		crs->output = open((*data)->cmds[crs->i + 2][0], O_CREAT
+		crs->output = open((*data)->cmds[crs->i2 + 2][0], O_CREAT
 					| O_WRONLY | O_TRUNC, S_IRWXU);
 		crs->saved_stdout = dup(STDOUT);
 		dup2(crs->output, STDOUT);
@@ -56,7 +54,7 @@ void	ft_here_doc(t_data **data, t_cursors *crs)
 		write (fd[1], crs->str, ft_strlen(crs->str));
 		close (fd[1]);
 		dup2(fd[0], STDIN);
-		builtin_execute(data, crs->i, crs->flag);
+		builtin_execute(data, crs->i2, crs->flag, crs);
 		dup2(crs->saved_stdout, STDOUT);
 		close(crs->saved_stdout);
 		crs->i++;

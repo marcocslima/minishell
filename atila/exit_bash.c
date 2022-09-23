@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exits.c                                            :+:      :+:    :+:   */
+/*   exit_bash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/15 15:52:39 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:41:26 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,28 @@ int	exec_error_msg(char *path)
 	DIR *folder;
 
 	fd = open(path, O_WRONLY);
-	folder = opendir(path);
+	if (path)
+		folder = opendir(path);
 	ft_putstrs("minishell: ", path, NULL ,STDERR);
 //	if (ft_strchr(path, '/') == NULL)
 	if (access(path, F_OK) != 0)
 	{
-		ft_putstr_fd(": command not found", STDERR);
-		return (127);
+		ft_putstr_fd(": command not found\n", STDERR);
+		exit (127);
 	}
 	else if (fd == -1 && folder == NULL)
 	{
-		ft_putstr_fd ("No such file or directory", STDERR);
-		return (127);
+		ft_putstr_fd ("No such file or directory\n", STDERR);
+		exit (127);
 	}
 	else if (fd == -1 && folder != NULL)
-		ft_putstr_fd (": is a directory", STDERR);
+		ft_putstr_fd (": is a directory\n", STDERR);
 	else if (fd != -1 && folder == NULL)
-		ft_putstr_fd (": Permission denied", STDERR);
+		ft_putstr_fd (": Permission denied\n", STDERR);
 	if (folder)
 		closedir(folder);
 	close(fd);
-	return (126);
+	exit (126);
 }
 
 void	signal_handler_bash(int sig)

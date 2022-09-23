@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/12 06:57:32 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:18:23 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 		crs->j = 0;
 		while(p[crs->i][crs->j])
 		{
-			if(*p[crs->i][crs->j] != '\0')
+			if(p[crs->i][crs->j] && *p[crs->i][crs->j] != '\0')
 			{
 				free(p[crs->i][crs->j]);
 				p[crs->i][crs->j] = NULL;
