@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/21 04:24:44 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/23 00:43:41 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 //	int		j;
 
 //	j = 2;
-	ft_bash(data);
-	//****************************************************************
 	cmd1 = strdup((*data)->cmds[i][2 - 2]);
 	ft_strlcat(cmd1, " ", 4096);
 	if ((*data)->cmds[i][2 - 1] && ft_strncmp((*data)->cmds[i][2 - 1], "<", 2))
@@ -77,6 +75,10 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 		crs->flagecho = 0;
 		ft_echo(data, (*data)->cmds[i], crs);
 	}
+	else if (!ft_memcmp((*data)->cmds[i][0], "./", 2) ||
+			!ft_memcmp((*data)->cmds[i][0], "../", 3) ||
+			!ft_memcmp((*data)->cmds[i][0], "/", 1))
+		ft_bash(data);
 	else if (!ft_memcmp((*data)->cmds[i][0], "pwd", 4))
 		ft_pwd();
 	else if (!ft_memcmp((*data)->cmds[i][0], "cd", 3))

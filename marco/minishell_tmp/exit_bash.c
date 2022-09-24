@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/21 04:19:02 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:42:44 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_error_msg(char *path)
 	if (path)
 		folder = opendir(path);
 	ft_putstrs("minishell: ", path, NULL ,STDERR);
-//	if (ft_strchr(path, '/') == NULL)
+	//if (ft_strchr(path, '/') == NULL)
 	if (access(path, F_OK) != 0)
 	{
 		ft_putstr_fd(": command not found", STDERR);
@@ -53,26 +53,62 @@ void	signal_handler_bash(int sig)
 
 void	ft_bash(t_data **data)
 {
-//	char	*home_path;
-	char	cwd[256];
+	char	cmd[256];
+	char	tmp[256];
+	char	*args[256];
 	char	*path;
-//	int		i;
-//	char	*cmd;
+	int		i;
+	int		j = 0;
+	int		flag;
+
 	pid_t	pid;
 	int status;
-	pid = fork();
-//	i = 0;
-	path = getcwd(cwd, sizeof(cwd));
+
+	if (!ft_memcmp((*data)->cmds[0][0], "./", 2))
+		i = 2;
+	else if (!ft_memcmp((*data)->cmds[0][0], "../", 3))
+		i = 3;
+	else if (!ft_memcmp((*data)->cmds[0][0], "/", 1))
+		i = 1;
+	flag = i;
+	while ((*data)->cmds[0][0][i])
+	{
+		cmd[j] = (*data)->cmds[0][0][i];
+		i++;
+		j++;
+	}
+	cmd[j] = '\0';
+	path = getcwd(tmp, sizeof(tmp));
+	int len_b = ft_strlen(path);
+	if (flag == 3)
+	{
+		while (flag < 4 || len_b == 0)
+		{
+			if(path[len_b] == '/')
+				flag++;
+			len_b--;
+		}
+		path[len_b + 1] = '\0';
+	}
 	path = ft_strjoin_2(path, "/");
-	path = ft_strjoin_2(path, (*data)->cmds[0][0]);
-//	home_path = find_env_val(data, "HOME");
-//	if (execve(path, (char *[]){0}, (*data)->envp)  == -1)
-//		exit(ERROR);
+	path = ft_strjoin_2(path, cmd);
+
+	i = -1;
+	while(++i < 257)
+		args[i] = NULL;
+
+	i = 0;
+	args[0] = path;
+	while((*data)->cmds[0][++i])
+		args[i] = (*data)->cmds[0][i];
+	args[i] = NULL;
+
+	pid = fork();
 	if (pid == 0)
 	{
+		//write(1, "filho \n", 7);
 		signal(SIGINT, signal_handler_bash);
-		if (execve(path, (char *[]){0}, (*data)->envp)  == -1)
-//			exit(ERROR);
+		if (execve(path, args, (*data)->envp)  == -1)
 			exec_error_msg(path);
 	}
 	else
@@ -85,8 +121,8 @@ void	ft_bash(t_data **data)
 //	ft_cd_home(data, home_path, i, input);
 //	if ((*data)->exit_return != 2)
 //		return ;
-
 }
+
 int	error_msg(char *message)
 {
 	ft_putstr_fd(message, 2);

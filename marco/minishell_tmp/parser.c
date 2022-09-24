@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/18 02:04:53 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/24 04:05:12 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,59 +124,7 @@ void	str_cat(t_data **data, char *prm, int n)
 	}
 	str_cat_util(data, crs, prm, n);
 }
-/*
-void	get_dollar(t_data **data, char *dollar)
-{
-	t_cursors	*crs;
-	char *env_cpy;
 
-	init_crs(&crs);
-	crs->len = ft_strlen(dollar);
-	crs->pointer = ft_strjoin(dollar, "=");
-	while ((*data)->envp[crs->i])
-	{
-		crs->j = 0;
-		if (ft_strncmp((*data)->envp[crs->i], crs->pointer, ft_strlen(crs->pointer)) == 0)
-		{
-			while ((*data)->envp[crs->i][crs->j] != '=')
-				crs->j++;
-			env_cpy = ft_substr((*data)->envp[crs->i], crs->j + 1, ft_strlen((*data)->envp[crs->i]) - crs->j);
-		}
-		crs->i++;
-	}
-	free(crs->pointer);
-	free(crs);
-}
-
-int	get_expand(t_data **data, t_cursors *crs)
-{
-	init_crs(&crs);
-	while((*data)->cmds[0][crs->i])
-	{
-		if((*data)->cmds[0][crs->i][crs->j] =='\'')
-			break ;
-		while((*data)->cmds[0][crs->i][crs->j] != '\0')
-		{
-			if ((*data)->cmds[0][crs->i][crs->j] == '$' && (*data)->cmds[0][crs->i][crs->j + 1] != ' ')
-			{
-				crs->begin = crs->i;
-				crs->len = ft_strlen((*data)->cmds[0][crs->i]);
-			}
-				crs->j++;
-		}
-		(*data)->dollar = ft_calloc((crs->len), sizeof(char));
-		while(++crs->l < crs->len)
-			(*data)->dollar[crs->l] = (*data)->cmds[0][crs->i][crs->begin + crs->l];
-		if((*data)->dollar)
-			get_dollar(data, (*data)->dollar);
-		crs->i++;
-		crs->j = 0;
-		crs->l = -1;
-	}
-	free(crs);
-	return (0);
-}
-*/
 void	get_params(t_data **data, char *st_cmd, int n)
 {
 	t_cursors	*crs;
@@ -210,7 +158,7 @@ void	get_params(t_data **data, char *st_cmd, int n)
 		crs->r++;
 	}
 	(*data)->cmds[n] = (*data)->params;
-	//free(crs);
+	free(crs);
 }
 
 void	get_cmds(t_data **data, t_cursors *cursor)
@@ -286,6 +234,7 @@ void	get_slc_seq(t_data **data)
 		if ((*data)->slicers_types[crs->l] != 0)
 			crs->i++;
 	(*data)->slicers_seq = ft_calloc(crs->i, sizeof(int));
+	ft_bzero((*data)->slicers_seq, crs->i + 1);
 	while ((*data)->input[++crs->m])
 		if ((*data)->slicers_types[crs->m] != 0)
 		{
