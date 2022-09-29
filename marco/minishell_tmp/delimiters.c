@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/26 23:23:50 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:07:02 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void	ft_output(t_data **data, t_cursors *crs)
 		}
 		ft_output_2(data, crs);
 	}
+//		crs->i2++;
 		waitpid(pid, &crs->status, 0);
 }
 
@@ -222,7 +223,6 @@ void	ft_output_2(t_data **data, t_cursors *crs)
 		builtin_execute(data, crs->i2, crs->flag, crs);
 		dup2(crs->saved_stdout, STDOUT);
 		close(crs->saved_stdout);
-//		crs->j2++;
 }
 
 void	ft_input(t_data **data, t_cursors *crs)
@@ -265,8 +265,8 @@ void	ft_input(t_data **data, t_cursors *crs)
 	}
 	if ((*data)->cmds[crs->i2 + 1][1] && (*data)->cmds[crs->i2 + 1][1][0] == '>')
 	{
-		crs->i2+=3;
-	//	crs->j2--;
+		crs->i2 += 3;
+		crs->j2--;
 	}
 	else
 		crs->i2+=2;
@@ -293,8 +293,6 @@ void	ft_in_output(t_data **data, t_cursors *crs)
 		dup2(crs->input, STDIN);
 		crs->saved_stdout = dup(STDOUT);
 		dup2(crs->output, STDOUT);
-//		crs->j2++;
-//		crs->i2+=2;
 		builtin_execute(data, crs->i2, crs->flag, crs);
 		dup2(crs->saved_stdout, STDOUT);
 		dup2(crs->saved_stdin, STDIN);

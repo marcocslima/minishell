@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/26 23:43:17 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:14:55 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 	{
 		crs->j2 = 0;
 		crs->flag = 0;
+//		if(crs->i2 >= 1 && (*data)->cmds[crs->i2 - 1][2] && (*data)->cmds[crs->i2 - 1][2][0] == '>')
+//			crs->i2++;
+		if((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][0][0] == '>')
+			crs->j2++;
+		if(crs->i2 >= 1 && (*data)->cmds[crs->i2 - 1][2] && (*data)->cmds[crs->i2 - 1][2][0] == '>')
+		{
+			crs->i2++;
+			crs->j2 = 0;
+		}
 		while (crs->i2 < crs->k2 && (*data)->cmds[crs->i2][crs->j2])
 		{
 			if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
@@ -58,8 +67,8 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 			if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
 				[crs->i2][crs->j2], ">", 2))
 				ft_output(data, crs);
-			if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
-				[crs->i2][crs->j2], "<", 2))
+			while ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][crs->j2] &&
+				!ft_memcmp((*data)->cmds[crs->i2][crs->j2], "<", 2))
 				ft_input(data, crs);
 			if ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][crs->j2] &&
 				!ft_memcmp((*data)->cmds[crs->i2][crs->j2], ";", 2))
@@ -69,7 +78,8 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 			}
 			crs->j2++;
 		}
-		crs->i2++;
+		if (crs->i2 < crs->k2 - 1)
+			crs->i2++;
 	}
 }
 
@@ -79,7 +89,7 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 	int		j;
 
 	j = 1;
-	if ((*data)->cmds[i][0])
+	if (((*data)->cmds[i][0] && crs->i > 0 && (*data)->cmds[i - 1][2] && ft_strncmp((*data)->cmds[i - 1][2], ">", 1)) || ((*data)->cmds[i][0] && crs->i == 0))
 		cmd1 = ft_strdup((*data)->cmds[i][0]);
 	while ((*data)->cmds[i][j])
 	{

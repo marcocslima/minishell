@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/26 23:54:22 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:57:32 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 char	*here_doc_str(t_data **data, t_cursors *crs)
 {
+	char	*temp;
+
+	temp = NULL;
 	crs->len = ft_strlen((*data)->cmds[crs->i2 + 1][1]);
-	while (!crs ->str || ft_strncmp(crs->temp, (*data)->cmds[crs->i2 + 1][1],
+	while (!crs->str || ft_strncmp(temp, (*data)->cmds[crs->i2 + 1][1],
 		crs->len))
 	{
-		crs->temp = readline("> ");
-		if (!ft_strncmp(crs->temp, (*data)->cmds[crs->i2 + 1][1], crs->len))
+		temp = readline("> ");
+		if (!ft_strncmp(temp, (*data)->cmds[crs->i2 + 1][1], crs->len))
 			return (crs->str);
-		crs->str = ft_strjoin(crs->str, crs->temp);
+		crs->str = ft_strjoin(crs->str, temp);
 		crs->str = ft_strjoin(crs->str, "\n");
 	}
 	return (crs->str);
@@ -75,5 +78,5 @@ void	ft_here_doc_2(t_data **data, t_cursors *crs, int fd[2])
 	dup2(crs->saved_stdout, STDOUT);
 	close(crs->saved_stdout);
 	crs->i2 += 3;
-//	crs->j2--;
+	crs->j2--;
 }
