@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/28 19:07:02 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:14:56 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	execute(char *argv, t_data **data)
 //		command_error(cmd);
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp)  == -1)
-		exec_error_msg(argv);
+		exit(exec_error_msg(argv));
 //		exit(1);
 }
 
@@ -162,8 +162,7 @@ void	execute_pipe(char *argv, t_data **data)
 //		command_error(cmd);
 //	path_error(path, cmd);
 	if (execve(path, cmd, (*data)->envp)  == -1)
-		exec_error_msg(argv);
-//		exit(1);
+		exit(exec_error_msg(argv));
 	}
 	waitpid(pid, &status, 0);
 }
