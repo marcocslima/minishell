@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/29 16:14:56 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/01 07:00:12 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,9 @@ void	execute_pipe(char *argv, t_data **data)
 	char	*path;
 	pid_t	pid;
 	int		status;
-	pid = fork();
 
+	signal(SIGINT, child_signal_handler);
+	pid = fork();
 	if (pid == 0)
 	{
 	cmd_space_substitution(argv);
@@ -173,6 +174,7 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 	pid_t	pid;
 	int		status;
 
+	signal(SIGINT, child_signal_handler);
 	pipe (pipefd);
 	pid = fork();
 	if (pid == 0)

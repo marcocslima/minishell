@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/27 16:27:03 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/01 07:02:36 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,19 @@ void	init_struct(t_data **data, char **argv, char **envp)
 
 void	open_prompt(char **envp)
 {
-	char	*home;
+//	char	*home;
 	char	cwd[4097];
 	char	*path;
 
 	while (ft_memcmp("HOME=", *envp, 5))
 		envp++;
-	home = *envp + 5;
+//	home = *envp + 5;
 	getcwd(cwd, 4096);
-	if (ft_memcmp(cwd, home, ft_strlen(home)))
+	path = ft_strdup(cwd);
+/*	if (ft_memcmp(cwd, home, ft_strlen(home)))
 		path = ft_strdup(cwd);
 	else
-		path = ft_strjoin_2("~", cwd + ft_strlen(home));
+		path = ft_strjoin_2("~", cwd + ft_strlen(home));*/
 	ft_putstr_fd( path , 1);
 	ft_putstr_fd( ": " , 1);
 	free(path);
@@ -107,8 +108,8 @@ int	main(int argc, char **argv, char **envp)
 			cmd_check(&data);
 		else
 			print_error(ret_quotes);
-//		clean_data(&data);
-		exit (0); //retirar
+		clean_data(&data);
+//		exit (0); //retirar
 	}
 	return (0);
 }

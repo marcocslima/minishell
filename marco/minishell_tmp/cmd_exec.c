@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/29 15:28:14 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/01 07:33:25 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	cmd_check(t_data **data)
 	t_cursors	*crs;
 
 	init_crs(&crs);
+	crs->saved_stdin = dup(STDIN);
 	if ((*data)->cmds[crs->k2])
 		while ((*data)->cmds[crs->k2])
 			crs->k2++;
@@ -33,7 +34,9 @@ void	cmd_check(t_data **data)
 	if (crs->i2 < crs->k2 && (*data)->cmds[crs->i2][0] && ft_strncmp
 		((*data)->cmds[crs->i2][0], ">", 1))
 		cmd2 = ft_strdup((*data)->cmds[crs->i2][0]);
-	ft_strlcat(cmd2, " ", 4096);
+	if((*data)->cmds[crs->i2] && ft_strncmp((*data)->cmds[crs->i2][0],
+		">", 1))
+		ft_strlcat(cmd2, " ", 4096);
 	if (crs->i2 < crs->k2 && (*data)->cmds[crs->i2][1])
 		ft_strlcat(cmd2, (*data)->cmds[crs->i2][1], 4096);
 	if (crs->i2 < crs->k2 && ft_memcmp((*data)->cmds[crs->i2][0], ">",
@@ -42,6 +45,7 @@ void	cmd_check(t_data **data)
 		crs->flag = 1;
 		builtin_execute(data, crs->i2, crs->flag, crs);
 	}
+	dup2(crs->saved_stdin, STDIN);
 }
 
 void	cmd_check_2(t_data **data, t_cursors *crs)
