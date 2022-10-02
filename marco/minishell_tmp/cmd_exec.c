@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/01 07:33:25 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/02 06:06:23 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	cmd_check(t_data **data)
 	if((*data)->cmds[crs->i2] && ft_strncmp((*data)->cmds[crs->i2][0],
 		">", 1))
 		ft_strlcat(cmd2, " ", 4096);
-	if (crs->i2 < crs->k2 && (*data)->cmds[crs->i2][1])
+	if (crs->i2 < crs->k2 && (*data)->cmds[crs->i2][1] && (*data)->cmds[crs->k2])
 		ft_strlcat(cmd2, (*data)->cmds[crs->i2][1], 4096);
 	if (crs->i2 < crs->k2 && ft_memcmp((*data)->cmds[crs->i2][0], ">",
 		2) && ft_memcmp((*data)->cmds[crs->i2][0], ">", 2))
@@ -70,12 +70,16 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 				ft_pipe(data, crs->i2, crs->flag, crs);
 			if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
 				[crs->i2][crs->j2], ">", 2))
-				ft_output(data, crs);
+				{
+					ft_output(data, crs);
+					crs->i2 = crs->k2;
+				}
 			while ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][crs->j2] &&
 				!ft_memcmp((*data)->cmds[crs->i2][crs->j2], "<", 2))
 				ft_input(data, crs);
-			if ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][crs->j2] &&
-				!ft_memcmp((*data)->cmds[crs->i2][crs->j2], ";", 2))
+			if (crs->i2 < (*data)->qtd_cmds && (*data)->cmds[crs->i2]
+				&& (*data)->cmds[crs->i2][crs->j2]
+				&& !ft_memcmp((*data)->cmds[crs->i2][crs->j2], ";", 2))
 			{
 				crs->flag = 1;
 				builtin_execute(data, crs->i2, crs->flag, crs);

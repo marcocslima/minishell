@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/01 07:00:12 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/02 06:06:19 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,23 +119,31 @@ void	execute(char *argv, t_data **data)
 {
 	char	**cmd;
 	char	*path;
+	pid_t	pid;
+	int		status;
 
-	cmd_space_substitution(argv);
-	cmd = ft_split(argv, ' ');
-	cmd_one_substitution (cmd);
-	if (cmd[0] == NULL)
+	signal(SIGINT, child_signal_handler);
+	pid = fork();
+	if (pid == 0)
 	{
-		free(cmd[0]);
-		free(cmd);
-//		entry_error();
+		cmd_space_substitution(argv);
+		cmd = ft_split(argv, ' ');
+		cmd_one_substitution (cmd);
+		if (cmd[0] == NULL)
+		{
+			free(cmd[0]);
+			free(cmd);
+	//		entry_error();
+		}
+		path = pathexec(cmd[0], (*data)->envp);
+	//	if (path == 0)
+	//		command_error(cmd);
+	//	path_error(path, cmd);
+		if (execve(path, cmd, (*data)->envp)  == -1)
+			exit(exec_error_msg(argv));
+	//		exit(1);
 	}
-	path = pathexec(cmd[0], (*data)->envp);
-//	if (path == 0)
-//		command_error(cmd);
-//	path_error(path, cmd);
-	if (execve(path, cmd, (*data)->envp)  == -1)
-		exit(exec_error_msg(argv));
-//		exit(1);
+	waitpid(pid, &status, 0);
 }
 
 void	execute_pipe(char *argv, t_data **data)
@@ -190,30 +198,22 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 
 void	ft_output(t_data **data, t_cursors *crs)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (!ft_strncmp((*data)->cmds[crs->i2][crs->j2], ">", 2) && !ft_strncmp
-			((*data)->cmds[crs->i2 + 1][0], ">", 2))
-			crs->output = open((*data)->cmds[crs->i2 + 1][1], O_CREAT
-					| O_WRONLY | O_APPEND, S_IRWXU);
-		else if (!ft_strncmp((*data)->cmds[crs->i2][crs->j2], ">", 2) && ft_strncmp
-			((*data)->cmds[crs->i2 + 1][0], ">", 2))
-		crs->output = open((*data)->cmds[crs->i2 + 1][0], O_CREAT | O_WRONLY
-					| O_TRUNC, S_IRWXU);
-		if (crs->output == -1)
+	int i = 1;
+	if(ft_strncmp((*data)->cmds[crs->i2][crs->j2], ">", 2) == 0)
+		while (i < crs->k2 && (*data)->cmds[crs->i2 + i] && ft_strncmp((*data)->cmds[crs->i2 + i][0], ">", 2) == 0)
+		{
+			crs->output = open((*data)->cmds[crs->i2 + i][1], O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+			i++;
+		}
+	else if (crs->output == -1)
 		{
 			ft_putstrs("bash:", (*data)->cmds[crs->i2][1],
 			": No such file or directory" , STDERR);
 			(*data)->exit_return = 1;
 			return ;
 		}
-		ft_output_2(data, crs);
-	}
-//		crs->i2++;
-		waitpid(pid, &crs->status, 0);
+	(*data)->qtd_cmds = (*data)->qtd_cmds - i;
+	ft_output_2(data, crs);
 }
 
 void	ft_output_2(t_data **data, t_cursors *crs)
