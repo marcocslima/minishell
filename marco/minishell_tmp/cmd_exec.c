@@ -86,7 +86,13 @@ void	cmd_check_2_1(t_data **data, t_cursors *crs)
 		[crs->i2][crs->j2], ">", 2))
 	{
 		ft_output(data, crs);
-		crs->i2 = crs->k2;
+		while((*data)->cmds[crs->w])
+		{
+			if((*(*data)->cmds[crs->w][0] == '>') | (*(*data)->cmds[crs->w][0] == '<'))
+				crs->i2++;
+			crs->w++;
+		}
+		crs->i2++;
 	}
 	while ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][crs->j2] &&
 		!ft_memcmp((*data)->cmds[crs->i2][crs->j2], "<", 2))

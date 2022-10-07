@@ -199,7 +199,6 @@ void	ft_output(t_data **data, t_cursors *crs)
 			(*data)->exit_return = 1;
 			return ;
 		}
-	(*data)->qtd_cmds = (*data)->qtd_cmds - i;
 	ft_output_2(data, crs);
 	}
 	waitpid(pid, &crs->status, 0);
