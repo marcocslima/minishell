@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 20:16:42 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/04/27 13:08:13 by mcesar-d         ###   ########.fr       */
+/*   Created: 2022/09/26 16:12:25 by mcesar-d          #+#    #+#             */
+/*   Updated: 2022/10/05 23:21:49 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalnum(int c)
+void	ft_exit(t_data **data, t_cursors *crs)
 {
-	if ((c >= 'A' && c <= 'Z')
-		|| (c >= 'a' && c <= 'z')
-		|| (c >= '0' && c <= '9'))
-		return (1);
-	return (0);
+	clean_all(data, crs);
+	exit (0);
 }

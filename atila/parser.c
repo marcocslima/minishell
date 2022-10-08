@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/09/18 02:04:53 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:33:04 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_token(t_data **data, char token, int n)
 	else
 	{
 		(*data)->len_tokens[n] = crs->k;
-		tok = ft_calloc(crs->k, sizeof(int));
+		tok = ft_calloc(crs->k + 1, sizeof(int));
 		crs->l = -1;
 		crs->k = -1;
 		while (++crs->l < crs->len)
@@ -35,7 +35,8 @@ void	get_token(t_data **data, char token, int n)
 				tok[++crs->k] = crs->l;
 		(*data)->tokens[n] = tok;
 	}
-	free(crs);
+	free(crs); // ativado
+//	free(tok); // adicionado
 }
 
 void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
@@ -61,26 +62,29 @@ void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
 void	str_cat_util(t_data **data, t_cursors *crs, char *prm, int n)
 {
 	char	*new;
-	char	*tmp;
 	char	sr[4];
+	int		len;
 
-	new = malloc(sizeof(char) * (crs->len + 3));
-	tmp = new;
-	new = prm;
-	free(tmp);
+	len = ft_strlen(prm);
 	if (crs->c)
 	{
 		sr[0] = ' ';
 		sr[1] = (char)(*data)->slicers_seq[n];
 		sr[2] = crs->c;
-		ft_strlcat(new, sr, crs->len + 4);
+		sr[3] = '\0';
+		new = ft_calloc(sizeof(char) , (len + 4));
+		new = prm;
+		ft_strlcat(new, sr, len + 4);
 	}
 	else
 	{
 		sr[0] = ' ';
 		sr[1] = (char)(*data)->slicers_seq[n];
+		sr[2] = '\0';
+		new = ft_calloc(sizeof(char), (len + 3));
+		new = prm;
 		if (new)
-			ft_strlcat(new, sr, crs->len + 3);
+			ft_strlcat(new, sr, len + 3);
 	}
 	prm = new;
 }
@@ -93,12 +97,13 @@ void	rotate(t_data **data)
 
 	init_crs(&crs);
 	crs->len = ft_strlen((*data)->input);
-	new = ft_calloc(crs->len, sizeof(int));
+	new = ft_calloc(crs->len + 1, sizeof(int));
 	while (++crs->i < crs->len)
 		new[crs->i - 1] = (*data)->slicers_seq[crs->i];
 	tmp = (*data)->slicers_seq;
 	(*data)->slicers_seq = new;
 	free(tmp);
+	free(crs);
 }
 
 void	str_cat(t_data **data, char *prm, int n)
@@ -123,60 +128,9 @@ void	str_cat(t_data **data, char *prm, int n)
 		crs->i++;
 	}
 	str_cat_util(data, crs, prm, n);
-}
-/*
-void	get_dollar(t_data **data, char *dollar)
-{
-	t_cursors	*crs;
-	char *env_cpy;
-
-	init_crs(&crs);
-	crs->len = ft_strlen(dollar);
-	crs->pointer = ft_strjoin(dollar, "=");
-	while ((*data)->envp[crs->i])
-	{
-		crs->j = 0;
-		if (ft_strncmp((*data)->envp[crs->i], crs->pointer, ft_strlen(crs->pointer)) == 0)
-		{
-			while ((*data)->envp[crs->i][crs->j] != '=')
-				crs->j++;
-			env_cpy = ft_substr((*data)->envp[crs->i], crs->j + 1, ft_strlen((*data)->envp[crs->i]) - crs->j);
-		}
-		crs->i++;
-	}
-	free(crs->pointer);
 	free(crs);
 }
 
-int	get_expand(t_data **data, t_cursors *crs)
-{
-	init_crs(&crs);
-	while((*data)->cmds[0][crs->i])
-	{
-		if((*data)->cmds[0][crs->i][crs->j] =='\'')
-			break ;
-		while((*data)->cmds[0][crs->i][crs->j] != '\0')
-		{
-			if ((*data)->cmds[0][crs->i][crs->j] == '$' && (*data)->cmds[0][crs->i][crs->j + 1] != ' ')
-			{
-				crs->begin = crs->i;
-				crs->len = ft_strlen((*data)->cmds[0][crs->i]);
-			}
-				crs->j++;
-		}
-		(*data)->dollar = ft_calloc((crs->len), sizeof(char));
-		while(++crs->l < crs->len)
-			(*data)->dollar[crs->l] = (*data)->cmds[0][crs->i][crs->begin + crs->l];
-		if((*data)->dollar)
-			get_dollar(data, (*data)->dollar);
-		crs->i++;
-		crs->j = 0;
-		crs->l = -1;
-	}
-	free(crs);
-	return (0);
-}
-*/
 void	get_params(t_data **data, char *st_cmd, int n)
 {
 	t_cursors	*crs;
@@ -196,13 +150,15 @@ void	get_params(t_data **data, char *st_cmd, int n)
 	(*data)->params = ft_split(st_cmd, ' ');
 	//ADICIONAR AO CÓDIGO DO MARCO
 	crs->o = 0;
-	while ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) == 1)
-		crs->o++;
+	if ((*data)->params[crs->o] && (*data)->params[crs->o][0])
+		while ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) == 1)
+			crs->o++;
 	if ((*data)->params[crs->o] && ft_isascii((*data)->params[crs->o][0]) != 1)
 		(*data)->params[crs->o][0] = '\0';
 	// PRECISA POR NULO APÓS CAPTAR COMANDOS PRA FAZER LEITURA
-	while ((*data)->params[crs->r] != NULL)
+	while ((*data)->params && (*data)->params[crs->r])
 	{
+		crs->m = 0;
 		while ((*data)->params[crs->r][crs->m])
 			if ((*data)->params[crs->r][++crs->m] == 1)
 				(*data)->params[crs->r][crs->m] = ' ';
@@ -210,7 +166,7 @@ void	get_params(t_data **data, char *st_cmd, int n)
 		crs->r++;
 	}
 	(*data)->cmds[n] = (*data)->params;
-	//free(crs);
+	free(crs);
 }
 
 void	get_cmds(t_data **data, t_cursors *cursor)
@@ -228,10 +184,10 @@ void	get_cmds(t_data **data, t_cursors *cursor)
 			cursor->counter++;
 		cursor->j++;
 	}
-	(*data)->st_cmds = malloc(sizeof(size_t) * cursor->counter + 1);
-	(*data)->cmds = malloc(sizeof(size_t) * cursor->counter + 1);
-	while (cursor->k < cursor->counter + 1)
-		(*data)->cmds[cursor->k++] = malloc(sizeof(size_t));
+	(*data)->st_cmds = ft_calloc(sizeof(size_t) , cursor->counter + 2);
+	(*data)->cmds = ft_calloc(sizeof(size_t) , cursor->counter + 2);/* mudei de 1 pra 2 */
+	while (cursor->k < cursor->counter + 1)/* mudei de 1 pra 2 */
+		(*data)->cmds[cursor->k++] = ft_calloc(sizeof(size_t), 1);
 	(*data)->st_cmds = ft_split((*data)->input, 1);
 	while (cursor->r < cursor->counter + 1)
 	{
@@ -285,7 +241,7 @@ void	get_slc_seq(t_data **data)
 	while ((*data)->input[++crs->l])
 		if ((*data)->slicers_types[crs->l] != 0)
 			crs->i++;
-	(*data)->slicers_seq = ft_calloc(crs->i, sizeof(int));
+	(*data)->slicers_seq = ft_calloc(crs->i + 1, sizeof(int));
 	while ((*data)->input[++crs->m])
 		if ((*data)->slicers_types[crs->m] != 0)
 		{
@@ -293,6 +249,7 @@ void	get_slc_seq(t_data **data)
 			crs->j++;
 		}
 	(*data)->qtd_cmds = crs->j + 1;
+	(*data)->slicers_seq[crs->j] = 0;
 	free(crs);
 }
 
@@ -308,7 +265,7 @@ int	parser(t_data	**data)
 	i = -1;
 	s = -1;
 	(*data)->tokens = malloc(sizeof(size_t) * 9);
-	(*data)->len_tokens = ft_calloc(9,sizeof(int));
+	(*data)->len_tokens = ft_calloc(9, sizeof(int));
 	while(++i < 9)
 		get_token(data, token[i], i);
 	while(++s < 4)
@@ -319,7 +276,9 @@ int	parser(t_data	**data)
 			t++;
 		if (get_slicers(data, cursor, slicers[s], t) == 1)
 			return (1);
+		free(cursor);
 	}
+//	free(cursor); joguei pro loop while
 	get_slc_seq(data);
 	init_crs(&cursor);
 	get_cmds(data, cursor);

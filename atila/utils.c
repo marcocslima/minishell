@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/22 16:48:31 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:02:33 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	reset_conters(t_cursors	**cursor)
 
 void	init_crs(t_cursors	**cursor)
 {
-	(*cursor) = (t_cursors *)malloc(sizeof(t_cursors));
+	(*cursor) = (t_cursors *)ft_calloc(sizeof(t_cursors), 1);
 	(*cursor)->counter	= 0;
 	(*cursor)->flag		= 0;
+	(*cursor)->flagpipe	= 8;
 	(*cursor)->i 		= 0;
 	(*cursor)->j 		= 0;
 	(*cursor)->i2 		= 0;
@@ -84,4 +85,33 @@ int	is_token(char s)
 	if (token[i] == s)
 		return (1);
 	return (0);
+}
+
+char*	ft_clean_quotes(char *s, char c)
+{
+	int		init;
+	int		end;
+	int		len;
+	int		flag;
+
+	init = 0;
+	end = 0;
+	flag = 0;
+	len = -1;
+	while (s[++len])
+	{
+		if (flag == 0 && (s[len] == '"' || (s[len] == '\\' && (s[len + 1]
+			== '\'' || s[len + 1] == '"' || s[len + 1] == '\\' ||
+				s[len + 1] == c))))
+		{
+			init++;
+			len ++;
+			flag = 1;
+		}
+		else if (s[len] == '"' || s[len] == '\'' || s[len] == '\\')
+			end = len - 1;
+	}
+	if (init > 0)
+		s = ft_substr(s, init, end);
+	return(s);
 }

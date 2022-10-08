@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_exit.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/09/18 01:54:16 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:52:22 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 int	len_input(char **p)
 {
+	char		slicers[4] = ";|<>";
 	t_cursors	*crs;
 
 	init_crs(&crs);
 	while (p[crs->l])
 		crs->l++;
+	while(++crs->m < 4)
+		if(*p[crs->l - 1] == slicers[crs->m])
+		{
+			crs->l--;
+			break ;
+		}
+	free(crs);
 	return (crs->l);
 }
 
@@ -33,10 +41,7 @@ void	echo_preper(t_data **data, char **input, t_cursors	*crs)
 	crs->i = 0;
 	crs->j = 0;
 	if ((*data)->qtd_cmds > 1)
-	{
-		crs->len = crs->len -1;
 		(*data)->qtd_cmds--;
-	}
 }
 
 void	rotate_char(t_data **data, char *param, char c)
@@ -131,7 +136,7 @@ void	print_echo(t_data **data, t_cursors *crs, char **input, char tp[])
 		if (crs->s < crs->m)
 			ft_putchar_fd(tp[crs->s], 1);
 		crs->s++;
-		if (tp[crs->s] == '\0')
+		if (tp[crs->s] == '\0' && crs->len - crs->i > 1)
 			ft_putchar_fd(' ', 1);
 	}
 }

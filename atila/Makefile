@@ -6,7 +6,7 @@
 #    By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/09/18 01:41:33 by acosta-a         ###   ########.fr        #
+#    Updated: 2022/10/03 22:15:06 by acosta-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./exit_bash.c ./signal.c ./main.c ./utils.c ./parser.c \
-./export.c ./cd_pwd.c ./delimiters.c ./echo_exit.c ./cmd_exec.c \
-clean_data.c error.c expand.c env.c here_doc.c
+SRC = ./bash.c ./signal.c ./main.c ./utils.c ./parser.c \
+./export.c ./cd_pwd.c ./delimiters.c ./echo.c ./exit.c ./cmd_exec.c \
+clean_data.c error.c env.c here_doc.c
 
 
 #BONUS =
