@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/05 15:26:33 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:07:04 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	exec_bash(t_data **data, char *path, char *args[])
 	if (pid == 0)
 	{
 		signal(SIGINT, signal_handler_bash);
-		if (execve(path, args, (*data)->envp)  == -1)
+		if (execve(path, args, (*data)->envp) == -1)
 			exec_error_msg(path);
 	}
 	else
@@ -87,10 +87,10 @@ void	ft_bash(t_data **data)
 	path = getcwd(tmp, sizeof(tmp));
 	path = preper_path(data, crs, path, cmd);
 	path = ret_path(crs, path, cmd);
-	while(++crs->l < 257)
+	while (++crs->l < 257)
 		args[crs->l] = NULL;
 	args[0] = path;
-	while((*data)->cmds[0][++crs->w])
+	while ((*data)->cmds[0][++crs->w])
 		args[crs->w] = (*data)->cmds[0][crs->w];
 	args[crs->w] = NULL;
 	exec_bash(data, path, args);

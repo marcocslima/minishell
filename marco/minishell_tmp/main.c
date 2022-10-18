@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 22:45:34 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/17 22:21:30 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ char	**copy_env(char **envp, int add)
 	char	**copy;
 
 	len = 0;
-
 	while (envp[len])
 		len++;
-	if (!(copy = (char **)ft_calloc(sizeof(char *), (len + add + 1))))
+	copy = (char **)ft_calloc(sizeof(char *), (len + add + 1));
+	if (!copy)
 		return (0);
 	i = -1;
 	while (i++ < len - 1)
@@ -63,7 +63,8 @@ void	open_prompt(char **envp)
 
 void		get_input(t_data **data)
 {
-	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
+	open_prompt((*data)->envp);
+	signal(SIGINT, signal_handler);
 	(*data)->input = readline(" ");
 	add_history((*data)->input);
 }
@@ -93,7 +94,7 @@ void input_preper(t_data **data)
 	char *clean_pointer;
 
 	init_crs(&crs);
-	clean_pointer = (*data)->input; 
+	clean_pointer = (*data)->input;
 	(*data)->tmp = (char *)ft_calloc(sizeof(char *), 4097);
 	crs->len = ft_strlen(slicers);
 	if((*data)->input && (*data)->input[crs->i]) // TAVA DANDO SEGMENTATION FAULT
@@ -147,10 +148,10 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
-		open_prompt(data->envp);
-		signal(SIGINT, signal_handler);
+//		open_prompt(data->envp);
+//		signal(SIGINT, signal_handler);
 		get_input(&data);
-		input_preper(&data);	
+		input_preper(&data);
 		data->slicers = ft_calloc(ft_strlen(data->input),sizeof(int));
 		data->slicers_types = ft_calloc(ft_strlen(data->input),sizeof(int) + 1);
 		ret_parser = parser(&data);
@@ -160,7 +161,6 @@ int	main(int argc, char **argv, char **envp)
 		else
 			print_error(ret_quotes);
 		clean_data(&data);
-//		exit (0); //retirar
 	}
 	return (0);
 }
