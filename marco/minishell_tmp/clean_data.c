@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/17 22:00:31 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/20 11:02:55 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ void	destroy_pointers_char(char **p)
 {
 	int	i;
 
-	i = -1;
-	if (p[i + 1])
-		while (p[++i])
-			if (p[i])
-				free(p[i]);
+	i = 0;
+	while (p != NULL && p[i] != NULL)
+		free(p[i++]);
 	free(p);
 }
 
@@ -57,18 +55,21 @@ void	destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 {
 	init_crs(&crs);
 	crs->len = count_cmds(data);
-	while (crs->i < crs->len + 1)
+	if(*p)
 	{
-		crs->j = 0;
-		while (p[crs->i][crs->j])
+		while (crs->i < crs->len + 1)
 		{
+			crs->j = 0;
+			while (p[crs->i][crs->j]) 
 			{
-				free(p[crs->i][crs->j]);
-				p[crs->i][crs->j] = NULL;
+				{
+					free(p[crs->i][crs->j]);
+					p[crs->i][crs->j] = NULL;
+				}
+				crs->j++;
 			}
-			crs->j++;
+			crs->i++;
 		}
-		crs->i++;
 	}
 	free(p);
 	free(crs);

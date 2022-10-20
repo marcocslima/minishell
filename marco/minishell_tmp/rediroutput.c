@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 23:35:47 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/19 23:06:47 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ void	ft_output(t_data **data, t_cursors *crs)
 		while (jc[++crs->l])
 		{
 			if (jc[crs->l] == '>' && jc[crs->l + 1] == '>')
-				crs->output = open(ncmd[++crs->k], O_CREAT | O_WRONLY
+				crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''), O_CREAT | O_WRONLY
 						| O_APPEND, S_IRWXO);
 			else if (jc[crs->l] == '>' && jc[crs->l + 1] != '>'
 				&& jc[crs->l - 1] != '>')
-				crs->output = open(ncmd[++crs->k], O_CREAT | O_WRONLY | O_TRUNC,
+				crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''), O_CREAT | O_WRONLY | O_TRUNC,
 						S_IRWXO);
 		}
 		if (crs->output == -1)
@@ -128,10 +128,10 @@ void	ft_output(t_data **data, t_cursors *crs)
 
 void	ft_output_2(t_data **data, t_cursors *crs)
 {
-	//crs->saved_stdout = dup(STDOUT);
+	crs->saved_stdout = dup(STDOUT);
 	dup2(crs->output, STDOUT);
 	close(crs->output);
 	builtin_execute(data, crs->i2, crs->flag, crs);
-	//dup2(crs->saved_stdout, STDOUT);
-	//close(crs->saved_stdout);
+	dup2(crs->saved_stdout, STDOUT);
+	close(crs->saved_stdout);
 }

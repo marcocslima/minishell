@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/17 21:57:36 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/20 11:40:31 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,13 +191,10 @@ void	get_cmds(t_data **data, t_cursors *cursor)
 			cursor->counter++;
 		cursor->j++;
 	}
-//	(*data)->st_cmds = ft_calloc(sizeof(size_t) , cursor->counter + 2);
-	//ALOCA NO SPLIT
 	(*data)->cmds = ft_calloc(sizeof(size_t) , cursor->counter + 2);
-//	while (cursor->k < cursor->counter + 1)
-//		(*data)->cmds[cursor->k++] = ft_calloc(sizeof(size_t), 1);
-	// JA FOI ALOCADA
-	(*data)->st_cmds = ft_split((*data)->input, 1);
+	(*data)->st_cmds = ft_split((*data)->input, 1);	
+	while ((*data)->params && (*data)->params[cursor->w] != NULL)
+		(*data)->params[cursor->w++] = '\0';
 	while (cursor->r < cursor->counter + 1)
 	{
 		if ((*data)->st_cmds[cursor->r])
