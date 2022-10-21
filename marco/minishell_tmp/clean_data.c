@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/20 11:02:55 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 06:04:14 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,14 @@ void	clean_data(t_data **data)
 	free((*data)->len_tokens);
 	free((*data)->slicers);
 	free((*data)->slicers_types);
-	free((*data)->slicers_seq);
+//	free((*data)->slicers_seq); LIBERADO NO PARCER
 //		free((*data)->quotes_types);
 	free((*data)->input);
-	destroy_pointers_char((*data)->params);
-	destroy_pointers_char((*data)->st_cmds);
+//	free((*data)->tmp);
+	if((*data)->params)
+		destroy_pointers_char((*data)->params);
+	if((*data)->params)
+		destroy_pointers_char((*data)->st_cmds);
 //	free((*data)->path);
 	(*data)->crs = 0;
 	free(crs);

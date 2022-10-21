@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/20 10:47:01 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 06:33:53 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void		get_input(t_data **data)
 {
 	open_prompt((*data)->envp);
 	signal(SIGINT, signal_handler);
-	(*data)->input = readline(" ");
-	add_history((*data)->input);
+	(*data)->tmp = readline(" ");
+	add_history((*data)->tmp);
 }
 
 int	verify_quotes(t_data **data)
@@ -91,48 +91,44 @@ void input_preper(t_data **data)
 	t_cursors *crs;
 	char slicers[4] = ";|<>";
 	char slicer;
-	char *clean_pointer;
 
 	init_crs(&crs);
-	clean_pointer = (*data)->input;
-	(*data)->tmp = (char *)ft_calloc(sizeof(char *), 4097);
+	(*data)->input = (char *)ft_calloc(sizeof(char *), 4097);
 	crs->len = ft_strlen(slicers);
-	if((*data)->input && (*data)->input[crs->i]) // TAVA DANDO SEGMENTATION FAULT
+	if((*data)->tmp && (*data)->tmp[crs->i])
 	{
-		while((*data)->input[crs->i])
+		while((*data)->tmp[crs->i])
 		{
 			crs->l = -1;
 			slicer = '\0';
 			while(++crs->l < crs->len)
-				if ((*data)->input[crs->i] == slicers[crs->l])
+				if ((*data)->tmp[crs->i] == slicers[crs->l])
 				{
 					slicer = slicers[crs->l];
 					break ;
 				}
-			if ((*data)->input[crs->i] == slicer && (*data)->input[crs->i - 1] != '\\')
+			if ((*data)->tmp[crs->i] == slicer && (*data)->tmp[crs->i - 1] != '\\')
 			{
-
-				(*data)->tmp[crs->j] = ' ';
-				(*data)->tmp[crs->j + 1] = (*data)->input[crs->i];
+				(*data)->input[crs->j] = ' ';
+				(*data)->input[crs->j + 1] = (*data)->tmp[crs->i];
 				crs->j = crs->j + 2;
-				if ((*data)->input[crs->i + 1] == (*data)->input[crs->i]
-					&& (((*data)->input[crs->i] == '>') | ((*data)->input[crs->i] == '<')))
+				if ((*data)->tmp[crs->i + 1] == (*data)->tmp[crs->i]
+					&& (((*data)->tmp[crs->i] == '>') | ((*data)->tmp[crs->i] == '<')))
 				{
-					(*data)->tmp[crs->j] = (*data)->input[crs->i + 1];
+					(*data)->input[crs->j] = (*data)->tmp[crs->i + 1];
 					crs->i++;
 					crs->j++;
 				}
-				(*data)->tmp[crs->j] = ' ';
+				(*data)->input[crs->j] = ' ';
 			}
 			else
-				(*data)->tmp[crs->j] = (*data)->input[crs->i];
+				(*data)->input[crs->j] = (*data)->tmp[crs->i];
 			crs->i++;
 			crs->j++;
 		}
 	}
 
-	(*data)->input = (*data)->tmp;
-	free(clean_pointer);
+	free((*data)->tmp);
 	free(crs);
 }
 
@@ -160,7 +156,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_check(&data);
 		else
 			print_error(ret_quotes);
-		//clean_data(&data);
+		clean_data(&data);
 	}
 	return (0);
 }

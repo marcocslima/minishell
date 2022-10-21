@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 23:31:22 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/20 22:30:54 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 	crs->len = ft_strlen((*data)->tmp);
 	ft_bzero(cmd2, 1000);
 	ft_memcpy(cmd2, (*data)->tmp, crs->len);
-	free((*data)->tmp);
+	//free((*data)->tmp);
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 	{
 		crs->flagecho = 0;
