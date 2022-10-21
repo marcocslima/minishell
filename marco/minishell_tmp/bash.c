@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 21:07:04 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:33:02 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	exec_bash(t_data **data, char *path, char *args[])
 	else
 	{
 		waitpid(pid, &status, 0);
+		if ( WIFEXITED(status) )
+        	(*data)->exit_return = WEXITSTATUS(status);
 		return ;
 	}
 }

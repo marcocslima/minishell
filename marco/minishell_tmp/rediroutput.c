@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 06:57:03 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:36:45 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ void	ft_output(t_data **data, t_cursors *crs)
 		ft_output_2(data, crs);
 	}
 	waitpid(pid, &crs->status, 0);
+	if ( WIFEXITED(crs->status) )
+        (*data)->exit_return = WEXITSTATUS(crs->status);
 }
 
 void	ft_output_2(t_data **data, t_cursors *crs)

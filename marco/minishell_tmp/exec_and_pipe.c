@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   delimiters.c                                       :+:      :+:    :+:   */
+/*   exec_and_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 23:30:22 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:30:47 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ void	execute_pipe(char *argv, t_data **data, t_cursors *crs)
 		}
 	}
 	waitpid(pid, &status, 0);
+	if ( WIFEXITED(status) )
+        (*data)->exit_return = WEXITSTATUS(status);
 }
 
 void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
@@ -188,6 +190,8 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 				builtin_execute(data, i, flag, crs);
 		}
 		waitpid(pid, &status, 0);
+		if ( WIFEXITED(status) )
+        	(*data)->exit_return = WEXITSTATUS(status);
 		close(pipefd[OUT]);
 		dup2(pipefd[IN], STDIN);
 		if (crs->flagpipe == 1)// adicionado

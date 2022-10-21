@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/20 22:30:54 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:16:25 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,18 @@ void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 	crs->len = ft_strlen((*data)->tmp);
 	ft_bzero(cmd2, 1000);
 	ft_memcpy(cmd2, (*data)->tmp, crs->len);
-	//free((*data)->tmp);
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 	{
-		crs->flagecho = 0;
-		ft_echo(data, (*data)->cmds[i], crs);
-//		if ((*data)->cmds[i][2] && ft_memcmp((*data)->cmds[i][1], "-n", 2) &&
-//			(*data)->cmds[i][2][0] != '\0' && ft_memcmp((*data)->cmds[i]
-//				[2], ";", 2))// adicionado por atila mas tem que estar
-//		exit(0);
+		if(!ft_memcmp((*data)->cmds[i][1], "$?", 2))
+		{
+			ft_putnbr_fd((*data)->exit_return, 1);
+			write(1, "\n", 1);
+		}
+		else
+		{
+			crs->flagecho = 0;
+			ft_echo(data, (*data)->cmds[i], crs);
+		}
 	}
 	else
 		builtin_execute_2(data, i, flag, cmd2, crs);
