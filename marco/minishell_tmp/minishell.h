@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 20:00:25 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 23:15:47 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int		get_expand(t_data **data, char *param);
 void	clean_all(t_data **data, t_cursors *crs); // alterado
 void	ft_exit(t_data **data, t_cursors *crs);//alterado
 void	destroy_pointers_char(char **p);
+void	init_scream (void);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 19:56:18 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 23:17:12 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		error_msg("Please type only one argument");
+	init_scream ();
 	init_struct(&data, argv, envp);
 	signal(SIGQUIT, signal_handler);
 	while (1)
