@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/19 23:06:47 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 06:57:03 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ char	*join_cmds(t_data **data, int cmd)
 			while (c->k < c->len)
 			{
 				if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
-					goto EXT;
+				{
+					jinput[c->w] = '\0';
+					ret = jinput;
+					free(c);
+					return (ret);
+				}
 				jinput[c->w] = (*data)->cmds[cmd][c->j][c->k];
 				c->k++;
 				c->w++;
@@ -80,7 +85,6 @@ char	*join_cmds(t_data **data, int cmd)
 		c->j = 0;
 		cmd++;
 	}
-	EXT:
 	jinput[c->w] = '\0';
 	ret = jinput;
 	free(c);

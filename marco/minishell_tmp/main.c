@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 06:33:53 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 06:37:21 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	open_prompt(char **envp)
 	free(path);
 }
 
-void		get_input(t_data **data)
+void	get_input(t_data **data)
 {
 	open_prompt((*data)->envp);
 	signal(SIGINT, signal_handler);
@@ -127,7 +127,6 @@ void input_preper(t_data **data)
 			crs->j++;
 		}
 	}
-
 	free((*data)->tmp);
 	free(crs);
 }
