@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 23:30:54 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:00:25 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ char	**copy_env(char **envp, int add);
 int		get_expand(t_data **data, char *param);
 void	clean_all(t_data **data, t_cursors *crs); // alterado
 void	ft_exit(t_data **data, t_cursors *crs);//alterado
+void	destroy_pointers_char(char **p);
 
 
 #endif

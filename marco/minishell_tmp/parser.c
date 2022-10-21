@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/21 05:55:04 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:12:20 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,5 +289,6 @@ int	parser(t_data	**data)
 	init_crs(&cursor);
 	get_cmds(data, cursor);
 	free((*data)->slicers_seq);
+	destroy_pointers_char((*data)->st_cmds);
 	return (0);
 }

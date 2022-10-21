@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/20 22:49:41 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:37:53 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 int	len_input(char **p)
 {
 	char		slicers[4] = ";|<>";
+	int			ret;
 	t_cursors	*crs;
 
 	init_crs(&crs);
-	while (p[crs->l])
-		crs->l++;
+	while (p[++crs->l])
+		continue;
 	while(++crs->m < 4)
 		if(*p[crs->l - 1] == slicers[crs->m])
 		{
 			crs->l--;
 			break ;
 		}
+	ret = crs->l;
 	free(crs);
-	return (crs->l);
+	return (ret);
 }
 
 void	echo_preper(t_data **data, char **input, t_cursors	*crs)
