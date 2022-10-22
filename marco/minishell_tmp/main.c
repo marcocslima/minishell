@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 23:17:12 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/22 10:39:25 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void	get_input(t_data **data)
 	open_prompt((*data)->envp);
 	signal(SIGINT, signal_handler);
 	(*data)->tmp = readline(" ");
+	if(!(*data)->tmp)
+	{
+		ft_putstr_fd("Thanks and by by\n",1);
+		exit(0);
+	}
 	add_history((*data)->tmp);
 }
 
@@ -139,9 +144,9 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		error_msg("Please type only one argument");
-	init_scream ();
+	//init_scream ();
 	init_struct(&data, argv, envp);
-	signal(SIGQUIT, signal_handler);
+//	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
 //		open_prompt(data->envp);
