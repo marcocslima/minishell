@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/17 22:17:37 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:53:54 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,16 @@ void	init_crs(t_cursors	**cursor)
 
 int	is_token(char s)
 {
-	char	token[9] = ";|'\" $\\<>";
 	int		i;
+	char	token[9]= ";|'\" $\\<>";
 
 	i = 0;
-	while (token[i] != s)
+	while (token[i] != s && i < 9)
+	{
+		if (token[i] == s)
+			return (1);
 		i++;
-	if (token[i] == s)
-		return (1);
+	}
 	return (0);
 }
 

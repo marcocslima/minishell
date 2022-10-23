@@ -6,31 +6,34 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/01 08:56:03 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/22 07:42:27 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**copy_env2(t_data **data, int add)
+int	export_print(t_data **data, t_cursors *crs)
 {
-	int		i;
-	int		len;
-	char	**copy;
+	int	i;
 
-	len = 0;
-	while ((*data)->envp[len])
-		len++;
-	copy = (char **)ft_calloc(sizeof(char *), (len + add + 1));
-	if (!copy)
-		return (0);
-	i = -1;
-	while (i++ < len - 1)
+	i = 0;
+	if (((*data)->cmds[0][1] && (!ft_memcmp((*data)->cmds[0][1], "|", 2)
+		|| !ft_memcmp((*data)->cmds[0][1], ">", 2))) || !(*data)->cmds[0][1])
+		while ((*data)->envp[i])
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstrs((*data)->envp[i], "\n", 0, 1);
+			i++;
+		}
+	if ((*data)->cmds[0][1] && (!ft_memcmp((*data)->cmds[0][1], "|", 2)
+		|| !ft_memcmp((*data)->cmds[0][1], ">", 2)))
 	{
-		copy[i] = ft_strdup((*data)->envp[i]);
-		printf("%s %d\n", copy[i], i);
+		clean_all(data, crs);
+		exit (0);
 	}
-	return (copy);
+	if (!(*data)->cmds[0][1])
+		return (0);
+	return (1);
 }
 
 int	ft_export_errors(int i, char *input)
@@ -52,14 +55,14 @@ int	ft_export_errors(int i, char *input)
 	return (0);
 }
 
-int	ft_export(t_data **data, char *input)
+int	ft_export(t_data **data, char *input, t_cursors *crs)
 {
 	int		i;
 	int		updated;
 
 	updated = 0;
 	i = 0;
-	if (!ft_strchr(input, '='))
+	if (export_print(data, crs) == 0)
 		return (0);
 	if (ft_export_errors(i, input) > 0)
 		return (ERROR);
@@ -76,10 +79,14 @@ int	ft_export(t_data **data, char *input)
 	}
 	if (updated == 0)
 	{
-		free((*data)->envp[i]);
+//		if ((*data)->envp[i])
+//		free((*data)->envp[i]);
 		(*data)->envp[i] = ft_strdup(input);
+//		ft_memmove((*data)->envp[i], input, sizeof(input));
+//		(*data)->envp[i + 1] = NULL;
+//		if(input && (*data)->envp[i])
+//			ft_strlcpy((*data)->envp[i], input, ft_strlen(input));
 	}
-//	free(input);
 	return (0);
 }
 
@@ -106,10 +113,10 @@ int	ft_unset(t_data **data, char *input)
 	int		len;
 
 	i = -1;
+	len = 0;
 	if (ft_unset_errors(i, input) > 0)
 		return (ERROR);
 	i = 0;
-	len = 0;
 	while (input[len])
 		len++;
 	while ((*data)->envp[i])
@@ -118,10 +125,12 @@ int	ft_unset(t_data **data, char *input)
 		{
 			ft_bzero((*data)->envp[i], ft_strlen((*data)->envp[i]));
 			if ((*data)->envp[i] && (*data)->envp[i + 1])
-				(*data)->envp[i] = ft_strdup((*data)->envp[i + 1]);
+//				(*data)->envp[i] = ft_strdup((*data)->envp[i + 1]);
+				(*data)->envp[i] =(*data)->envp[i + 1];
 			j = i - 1;
 			while ((*data)->envp[j++] && (*data)->envp[j + 1])
-				(*data)->envp[j] = ft_strdup((*data)->envp[j + 1]);
+//				(*data)->envp[j] = ft_strdup((*data)->envp[j + 1]);
+				(*data)->envp[j] = (*data)->envp[j + 1];
 			if ((*data)->envp[j] == NULL || (*data)->envp[j][0] == '\0')
 				(*data)->envp[j] = NULL;
 		}

@@ -6,35 +6,11 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/21 21:36:45 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:46:07 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-void exec_output(t_cursors *crs)//(t_data **data, t_cursors *crs)
-{
-    int status, pid;
-    int fd[2];
-
-    pipe(fd);
-
-    fd[1] = crs->output;
-    pid = fork();
-    if (pid == 0)
-    {
-        close(fd[0]);
-        dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
-
-        execlp("/usr/bin/ls", "ls", "-la", NULL);
-    }
-    close(fd[0]);
-    close(fd[1]);
-    waitpid(pid, &status, 0);
-}
-*/
 
 int	check_sep(char c)
 {
