@@ -6,12 +6,12 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 17:54:49 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/05 07:38:38 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/06 08:56:50 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -40,8 +40,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	dest [i] = '\0';
 	return (dest);
 }
-*/
 
+//deletar
+/*
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*ptr;
@@ -63,5 +64,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ptr[i] = '\0';
 	return (ptr);
 }
+*/
 
-
+//deletar

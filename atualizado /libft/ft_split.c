@@ -6,12 +6,12 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:04:31 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/05 07:38:28 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/06 08:56:45 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*
 static int		count_substrings(char const *s, char c);
 static size_t	add_string_to_arr(char **arr, int i, char *s, char c);
 void			free_previous_allocations(char **arr, int i);
@@ -94,8 +94,8 @@ void	free_previous_allocations(char **arr, int i)
 	free(arr);
 	arr = NULL;
 }
-
-/*
+*/
+//delketar
 static int	words_counter(const char *s, char c)
 {
 	size_t	i;
@@ -148,4 +148,4 @@ char	**ft_split(char const *s, char c)
 }
 
 
-*/
+

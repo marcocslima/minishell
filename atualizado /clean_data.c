@@ -6,103 +6,104 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/06 21:18:36 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/23 00:52:23 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int count_cmds(t_data **data)
+int	count_cmds(t_data **data)
 {
-	t_cursors *crs;
+	int	len;
+	int	j;
+	int	counter;
 
-	init_crs(&crs);
+	j = 0;
+	counter = 0;
+	len = 0;
 	if ((*data)->input)
-		crs->len = ft_strlen((*data)->input);
-	while (crs->j < crs->len)
+		len = ft_strlen((*data)->input);
+	while (j < len)
 	{
-		if ((*data)->slicers[crs->j] != 0)
-			crs->counter++;
-		crs->j++;
+		if ((*data)->slicers[j] != 0)
+			counter++;
+		j++;
 	}
-//	free(crs);
-	return (crs->counter);
+	return (counter);
 }
-
-void destroy_pointers_int(int **p)
+//DA PRA DELETAR ESSA FUNÇÃO ABAIXO A PRINCIPIO
+void	destroy_pointers_int(int **p)
 {
 	int i = -1;
-	if(p[i + 1])
-		while(p[++i])
+	if (p[i + 1])
+		while (p[++i])
 			free(p[i]);
 	free(p);
 }
 
-void destroy_pointers_char(char **p)
+void	destroy_pointers_char(char **p)
 {
-	int i = -1;
-	if(p[i + 1])
-		while(p[++i])
-			//if(p[i])
+	int	i;
+
+	i = -1;
+	if (p[i + 1])
+		while (p[++i])
+			if (p[i])
 				free(p[i]);
 	free(p);
 }
 
-void destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
+void	destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 {
 	init_crs(&crs);
 	crs->len = count_cmds(data);
-	while(crs->i < crs->len + 1)
+	while (crs->i < crs->len + 1)
 	{
 		crs->j = 0;
-		while(p[crs->i][crs->j])
+		while (p[crs->i][crs->j])
 		{
-			if(*p[crs->i][crs->j] != '\0' && *p[crs->i][crs->j] != '\0')
-			{
-				free(p[crs->i][crs->j]);
-				p[crs->i][crs->j] = NULL;
-			}
+			free(p[crs->i][crs->j]);
 			crs->j++;
 		}
+		free(p[crs->i]);
 		crs->i++;
 	}
-	//free(p);
+	free(p);
+	free(crs);
 }
 
-void clean_data(t_data **data)
+void	clean_data(t_data **data)
 {
-	t_cursors *crs;
+	t_cursors	*crs;
 
 	init_crs(&crs);
-	if((*data)->cmds)
+	if ((*data)->cmds)
 		destroy_mat_char(data, (*data)->cmds, crs);
-	destroy_pointers_int((*data)->tokens);
 	free((*data)->len_tokens);
 	free((*data)->slicers);
 	free((*data)->slicers_types);
 	free((*data)->slicers_seq);
-//	free((*data)->quotes_types);
 	free((*data)->input);
-//	free((*data)->path);
-	//destroy_pointers_char((*data)->params); ERRO VALGRIND
+	destroy_pointers_char((*data)->st_cmds);
 	(*data)->crs = 0;
 	free(crs);
 }
 
-void clean_all(t_data **data)
+void	clean_all(t_data **data, t_cursors *crs)
 {
-	t_cursors *crs;
-
-	init_crs(&crs);
+	rl_clear_history();
 	clean_data(data);
 	destroy_pointers_char((*data)->envp);
 	//destroy_pointers_char((*data)->argv); NÃO É MALLOCADO
 	(*data)->argv = '\0';
-	//destroy_pointers_int((*data)->tokens); JÁ TEM FREE ANTERIOR
-//	free((*data)->pathcd);
-//	free((*data)->home_path);
 //	free((*data)->tmp);
-	destroy_pointers_char((*data)->st_cmds);
 	free((*data)->dollar);
 	free(crs);
+	free((*data));
+}
+
+void	free_paths(char *home_path, char *pathcd)
+{
+	free(pathcd);
+	free(home_path);
 }

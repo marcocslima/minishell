@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/03 15:38:52 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/23 02:22:16 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_data
 	int				*slicers_types; /*clean_data*/
 	int				*slicers_seq; /*clean_data*/
 	int				crs; /*clean_data*/
+	int				jump;
 	int				*quotes_types; /*clean_data*/
 	int				argc;
 	char			*input; /*clean_data*/
@@ -54,6 +55,7 @@ typedef struct s_data
 	char			*pathcd;  /*clean_all*/
 	char			*home_path; /*clean_all*/
 	char			*tmp; /*clean_all*/
+	char			*tmp2;
 	char			**st_cmds; /*clean_all*/
 	char			**params;  /*clean_data*/
 	char			*dollar;  /*clean_all*/
@@ -86,8 +88,10 @@ typedef struct s_cursors
 	char			*temp;/*atila*/
 	char			*str2;/*atila*/
 	int				counter;
+	int				flagpipe;
 	int				flag;
 	int				flagecho;
+	int				flagfork;
 	int				len;
 	int				output;/*atila*/
 	int				input;/*atila*/
@@ -108,16 +112,18 @@ void	child_signal_handler(int input);
 char	*ft_strjoin_2(char *s1, char *s2);
 int		parser(t_data **data);
 void	reset_conters(t_cursors	**cursor);
+void	get_params_exchange(t_data **data, t_cursors *crs, int n);
 void	init_crs(t_cursors	**cursor);
 
 /*adicionado atila*/
 /*MAIN FUNCTIONS*/
 void	cmd_check(t_data **data);
 void	cmd_check_2(t_data **data, t_cursors	*crs);
+void	cmd_check_2_1(t_data **data, t_cursors *crs);
 void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs);
-void	builtin_execute_2(t_data **data, int i, int flag, char *cmd1);
+void	builtin_execute_2(t_data **data, int i, int flag, char *cmd2, t_cursors *crs);
 /*BUILTINS*/
-int		ft_export(t_data **data, char *input);
+int		ft_export(t_data **data, char *input,  t_cursors *crs);
 int		ft_unset(t_data **data, char *input);
 int		ft_cd(t_data **data, char *input, int i);
 void	ft_cd_2(t_data **data, char *path);
@@ -133,22 +139,35 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs);
 void	ft_output(t_data **data, t_cursors *crs);
 void	ft_output_2(t_data **data, t_cursors *crs);
 void	ft_input(t_data **data, t_cursors *crs);
+void	ft_doc_pipe_2(t_data **data, t_cursors *crs);
+void	ft_fork_1(t_data **data, t_cursors *crs);
+void	ft_input_doc_pipe(t_data **data, t_cursors *crs);
 void	execute(char *argv, t_data **data);
-void	execute_pipe(char *argv, t_data **data);
-void	ft_in_output(t_data **data, t_cursors *crs);
+//void	execute_pipe(char *argv, t_data **data);
+void	execute_pipe(char *argv, t_data **data, t_cursors *crs);
+int		ft_in_output(t_data **data, t_cursors *crs);
 void	ft_here_doc_2(t_data **data, t_cursors *crs, int fd[2]);
+void	redir_stdin(t_data **data, t_cursors *crs);
+void	redir_stdin_out(t_data **data, t_cursors *crs);
+void	no_input(t_data **data, t_cursors *crs, int flag);
 
 /*utils*/
 int		is_token(char s);
 int		exec_error_msg(char *path);
+char*	ft_clean_quotes(char *s, char c);
+void	quotes_index(char *s, char c, int init, int end);
+int		input_error_msg(char *path, t_data **data, t_cursors *crs);
+int		input_error_msg_noexit(char *path, t_data **data, t_cursors *crs);
 
-/*adicionado por Marco*/
+/*Exit and Clean*/
 void	clean_data(t_data **data);
+void	free_paths(char *home_path, char *pathcd);
+void	destroy_pointers_int(int **p);
 int		len_input(char **p);
 void	print_error(int e);
 char	**copy_env(char **envp, int add);
 int		get_expand(t_data **data, char *param);
-void	clean_all(t_data **data);
-void	ft_exit(t_data **data);
+void	clean_all(t_data **data, t_cursors *crs); // alterado
+void	ft_exit(t_data **data, t_cursors *crs);//alterado
 
 #endif
