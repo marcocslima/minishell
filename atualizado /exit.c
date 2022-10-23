@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 00:08:10 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/04 00:27:37 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/09/26 16:12:25 by mcesar-d          #+#    #+#             */
+/*   Updated: 2022/09/26 21:20:01 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/*
-size_t	ft_strlen(const char *s)
+#include "minishell.h"
+
+void	ft_exit(t_data **data)
 {
-	int	cont;
-
-	cont = 0;
-	while (*s++)
-		cont++;
-	return (cont);
+	clean_all(data);
+	exit (0);
 }
-*/
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
