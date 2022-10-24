@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/23 22:25:37 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:19:05 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	get_input(t_data **data)
 	(*data)->tmp = readline(" ");
 	if(!(*data)->tmp)
 	{
-		//clean_init(data);
+		//clean_init(data); VERIRICAR PQ BUGOU
 		ft_putstr_fd("Thanks and by by\n",1);
 		exit(0);
 	}
@@ -158,7 +158,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_check(&data);
 		else
 			print_error(ret_quotes);
-		//clean_data(&data);
+		clean_data(&data);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_and_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/23 22:11:19 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:20:34 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	execute_pipe(char *argv, t_data **data, t_cursors *crs)
 	waitpid(pid, &status, 0);
 	if ( WIFEXITED(status) )
         (*data)->exit_return = WEXITSTATUS(status);
-	clean_data(data);
+//	clean_data(data);
 }
 
 void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)

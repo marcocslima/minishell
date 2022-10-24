@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/23 22:42:47 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/24 15:40:22 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	get_limits(t_cursors **crs, char **st_cmds, int n, int i)
 	(*crs)->flag = 0;
 	while (i < (*crs)->len)
 	{
-		if ((st_cmds[n][i] == '\'' || st_cmds[n][i] == '"') && (*crs)->flag == 0)
+		if ((st_cmds[n][i] == '\'' || st_cmds[n][i] == '"') && (*crs)->flag
+		== 0)
 		{
 			if (st_cmds[n][i] == '\'')
 				(*crs)->q = '\'';
@@ -214,16 +215,18 @@ int	get_slicers(t_data **data, t_cursors *cursor, char slc, int t)
 		reset_conters(&cursor);
 		while (cursor->k < (*data)->tokens[t][cursor->i])
 		{
-			if (((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k] == '"')
+			if (((*data)->input[cursor->k] == '\'' || (*data)->input[cursor->k]
+			== '"')
 				&& cursor->flag == 0 && (*data)->input[cursor->k - 1] != '\\')
 			{
 				cursor->c = (*data)->input[cursor->k];
 				cursor->flag = 1;
 			}
-			if ((*data)->input[cursor->k] == cursor->c && (*data)->input[cursor->k - 1] != '\\')
+			if ((*data)->input[cursor->k] == cursor->c && (*data)->input
+				[cursor->k - 1] != '\\')
 				cursor->counter++;
-			if (cursor->counter % 2 == 0 && ((*data)->input[cursor->k + 1] == slc)
-				&& ((*data)->input[cursor->k] != slc))
+			if (cursor->counter % 2 == 0 && ((*data)->input[cursor->k + 1]
+			== slc) && ((*data)->input[cursor->k] != slc))
 				put_slicer(data, cursor, slc, t);
 			cursor->k++;
 		}
@@ -244,11 +247,13 @@ void	get_slc_seq(t_data **data)
 			crs->i++;
 	(*data)->slicers_seq = ft_calloc(crs->i + 1, sizeof(int));
 	while ((*data)->input[++crs->m])
+	{
 		if ((*data)->slicers_types[crs->m] != 0)
 		{
 			(*data)->slicers_seq[crs->j] = (*data)->slicers_types[crs->m];
 			crs->j++;
 		}
+	}
 	(*data)->qtd_cmds = crs->j + 1;
 	(*data)->slicers_seq[crs->j] = 0;
 	free(crs);
@@ -256,8 +261,8 @@ void	get_slc_seq(t_data **data)
 
 int	parser(t_data	**data)
 {
-	char		token[9] = ";|'\" $\\<>";
-	char		slicers[4] = ";|<>";
+	char		token[9];
+	char		slicers[4];
 	t_cursors	*cursor;
 	int			i;
 	int			s;
@@ -265,15 +270,17 @@ int	parser(t_data	**data)
 
 	i = -1;
 	s = -1;
+	ft_strlcpy(token, ";|'\" $\\<>", 10);
+	ft_memmove(slicers, ";|<>", 4);
 	(*data)->tokens = ft_calloc(9, sizeof(size_t));
 	(*data)->len_tokens = ft_calloc(9, sizeof(int));
-	while(++i < 9)
+	while (++i < 9)
 		get_token(data, token[i], i);
-	while(++s < 4)
+	while (++s < 4)
 	{
 		init_crs(&cursor);
 		t = 0;
-		while(token[t] != slicers[s])
+		while (token[t] != slicers[s])
 			t++;
 		if (get_slicers(data, cursor, slicers[s], t) == 1)
 			return (1);
@@ -282,7 +289,9 @@ int	parser(t_data	**data)
 	get_slc_seq(data);
 	init_crs(&cursor);
 	get_cmds(data, cursor);
-	free((*data)->slicers_seq);
-	destroy_pointers_char((*data)->st_cmds);
+	t = 0;
+	while (++t < i)
+		free((*data)->tokens[t]);
+	free((*data)->tokens);
 	return (0);
 }

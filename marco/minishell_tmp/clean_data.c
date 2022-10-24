@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/23 21:48:23 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:24:26 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 		while (crs->i < crs->len + 1)
 		{
 			crs->j = 0;
-			while (p[crs->i][crs->j]) 
+			while (p[crs->i][crs->j])
 			{
 				{
 					free(p[crs->i][crs->j]);
@@ -69,6 +69,7 @@ void	destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 				}
 				crs->j++;
 			}
+			free(p[crs->i]); // coloquei de volta
 			crs->i++;
 		}
 	}
@@ -83,11 +84,12 @@ void	clean_data(t_data **data)
 	init_crs(&crs);
 	if ((*data)->cmds)
 		destroy_mat_char(data, (*data)->cmds, crs);
-	destroy_pointers_int((*data)->tokens);
 	free((*data)->len_tokens);
 	free((*data)->slicers);
 	free((*data)->slicers_types);
+	free((*data)->slicers_seq);
 	free((*data)->input);
+	destroy_pointers_char((*data)->st_cmds);// coloquei de volta
 	(*data)->crs = 0;
 	free(crs);
 }
@@ -98,12 +100,12 @@ void	clean_all(t_data **data, t_cursors *crs)
 	clean_data(data);
 	destroy_pointers_char((*data)->envp);
 	(*data)->argv = '\0';
-	free((*data)->tmp);
+//	free((*data)->tmp);
 	free((*data)->dollar);
 	free(crs);
 	free((*data));
 }
-
+/*
 void	clean_init(t_data **data)
 {
 	rl_clear_history();
@@ -114,7 +116,7 @@ void	clean_init(t_data **data)
 	free((*data)->dollar);
 	free((*data));
 }
-
+*/
 void	free_paths(char *home_path, char *pathcd)
 {
 	free(pathcd);
