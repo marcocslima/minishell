@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/24 17:03:53 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:35:38 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ void	ft_echo(t_data **data, char **input, t_cursors	*crs)
 {
 	char tp[4097];
 
-	echo_input(data, crs);
+	if (crs->input != 0)
+		echo_input(data, crs);
 	echo_preper(data, input, crs);
 	while (++crs->i < crs->len)
 	{

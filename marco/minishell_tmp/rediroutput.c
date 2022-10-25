@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/24 17:16:44 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/25 15:35:37 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*join_cmds(t_data **data, int cmd)
 		cmd++;
 	}
 	jinput[c->w] = '\0';
+//	ret = ft_strdup(jinput); resolve falta de memória
 	ret = jinput;
 	free(c);
 	return (ret);
@@ -103,6 +104,7 @@ void	ft_output(t_data **data, t_cursors *crs)
 		}
 		ft_output_2(data, crs);
 	}
+//	free(jc); (resolve leak memória após resolver alocação da join^_cmds)
 	waitpid(pid, &crs->status, 0);
 	if ( WIFEXITED(crs->status) )
         (*data)->exit_return = WEXITSTATUS(crs->status);

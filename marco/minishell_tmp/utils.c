@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/24 17:17:34 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:36:14 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor) = (t_cursors *)ft_calloc(sizeof(t_cursors), 1);
 	(*cursor)->counter = 0;
 	(*cursor)->flag = 0;
+	(*cursor)->input = 0;
 	(*cursor)->flagpipe = 8;
 	(*cursor)->flagfork = 0;
 	(*cursor)->i = 0;
