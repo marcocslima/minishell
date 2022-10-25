@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/24 16:19:05 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:54:35 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	get_input(t_data **data)
 	(*data)->tmp = readline(" ");
 	if(!(*data)->tmp)
 	{
-		//clean_init(data); VERIRICAR PQ BUGOU
+		destroy_pointers_char((*data)->envp);
+		free((*data));
 		ft_putstr_fd("Thanks and by by\n",1);
 		exit(0);
 	}
