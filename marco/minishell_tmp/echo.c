@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 16:35:38 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/27 00:46:33 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,12 @@ void	echo_input(t_data **data, t_cursors *crs)
 		k++;
 	k--;
 	while (i < crs->k2 - 1 && (*data)->cmds[i])
-	{//ALTERADOOOOOOOOOOOOOOOOOOOOOOO TEM QUE MANDAR PRO NOVO
-		if ((*data)->cmds[i] && (*data)->cmds[i][2] && !ft_memcmp((*data)->cmds[i][2], "<", 2) && (*data)->cmds[i + 1] && (*data)->cmds[i + 1][1] && ft_memcmp((*data)->cmds[i + 1][1], "|", 2) && ft_memcmp((*data)->cmds[i + 1][1], "<", 2))
-		crs->input = open((*data)->cmds[i + 1][0], O_RDONLY,
-						S_IRWXU);
+	{
+		if ((*data)->cmds[i] && (*data)->cmds[i][2]
+			&& !ft_memcmp((*data)->cmds[i][2], "<", 2) && (*data)->cmds[i + 1] 
+			&& (*data)->cmds[i + 1][1] && ft_memcmp((*data)->cmds[i + 1][1], "|", 2) 
+			&& ft_memcmp((*data)->cmds[i + 1][1], "<", 2))
+				crs->input = open((*data)->cmds[i + 1][0], O_RDONLY, S_IRWXU);
 			no_input(data, crs, 0);
 			i++;
 			while ((*data)->cmds[i][j])

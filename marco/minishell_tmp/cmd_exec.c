@@ -3,23 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 16:18:12 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/27 00:43:45 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//Pode deletar essa função len_cmds?
-int	len_cmds(t_data **data, t_cursors *crs, int c)
-{
-	crs->i2 = 0;
-	while ((*data)->cmds[c][crs->i2])
-		crs->i2++;
-	return (crs->i2);
-}
-//***********************************
+
 void	cmd_check(t_data **data)
 {
 	t_cursors	*crs;
