@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/27 01:35:40 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/29 07:07:32 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_token(t_data **data, char token, int n)
 	init_crs(&crs);
 	crs->len = ft_strlen((*data)->tmp);
 	while ((*data)->tmp[++crs->l])
-		if ((*data)->tmp[crs->l] == token)
+		if ((*data)->tmp[crs->i] == token)
 			crs->k++;
 	if (crs->k == 0)
 		(*data)->tokens[n] = NULL;
@@ -27,16 +27,11 @@ void	get_token(t_data **data, char token, int n)
 	{
 		(*data)->len_tokens[n] = crs->k;
 		(*data)->tokens[n] = ft_calloc(crs->k + 1, sizeof(int));
-		while (crs->i < crs->k + 1)
-		{
-			(*data)->tokens[n][crs->i] = 0;
-			crs->i++;
-		}
-		crs->l = -1;
-		crs->k = -1;
-		while (++crs->l < crs->len)
-			if ((*data)->tmp[crs->l] == token)
-				(*data)->tokens[n][++crs->k] = crs->l;
+		while (++crs->m < crs->k + 1)
+			(*data)->tokens[n][crs->j] = 0;
+		while (++crs->n < crs->len)
+			if ((*data)->tmp[crs->w] == token)
+				(*data)->tokens[n][crs->r] = crs->w;
 	}
 	free(crs);
 }
@@ -286,27 +281,22 @@ void parser_in_qtes_exec(t_data **data, char input_seq[], t_cursors	*crs, char	s
 
 char *parser_in_quotes(t_data **data)
 {
-	char 	input_seq[4097];
-	char	*ret;
+	char 	*input_seq;
 	char	slicers[4];
 	t_cursors	*crs;
 	
 	init_crs(&crs);
 	ft_memmove(slicers, ";|<>", 4);
-	while(crs->i < 4097)
-	{
-		input_seq[crs->i] = '\0';
-		crs->i++;
-	}
+	crs->len = ft_strlen((*data)->input);
+	input_seq = ft_calloc(crs->len, sizeof(char));
 	while((*data)->input[crs->j])
 	{
 		input_seq[crs->j] = (*data)->input[crs->j];
 		crs->j++;
 	}
 	parser_in_qtes_exec(data, input_seq, crs, slicers);
-	ret = input_seq;
 	free(crs);
-	return(ret);
+	return(input_seq);
 }
 
 int	parser_middle(t_data **data, t_cursors *cursor, char token[], char slicers[])
@@ -325,6 +315,7 @@ int	parser_middle(t_data **data, t_cursors *cursor, char token[], char slicers[]
 			return (1);
 		free(cursor);
 	}
+	free((*data)->tmp);
 	return (0);
 }
 
