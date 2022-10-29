@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 10:04:25 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/29 15:13:26 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	check_sep(char c)
 char	*join_cmds(t_data **data, int cmd)
 {
 	t_cursors	*c;
-	char		*ret;
-	char		jinput[4097];
+	//char		*ret;
+	char		*jinput;
 
 	init_crs(&c);
+	jinput = ft_calloc(4097, sizeof(char));
 	while ((*data)->cmds[cmd])
 	{
 		while ((*data)->cmds[cmd][c->j])
@@ -47,9 +48,9 @@ char	*join_cmds(t_data **data, int cmd)
 				if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
 				{
 					jinput[c->w] = '\0';
-					ret = jinput;
+					//ret = jinput;
 					free(c);
-					return (ret);
+					return (jinput);
 				}
 				jinput[c->w] = (*data)->cmds[cmd][c->j][c->k];
 				c->k++;
@@ -63,9 +64,9 @@ char	*join_cmds(t_data **data, int cmd)
 	}
 	jinput[c->w] = '\0';
 //	ret = ft_strdup(jinput); //resolve falta de memória
-	ret = jinput;
+	//ret = jinput;
 	free(c);
-	return (ret);
+	return (jinput);
 }
 
 void	ft_output(t_data **data, t_cursors *crs)
@@ -104,7 +105,7 @@ void	ft_output(t_data **data, t_cursors *crs)
 		}
 		ft_output_2(data, crs);
 	}
-//	free(jc); //(resolve leak memória após resolver alocação da join^_cmds)
+	free(jc); //(resolve leak memória após resolver alocação da join^_cmds)
 	waitpid(pid, &crs->status, 0);
 	if ( WIFEXITED(crs->status) )
         (*data)->exit_return = WEXITSTATUS(crs->status);
