@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 16:36:14 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/17 22:17:37 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	init_crs(t_cursors	**cursor)
 	(*cursor) = (t_cursors *)ft_calloc(sizeof(t_cursors), 1);
 	(*cursor)->counter = 0;
 	(*cursor)->flag = 0;
-	(*cursor)->input = 0;
 	(*cursor)->flagpipe = 8;
 	(*cursor)->flagfork = 0;
 	(*cursor)->i = 0;
@@ -77,16 +76,14 @@ void	init_crs(t_cursors	**cursor)
 
 int	is_token(char s)
 {
+	char	token[9] = ";|'\" $\\<>";
 	int		i;
-	char	token[9]= ";|'\" $\\<>";
 
 	i = 0;
-	while (token[i] != s && i < 9)
-	{
-		if (token[i] == s)
-			return (1);
+	while (token[i] != s)
 		i++;
-	}
+	if (token[i] == s)
+		return (1);
 	return (0);
 }
 

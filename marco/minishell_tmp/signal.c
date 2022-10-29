@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 15:16:23 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/22 09:44:16 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	signal_handler(int input)
 		ft_putstr_fd("\n", 5);
 		ft_putstr_fd(cwd, 1);
 		ft_putstr_fd(": ", 1);
-//		signal(SIGINT, signal_handler);
+		signal(SIGINT, signal_handler);
 	}
 }
 

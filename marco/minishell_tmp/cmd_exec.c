@@ -6,11 +6,19 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/27 00:43:45 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/23 08:46:52 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//Pode deletar essa função len_cmds?
+int	len_cmds(t_data **data, t_cursors *crs, int c)
+{
+	crs->i2 = 0;
+	while ((*data)->cmds[c][crs->i2])
+		crs->i2++;
+	return (crs->i2);
+}
 
 void	cmd_check(t_data **data)
 {
@@ -25,7 +33,7 @@ void	cmd_check(t_data **data)
 		builtin_execute(data, crs->i2, crs->flag, crs);
 	}
 	dup2(crs->saved_stdin, STDIN);
-	free(crs);
+	free(crs); // adicionado
 }
 
 void	cmd_check_2(t_data **data, t_cursors *crs)
@@ -40,8 +48,8 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 		crs->flag = 0;
 		if ((*data)->cmds[crs->i2] && (*data)->cmds[crs->i2][0][0] == '>')
 			crs->j2++;
-		if (crs->i2 >= 1 && (*data)->cmds[crs->i2 - 1][2]
-			&& (*data)->cmds[crs->i2 - 1][2][0] == '>')
+		if (crs->i2 >= 1 && (*data)->cmds[crs->i2 - 1][2] && (*data)->cmds
+			[crs->i2 - 1][2][0] == '>')
 		{
 			crs->i2++;
 			crs->j2 = 0;
@@ -79,8 +87,31 @@ void	cmd_check_2_1(t_data **data, t_cursors *crs)
 	crs->j2++;
 }
 
-void	select_echo(t_data **data, int i, int flag, t_cursors *crs, char cmd2[])
+void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
 {
+	char	cmd2[1000];
+	int		j;
+
+	j = 1;
+	if (((*data)->cmds[i][0] && crs->i > 0 && (*data)->cmds[i - 1][2] &&
+		ft_strncmp((*data)->cmds[i - 1][2], ">", 1)) || ((*data)->cmds[i][0] &&
+			crs->i == 0))
+		(*data)->tmp = ft_strdup((*data)->cmds[i][0]);
+	while ((*data)->cmds[i] && (*data)->cmds[i][j])
+	{
+		if ((*data)->cmds[i][j] && ft_strncmp((*data)->cmds[i][j], "<", 1)
+			&& ft_strncmp((*data)->cmds[i][j], ">", 1) && ft_strncmp((*data)
+				->cmds[i][j], "|", 1) && ft_strncmp((*data)->cmds[i][j], ";",
+					1))
+		{
+			(*data)->tmp = ft_strjoin_2((*data)->tmp, " ");
+			(*data)->tmp = ft_strjoin_2((*data)->tmp, (*data)->cmds[i][j]);
+		}
+		j++;
+	}
+	crs->len = ft_strlen((*data)->tmp);
+	ft_bzero(cmd2, 1000);
+	ft_memcpy(cmd2, (*data)->tmp, crs->len);
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 	{
 		if(!ft_memcmp((*data)->cmds[i][1], "$?", 2))
@@ -98,34 +129,6 @@ void	select_echo(t_data **data, int i, int flag, t_cursors *crs, char cmd2[])
 		builtin_execute_2(data, i, flag, cmd2, crs);
 }
 
-void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs)
-{
-	char	cmd2[1000];
-
-	crs->s = 1;
-	if (((*data)->cmds[i][0] && crs->i > 0 && i > 0 && (*data)->cmds[i - 1][2]
-		&& ft_strncmp((*data)->cmds[i - 1][2], ">", 1)) || ((*data)->cmds[i][0]
-		&& crs->i == 0))
-		(*data)->tmp2 = ft_strdup((*data)->cmds[i][0]);
-	while ((*data)->cmds[i] && (*data)->cmds[i][crs->s])
-	{
-		if ((*data)->cmds[i][crs->s] && ft_strncmp((*data)->cmds[i][crs->s], "<", 1)
-			&& ft_strncmp((*data)->cmds[i][crs->s], ">", 1)
-			&& ft_strncmp((*data)->cmds[i][crs->s], "|", 1)
-			&& ft_strncmp((*data)->cmds[i][crs->s], ";", 1))
-		{
-			(*data)->tmp2 = ft_strjoin((*data)->tmp2, " ");
-			(*data)->tmp2 = ft_strjoin((*data)->tmp2, (*data)->cmds[i][crs->s]);
-		}
-		crs->s++;
-	}
-	crs->len = ft_strlen((*data)->tmp2);
-	ft_bzero(cmd2, 1000);
-	ft_memcpy(cmd2, (*data)->tmp2, crs->len);
-	free((*data)->tmp2);
-	select_echo(data, i, flag, crs, cmd2);
-}
-
 void	builtin_execute_2(t_data **data, int i, int flag, char *cmd1, t_cursors *crs)
 {
 	if (!ft_memcmp((*data)->cmds[i][0], "./", 2) ||
@@ -137,7 +140,7 @@ void	builtin_execute_2(t_data **data, int i, int flag, char *cmd1, t_cursors *cr
 	else if (!ft_memcmp((*data)->cmds[i][0], "cd", 3))
 		ft_cd(data, (*data)->cmds[i][1], i);
 	else if (!ft_memcmp((*data)->cmds[i][0], "export", 7))
-		ft_export(data, (*data)->cmds[i][1], crs);
+		ft_export(data, (*data)->cmds[i][1]);
 	else if (!ft_memcmp((*data)->cmds[i][0], "unset", 6))
 		ft_unset(data, (*data)->cmds[i][1]);
 	else if (!ft_memcmp((*data)->cmds[i][0], "env", 4))

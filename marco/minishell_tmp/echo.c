@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/27 00:46:33 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:37:53 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,47 +143,10 @@ void	print_echo(t_data **data, t_cursors *crs, char **input, char tp[])
 	}
 }
 
-void	echo_input(t_data **data, t_cursors *crs)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	j = 1;
-	k = 0;
-	while ((*data)->cmds[0][k])
-		k++;
-	k--;
-	while (i < crs->k2 - 1 && (*data)->cmds[i])
-	{
-		if ((*data)->cmds[i] && (*data)->cmds[i][2]
-			&& !ft_memcmp((*data)->cmds[i][2], "<", 2) && (*data)->cmds[i + 1] 
-			&& (*data)->cmds[i + 1][1] && ft_memcmp((*data)->cmds[i + 1][1], "|", 2) 
-			&& ft_memcmp((*data)->cmds[i + 1][1], "<", 2))
-				crs->input = open((*data)->cmds[i + 1][0], O_RDONLY, S_IRWXU);
-			no_input(data, crs, 0);
-			i++;
-			while ((*data)->cmds[i][j])
-			{
-				(*data)->cmds[0][k] = (*data)->cmds[i][j];
-				(*data)->cmds[i][j] = NULL;
-				j++;
-				k++;
-			}
-		(*data)->cmds[0][k] = 0;
-		i++;
-	}
-	crs->flag = 5;
-	crs->i2+=3;
-}
-
 void	ft_echo(t_data **data, char **input, t_cursors	*crs)
 {
 	char tp[4097];
 
-	if (crs->input != 0)
-		echo_input(data, crs);
 	echo_preper(data, input, crs);
 	while (++crs->i < crs->len)
 	{

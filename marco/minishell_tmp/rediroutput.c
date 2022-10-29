@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 15:35:37 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/21 21:36:45 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+void exec_output(t_cursors *crs)//(t_data **data, t_cursors *crs)
+{
+    int status, pid;
+    int fd[2];
+
+    pipe(fd);
+
+    fd[1] = crs->output;
+    pid = fork();
+    if (pid == 0)
+    {
+        close(fd[0]);
+        dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+
+        execlp("/usr/bin/ls", "ls", "-la", NULL);
+    }
+    close(fd[0]);
+    close(fd[1]);
+    waitpid(pid, &status, 0);
+}
+*/
 
 int	check_sep(char c)
 {
@@ -62,7 +86,6 @@ char	*join_cmds(t_data **data, int cmd)
 		cmd++;
 	}
 	jinput[c->w] = '\0';
-//	ret = ft_strdup(jinput); resolve falta de memória
 	ret = jinput;
 	free(c);
 	return (ret);
@@ -104,7 +127,6 @@ void	ft_output(t_data **data, t_cursors *crs)
 		}
 		ft_output_2(data, crs);
 	}
-//	free(jc); (resolve leak memória após resolver alocação da join^_cmds)
 	waitpid(pid, &crs->status, 0);
 	if ( WIFEXITED(crs->status) )
         (*data)->exit_return = WEXITSTATUS(crs->status);

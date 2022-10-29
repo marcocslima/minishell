@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 15:13:38 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:08:56 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	get_input(t_data **data)
 	(*data)->tmp = readline(" ");
 	if(!(*data)->tmp)
 	{
-		destroy_pointers_char((*data)->envp);
-		free((*data));
+		//clean_init(data);
 		ft_putstr_fd("Thanks and by by\n",1);
 		exit(0);
 	}
@@ -147,7 +146,6 @@ int	main(int argc, char **argv, char **envp)
 		error_msg("Please type only one argument");
 	init_scream ();
 	init_struct(&data, argv, envp);
-//	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
 		get_input(&data);
@@ -160,7 +158,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_check(&data);
 		else
 			print_error(ret_quotes);
-		clean_data(&data);
+		//clean_data(&data);
 	}
 	return (0);
 }
