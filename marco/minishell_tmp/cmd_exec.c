@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 16:18:12 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/29 19:01:16 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ void	select_echo(t_data **data, int i, int flag, t_cursors *crs, char cmd2[])
 {
 	if (!ft_memcmp((*data)->cmds[i][0], "echo", 5))
 	{
-		if(!ft_memcmp((*data)->cmds[i][1], "$?", 2))
+		if (!(*data)->cmds[i][1])
+			write(1, "\n", 1);
+		else if (!ft_memcmp((*data)->cmds[i][1], "$?", 2))
 		{
 			ft_putnbr_fd((*data)->exit_return, 1);
 			write(1, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/27 00:46:33 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/29 20:57:40 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,32 @@ void	rotate_char(t_data **data, char *param, char c)
 	free(crs);
 }
 
+void	handle_quotes_middle(char *param, t_cursors *c)
+{
+	while (param[++c->l])
+		if (param[c->l] == '"')
+		{
+			if (c->l > 0 && param[c->l - 1] != '\\')
+				c->i++;
+			else if (c->l == 0)
+				c->i++;
+		}
+		else if (param[c->l] == '\'')
+		{
+			if (c->l > 0 && param[c->l - 1] != '\\')
+				c->j++;
+			else if (c->l == 0)
+				c->j++;
+		}
+}
+
 int	handle_quotes(t_data **data, char *param)
 {
 	t_cursors	*c;
 
 	init_crs(&c);
 	if (param[0] == '"' || param[0] == '\'')
-	{
-		while (param[++c->l])
-			if (param[c->l] == '"' && param[c->l - 1] != '\\')
-				c->i++;
-			else if (param[c->l] == '\'' && param[c->l - 1] != '\\')
-				c->j++;
-	}
+		handle_quotes_middle(param, c);
 	c->len = c->i + c->j;
 	if (c->len % 2 != 0)
 		return (1);
@@ -175,7 +188,7 @@ void	echo_input(t_data **data, t_cursors *crs)
 		i++;
 	}
 	crs->flag = 5;
-	crs->i2+=3;
+	crs->i2 += 3;
 }
 
 void	ft_echo(t_data **data, char **input, t_cursors	*crs)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 08:19:26 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/29 19:05:19 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	init_struct(t_data **data, char **argv, char **envp)
 	(*data)->dollar = NULL;
 	(*data)->crs = 0;
 	(*data)->qtd_cmds = 0;
+	(*data)->tmp = NULL;
+	if((*data)->tmp)
+		free((*data)->tmp);
 }
 
 void	open_prompt(char **envp)
