@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/29 16:00:07 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/29 18:20:31 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ char *parser_in_quotes(t_data **data)
 	init_crs(&crs);
 	ft_memmove(slicers, ";|<>", 4);
 	crs->len = ft_strlen((*data)->input);
-	input_seq = ft_calloc(crs->len, sizeof(char));
+	input_seq = ft_calloc(crs->len + 1, sizeof(char));
 	while((*data)->input[crs->j])
 	{
 		input_seq[crs->j] = (*data)->input[crs->j];
@@ -340,8 +340,6 @@ int	parser(t_data	**data)
 	get_slc_seq(data);
 	init_crs(&cursor);
 	get_cmds(data, cursor);
-	while (++cursor->w < cursor->l)
-		free((*data)->tokens[cursor->w]);
 	free((*data)->tokens);
 	return (0);
 }
