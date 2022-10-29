@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_and_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/23 11:09:04 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/27 23:19:30 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	execute(char *argv, t_data **data)
 	path = pathexec(cmd[0], (*data)->envp);
 	clean_data(data);
 	if (execve(path, cmd, (*data)->envp) == -1)
-		exit(exec_error_msg(argv));
+		exit(exec_error_msg(argv, data));
 }
 
 void	execute_pipe(char *argv, t_data **data, t_cursors *crs)
@@ -156,15 +156,16 @@ void	execute_pipe(char *argv, t_data **data, t_cursors *crs)
 		path = pathexec(cmd[0], (*data)->envp);
 		if (execve(path, cmd, (*data)->envp) == -1)
 		{
+			free(cmd);
+			free(path);
 			clean_all(data, crs);
-			exit(exec_error_msg(argv));
+			exit(exec_error_msg(argv, data));
 		}
 	}
 	waitpid(pid, &status, 0);
 	if ( WIFEXITED(status) )
         (*data)->exit_return = WEXITSTATUS(status);
-	//clean_all(data, crs); // TENTATIVA DE RESOLVER LEAKS
-	clean_data(data); // TENTATIVA DE RESOLVER LEAKS
+//	clean_data(data);
 }
 
 void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)

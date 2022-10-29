@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:43:17 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/17 22:26:23 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/27 15:19:19 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,25 @@ void	print_error(int e)
 	ft_putstr_fd("\n", 1);
 }
 
-int	exec_error_msg(char *path)
+int	exec_error_msg(char *path, t_data ** data)
 {
 	int	fd;
 	DIR	*folder;
 
 	fd = open(path, O_WRONLY);
-//	if (path)
 	folder = opendir(path);
 	ft_putstrs("minishell: ", path, NULL, STDERR);
 	if (access(path, F_OK) != 0)
 	{
 		ft_putstr_fd(": command not found\n", STDERR);
-		return (127);
+		(*data)->exit_return = 127;
+		return (127);//(nao precisa)
 	}
 	else if (fd == -1 && folder == NULL)
 	{
 		ft_putstr_fd ("No such file or directory\n", STDERR);
-		return (127);
+		(*data)->exit_return = 127;
+		return (127);//(nao precisa)
 	}
 	else if (fd == -1 && folder != NULL)
 		ft_putstr_fd (": is a directory\n", STDERR);
@@ -47,14 +48,16 @@ int	exec_error_msg(char *path)
 	if (folder)
 		closedir(folder);
 	close(fd);
-	return (126);
+	(*data)->exit_return = 126;
+	return (126);//(nao precisa)
 }
 
-int	input_error_msg(char *path)
+int	input_error_msg(char *path, t_data **data, t_cursors *crs)
 {
 	int	fd;
 	DIR	*folder;
 
+	clean_all(data, crs);
 	fd = open(path, O_WRONLY);
 	folder = opendir(path);
 	ft_putstr_fd("minishell: ", STDERR);
@@ -62,7 +65,8 @@ int	input_error_msg(char *path)
 	{
 		ft_putstr_fd ("No such file or directory\n", STDERR);
 		free(path);
-		exit(127);
+		(*data)->exit_return = 127;
+		exit(127);//(nao precisa)
 	}
 	else if (fd != -1 && folder == NULL)
 		ft_putstr_fd (": Permission denied\n", STDERR);
@@ -70,14 +74,16 @@ int	input_error_msg(char *path)
 		closedir(folder);
 	close(fd);
 	free(path);
-	exit(126);
+	(*data)->exit_return = 126;
+	exit (126);//(nao precisa)
 }
 
-int	input_error_msg_noexit(char *path)
+int	input_error_msg_noexit(char *path, t_data **data, t_cursors *crs)
 {
 	int	fd;
 	DIR	*folder;
 
+	clean_all(data, crs);
 	fd = open(path, O_WRONLY);
 	folder = opendir(path);
 	ft_putstr_fd("minishell: ", STDERR);
@@ -85,7 +91,8 @@ int	input_error_msg_noexit(char *path)
 	{
 		ft_putstr_fd ("No such file or directory\n", STDERR);
 		free(path);
-		return (127);
+		(*data)->exit_return = 127;
+		return (127);//(nao precisa)
 	}
 	else if (fd != -1 && folder == NULL)
 		ft_putstr_fd (": Permission denied\n", STDERR);
@@ -93,7 +100,8 @@ int	input_error_msg_noexit(char *path)
 		closedir(folder);
 	close(fd);
 	free(path);
-	return (126);
+	(*data)->exit_return = 126;
+	return (126);//(nao precisa)
 }
 
 
