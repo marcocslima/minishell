@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 15:13:26 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/30 10:11:56 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int	check_sep(char c)
 {
 	t_cursors	*crs;
-	char slicers[4]	= ";|";
+	char		slicers[4];
 
+	ft_strlcpy(slicers, ";|", 4);
 	init_crs(&crs);
 	while (crs->i < 2)
 	{
@@ -33,7 +34,6 @@ int	check_sep(char c)
 char	*join_cmds(t_data **data, int cmd)
 {
 	t_cursors	*c;
-	//char		*ret;
 	char		*jinput;
 
 	init_crs(&c);
@@ -48,7 +48,6 @@ char	*join_cmds(t_data **data, int cmd)
 				if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
 				{
 					jinput[c->w] = '\0';
-					//ret = jinput;
 					free(c);
 					return (jinput);
 				}
@@ -63,10 +62,29 @@ char	*join_cmds(t_data **data, int cmd)
 		cmd++;
 	}
 	jinput[c->w] = '\0';
-//	ret = ft_strdup(jinput); //resolve falta de memória
-	//ret = jinput;
 	free(c);
 	return (jinput);
+}
+
+void	ft_output_fork(t_data **data, t_cursors *crs, char *jc, char **ncmd)
+{
+	while (jc[++crs->l])
+	{
+		if (jc[crs->l] == '>' && jc[crs->l + 1] == '>')
+			crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''),
+					O_CREAT | O_WRONLY | O_APPEND, 0666);
+		else if (jc[crs->l] == '>' && jc[crs->l + 1] != '>'
+			&& jc[crs->l - 1] != '>')
+			crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''),
+					O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	}
+	if (crs->output == -1)
+	{
+		ft_putstrs("bash:", (*data)->cmds[crs->i2][1],
+			": No such file or directory", STDERR);
+		(*data)->exit_return = 1;
+		return ;
+	}
 }
 
 void	ft_output(t_data **data, t_cursors *crs)
@@ -86,29 +104,14 @@ void	ft_output(t_data **data, t_cursors *crs)
 	pid = fork();
 	if (pid == 0)
 	{
-		while (jc[++crs->l])
-		{
-			if (jc[crs->l] == '>' && jc[crs->l + 1] == '>')
-				crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''), O_CREAT | O_WRONLY
-						| O_APPEND, 0666);
-			else if (jc[crs->l] == '>' && jc[crs->l + 1] != '>'
-				&& jc[crs->l - 1] != '>')
-				crs->output = open(ft_clean_quotes(ncmd[++crs->k], '\''), O_CREAT | O_WRONLY | O_TRUNC,
-						0666);
-		}
-		if (crs->output == -1)
-		{
-			ft_putstrs("bash:", (*data)->cmds[crs->i2][1],
-				": No such file or directory", STDERR);
-			(*data)->exit_return = 1;
-			return ;
-		}
+		ft_output_fork(data, crs, jc, ncmd);
 		ft_output_2(data, crs);
 	}
-	free(jc); //(resolve leak memória após resolver alocação da join^_cmds)
+	destroy_pointers_char(ncmd);
+	free(jc);
 	waitpid(pid, &crs->status, 0);
-	if ( WIFEXITED(crs->status) )
-        (*data)->exit_return = WEXITSTATUS(crs->status);
+	if (WIFEXITED(crs->status))
+		(*data)->exit_return = WEXITSTATUS(crs->status);
 }
 
 void	ft_output_2(t_data **data, t_cursors *crs)

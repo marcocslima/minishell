@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/25 16:36:14 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/30 10:14:39 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ void	init_crs(t_cursors	**cursor)
 int	is_token(char s)
 {
 	int		i;
-	char	token[9]= ";|'\" $\\<>";
+	char	token[9];
 
+	ft_strlcpy(token, ";|'\" $\\<>", 9);
 	i = 0;
 	while (token[i] != s && i < 9)
 	{
@@ -103,9 +104,9 @@ char	*ft_clean_quotes(char *s, char c)
 	len = -1;
 	while (s[++len])
 	{
-		if (flag == 0 && (s[len] == '"' || (s[len] == '\\' && (
-			s[len + 1] == '\'' || s[len + 1] == '"' || s[len + 1] == '\\'
-				|| s[len + 1] == c))))
+		if (flag == 0 && (s[len] == '"' || (s[len] == '\\' && (s[len + 1]
+						== '\'' || s[len + 1] == '"' || s[len + 1] == '\\'
+						|| s[len + 1] == c))))
 		{
 			init++;
 			len ++;

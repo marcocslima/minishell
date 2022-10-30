@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/27 23:18:48 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/30 07:40:15 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	exec_bash(t_data **data, char *path, char *args[])
 	else
 	{
 		waitpid(pid, &status, 0);
-		if ( WIFEXITED(status) )
-        	(*data)->exit_return = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			(*data)->exit_return = WEXITSTATUS(status);
 		return ;
 	}
 }

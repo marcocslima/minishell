@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 19:01:16 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/10/30 07:45:25 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	len_cmds(t_data **data, t_cursors *crs, int c)
 		crs->i2++;
 	return (crs->i2);
 }
-//***********************************
+
 void	cmd_check(t_data **data)
 {
 	t_cursors	*crs;

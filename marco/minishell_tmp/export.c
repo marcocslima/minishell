@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 08:14:17 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/30 09:39:47 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ int	export_print(t_data **data, t_cursors *crs)
 	i = 0;
 	if (((*data)->cmds[0][1] && (!ft_memcmp((*data)->cmds[0][1], "|", 2)
 		|| !ft_memcmp((*data)->cmds[0][1], ">", 2))) || !(*data)->cmds[0][1])
+	{
 		while ((*data)->envp[i])
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstrs((*data)->envp[i], "\n", 0, 1);
 			i++;
 		}
+	}
 	if ((*data)->cmds[0][1] && (!ft_memcmp((*data)->cmds[0][1], "|", 2)
 		|| !ft_memcmp((*data)->cmds[0][1], ">", 2)))
 	{

@@ -1,32 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   clean_error_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:12:09 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/10/30 10:24:16 by acosta-a          #+#    #+#             */
+/*   Updated: 2022/10/30 10:26:43 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int input)
+void	free_paths(char *home_path, char *pathcd)
 {
-	char	cwd[4097];
-
-	if (input == SIGINT)
-	{
-		getcwd(cwd, 4096);
-		ft_putstr_fd("\n", 5);
-		ft_putstr_fd(cwd, 1);
-		ft_putstr_fd(": ", 1);
-	}
+	free(pathcd);
+	free(home_path);
 }
 
-void	child_signal_handler(int input)
+int	count_cmds(t_data **data)
 {
-	if (input == SIGINT)
-		write(2, "\n", 1);
+	int	len;
+	int	j;
+	int	counter;
+
+	j = 0;
+	counter = 0;
+	len = 0;
+	if ((*data)->input)
+		len = ft_strlen((*data)->input);
+	while (j < len)
+	{
+		if ((*data)->slicers[j] != 0)
+			counter++;
+		j++;
+	}
+	return (counter);
+}
+
+int	error_msg(char *message)
+{
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
+	exit(ERROR);
 }
