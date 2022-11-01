@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 07:40:15 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 08:52:51 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ char	*preper_path(t_data **data, t_cursors *crs, char *path, char cmd[])
 
 char	*ret_path(t_cursors *crs, char *path, char cmd[])
 {
+	char	*path_tmp1;
+	char	*path_tmp2;
+
 	crs->len = ft_strlen(path);
 	if (crs->flag == 3)
 	{
@@ -51,9 +54,10 @@ char	*ret_path(t_cursors *crs, char *path, char cmd[])
 		}
 		path[crs->len + 1] = '\0';
 	}
-	path = ft_strjoin_2(path, "/");
-	path = ft_strjoin_2(path, cmd);
-	return (path);
+	path_tmp1 = ft_strjoin_2(path, "/");
+	path_tmp2 = ft_strjoin_2(path_tmp1, cmd);
+	free(path_tmp1);
+	return (path_tmp2);
 }
 
 void	exec_bash(t_data **data, char *path, char *args[])
@@ -68,13 +72,10 @@ void	exec_bash(t_data **data, char *path, char *args[])
 		if (execve(path, args, (*data)->envp) == -1)
 			exec_error_msg(path, data);
 	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			(*data)->exit_return = WEXITSTATUS(status);
-		return ;
-	}
+	waitpid(pid, &status, 0);
+	free(args[0]);
+	if (WIFEXITED(status))
+		(*data)->exit_return = WEXITSTATUS(status);
 }
 
 void	ft_bash(t_data **data)

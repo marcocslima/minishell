@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirinput.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/01 00:43:28 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 08:08:28 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_doc_pipe_2(t_data **data, t_cursors *crs)
 			[crs->i2][1], "<", 2) && ft_strncmp ((*data)->cmds[crs->i2 + 1][1],
 				"<", 2))))
 	{
-		crs->flag = 1;//checar
+		crs->flag = 1;
 		builtin_execute(data, crs);
 	}
 	if (crs->flag == 5)
