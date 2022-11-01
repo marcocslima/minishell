@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/30 10:28:39 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:55:36 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	clean_all(t_data **data, t_cursors *crs)
 	clean_data(data);
 	destroy_pointers_char((*data)->envp);
 	(*data)->argv = '\0';
-//	free((*data)->tmp);
 	free((*data)->dollar);
 	free(crs);
 	free((*data));

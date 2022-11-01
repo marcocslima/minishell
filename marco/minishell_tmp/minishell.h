@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:38:15 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:23:34 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ int		error_msg(char *message);
 void	signal_handler(int input);
 void	child_signal_handler(int input);
 char	*ft_strjoin_2(char *s1, char *s2);
+void	get_token(t_data **data, char token, int n);
+void	get_cmds(t_data **data, t_cursors *cursor);
+void	str_cat(t_data **data, char *prm, int n);
+void	get_limits(t_cursors **crs, char **st_cmds, int n, int i);
+int		get_slicers(t_data **data, t_cursors *cursor, char slc, int t);
 int		parser(t_data **data);
 void	reset_conters(t_cursors	**cursor);
 void	get_params_exchange(t_data **data, t_cursors *crs, int n);
@@ -117,9 +122,8 @@ void	init_crs(t_cursors	**cursor);
 void	cmd_check(t_data **data);
 void	cmd_check_2(t_data **data, t_cursors	*crs);
 void	cmd_check_2_1(t_data **data, t_cursors *crs);
-void	builtin_execute(t_data **data, int i, int flag, t_cursors *crs);
-void	builtin_execute_2(t_data **data, int i, int flag, char *cmd2,
-				t_cursors *crs);
+void	builtin_execute(t_data **data, t_cursors *crs);
+void	builtin_execute_2(t_data **data, char *cmd2, t_cursors *crs);
 /*BUILTINS*/
 int		ft_export(t_data **data, char *input, t_cursors *crs);
 int		ft_unset(t_data **data, char *input);
@@ -127,6 +131,9 @@ int		ft_cd(t_data **data, char *input, int i);
 void	ft_cd_2(t_data **data, char *path);
 int		ft_env(t_data **data, char *input);
 int		ft_pwd(void);
+void	echo_preper(t_data **data, char **input, t_cursors	*crs);
+int		handle_quotes(t_data **data, char *param, t_cursors *crs);
+void	select_echo(t_data **data, t_cursors *crs, char cmd2[]);
 void	ft_echo(t_data **data, char **input, t_cursors	*crs);
 void	echo_input_change(t_data **data, int k, int i, int j);
 void	ft_here_doc(t_data **data, t_cursors *crs);
@@ -162,6 +169,7 @@ char	*ft_clean_quotes(char *s, char c);
 void	quotes_index(char *s, char c, int init, int end);
 int		input_error_msg(char *path, t_data **data, t_cursors *crs);
 int		input_error_msg_noexit(char *path, t_data **data, t_cursors *crs);
+int		check_sep(char c);
 
 /*Exit and Clean*/
 void	clean_data(t_data **data);

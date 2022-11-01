@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 09:41:40 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:31:26 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_here_doc(t_data **data, t_cursors *crs)
 		free(crs->str);
 		close (fd[1]);
 		dup2(fd[0], STDIN);
-		builtin_execute(data, crs->i2, crs->flag, crs);
+		builtin_execute(data, crs);
 		crs->i2 += 2;
 	}
 }
@@ -78,7 +78,7 @@ void	ft_here_doc_2(t_data **data, t_cursors *crs, int fd[2])
 	close (fd[1]);
 	dup2(fd[0], STDIN);
 	close (fd[0]);
-	builtin_execute(data, crs->i2, crs->flag, crs);
+	builtin_execute(data, crs);
 	dup2(crs->saved_stdout, STDOUT);
 	close(crs->saved_stdout);
 	crs->i2 += 3;

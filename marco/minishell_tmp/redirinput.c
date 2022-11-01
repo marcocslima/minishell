@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirinput.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:20:42 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:34:56 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ void	ft_doc_pipe_2(t_data **data, t_cursors *crs)
 			+ 1] && (*data)->cmds[crs->i2 + 1][1] && ft_strncmp((*data)->cmds
 			[crs->i2][1], "<", 2) && ft_strncmp ((*data)->cmds[crs->i2 + 1][1],
 				"<", 2))))
-		builtin_execute(data, crs->i2, 1, crs);
+	{
+		crs->flag = 1;
+		builtin_execute(data, crs);
+	}
 	if (crs->flag == 5)
 		return ;
 	while ((*data)->cmds[crs->i2 + 1] && (*data)->cmds[crs->i2 + 1][1] &&
@@ -105,7 +108,7 @@ void	ft_fork_1(t_data **data, t_cursors *crs)
 		if (crs->o >= 1 && (*data)->cmds[crs->i2 + 1][1])
 		{
 			(*data)->cmds[0][1] = ft_strdup ((*data)->cmds[crs->i2 + 1][0]);
-			builtin_execute(data, crs->i2, crs->flag, crs);
+			builtin_execute(data, crs);
 		}
 		else
 			crs->input = open((*data)->cmds[crs->i2 + 1][0], O_RDONLY,

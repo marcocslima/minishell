@@ -3,32 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:11:56 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:20:24 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_sep(char c)
+char	*join_cmds_middle(t_data **data, char *jinput, int cmd, t_cursors *c)
 {
-	t_cursors	*crs;
-	char		slicers[4];
-
-	ft_strlcpy(slicers, ";|", 4);
-	init_crs(&crs);
-	while (crs->i < 2)
+	while (c->k < c->len)
 	{
-		if (c == slicers[crs->i++])
+		if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
 		{
-			free(crs);
-			return (1);
+			jinput[c->w] = '\0';
+			free(c);
+			return (jinput);
 		}
+		jinput[c->w] = (*data)->cmds[cmd][c->j][c->k];
+		c->k++;
+		c->w++;
 	}
-	free(crs);
-	return (0);
+	return (jinput);
 }
 
 char	*join_cmds(t_data **data, int cmd)
@@ -43,18 +41,7 @@ char	*join_cmds(t_data **data, int cmd)
 		while ((*data)->cmds[cmd][c->j])
 		{
 			c->len = ft_strlen((*data)->cmds[cmd][c->j]);
-			while (c->k < c->len)
-			{
-				if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
-				{
-					jinput[c->w] = '\0';
-					free(c);
-					return (jinput);
-				}
-				jinput[c->w] = (*data)->cmds[cmd][c->j][c->k];
-				c->k++;
-				c->w++;
-			}
+			join_cmds_middle(data, jinput, cmd, c);
 			c->k = 0;
 			c->j++;
 		}
@@ -119,7 +106,7 @@ void	ft_output_2(t_data **data, t_cursors *crs)
 	crs->saved_stdout = dup(STDOUT);
 	dup2(crs->output, STDOUT);
 	close(crs->output);
-	builtin_execute(data, crs->i2, crs->flag, crs);
+	builtin_execute(data, crs);
 	dup2(crs->saved_stdout, STDOUT);
 	close(crs->saved_stdout);
 }

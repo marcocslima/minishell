@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirinput_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:20:29 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:37:42 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	redir_stdin(t_data **data, t_cursors *crs)
 	{
 		crs->saved_stdin = dup(STDIN);
 		dup2(crs->input, STDIN);
-		builtin_execute(data, crs->i2, crs->flag, crs);
+		builtin_execute(data, crs);
 		dup2(crs->saved_stdin, STDIN);
 		close(crs->saved_stdin);
 		close(crs->input);
@@ -31,7 +31,7 @@ void	redir_stdin_out(t_data **data, t_cursors *crs)
 	dup2(crs->input, STDIN);
 	crs->saved_stdout = dup(STDOUT);
 	dup2(crs->output, STDOUT);
-	builtin_execute(data, crs->i2, crs->flag, crs);
+	builtin_execute(data, crs);
 	dup2(crs->saved_stdout, STDOUT);
 	dup2(crs->saved_stdin, STDIN);
 	close(crs->saved_stdin);

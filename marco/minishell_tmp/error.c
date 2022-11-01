@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:43:17 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/30 10:25:36 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 20:12:49 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	print_error(int e)
 {
-	char	*errors[] = {"OK", "unclosed quotes"};
+	char	*errors[2];
 
+	errors[0] = "OK";
+	errors[1] = "unclosed quotes";
 	ft_putstr_fd("Error: ", 1);
 	ft_putstr_fd(errors[e], 1);
 	ft_putstr_fd("\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:30:30 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:38:49 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 				crs->flagpipe = 1;
 			}
 			else
-				builtin_execute(data, i, flag, crs);
+				builtin_execute(data, crs);
 		}
 		waitpid(pid, &status, 0);
 		ft_pipe_close(data, status, pipefd, crs);
