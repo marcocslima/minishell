@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 15:31:26 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:29:07 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ char	*here_doc_str(t_data **data, t_cursors *crs)
 	while (!crs->str || ft_strncmp(temp, (*data)->cmds[crs->i2 + 1][1],
 		crs->len))
 	{
+		free(temp);
+//		signal(SIGINT, here_signal_handler);
 		temp = readline("> ");
 		if (!ft_strncmp(temp, (*data)->cmds[crs->i2 + 1][1], crs->len))
+		{
+			free(temp);
 			return (crs->str);
+		}
 		crs->str = ft_strjoin(crs->str, temp);
 		crs->str = ft_strjoin(crs->str, "\n");
 	}

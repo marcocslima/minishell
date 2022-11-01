@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/29 07:27:01 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:52:39 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_cd_2(t_data **data, char *path)
 	ft_putstr_fd("\n", 1);
 	chdir(path);
 	(*data)->exit_return = 0;
-	free_paths((*data)->home_path, (*data)->pathcd);
+	free_paths((*data)->home_path, (*data)->pathcd, NULL);
 }
 
 int	ft_cd(t_data **data, char *input, int i)
@@ -81,7 +81,7 @@ int	ft_cd(t_data **data, char *input, int i)
 	ft_cd_home(data, (*data)->home_path, i, input);
 	if ((*data)->exit_return != 2)
 	{
-		free_paths((*data)->home_path, (*data)->pathcd);
+		free_paths((*data)->home_path, (*data)->pathcd, NULL);
 		return ((*data)->exit_return);
 	}
 	else if (ft_memcmp("-", input, ft_strlen(input)) == 0)
@@ -89,7 +89,7 @@ int	ft_cd(t_data **data, char *input, int i)
 		ft_cd_2(data, (*data)->pathcd);
 		return ((*data)->exit_return);
 	}
-	free_paths((*data)->home_path, (*data)->pathcd);
+	free_paths((*data)->home_path, (*data)->pathcd, NULL);
 	(*data)->exit_return = 1;
 	if (access(input, F_OK) == -1)
 		ft_putstr_fd("no such file or directory: ", 2);

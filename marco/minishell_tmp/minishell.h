@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/01 00:23:34 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:56:36 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int		check_sep(char c);
 /*Exit and Clean*/
 void	clean_data(t_data **data);
 int		count_cmds(t_data **data);
-void	free_paths(char *home_path, char *pathcd);
+void	free_paths(char *string, char *string2, char **array);
 void	destroy_pointers_int(int **p);
 int		len_input(char **p);
 void	print_error(int e);

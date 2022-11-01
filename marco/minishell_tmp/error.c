@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:43:17 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/31 20:12:49 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 01:01:36 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	print_error(int e)
 
 void	exec_error_msg_close(DIR	*folder, int fd, t_data **data)
 {
+	if (fd != -1 && folder == NULL)
+		ft_putstr_fd (": Permission denied\n", STDERR);
 	if (folder)
 		closedir(folder);
 	close(fd);
@@ -42,19 +44,19 @@ int	exec_error_msg(char *path, t_data **data)
 	if (access(path, F_OK) != 0)
 	{
 		(*data)->exit_return = 127;
+		free(*data);
 		ft_putstr_fd(": command not found\n", STDERR);
 		return (127);
 	}
 	else if (fd == -1 && folder == NULL)
 	{
 		(*data)->exit_return = 127;
+		free(*data);
 		ft_putstr_fd ("No such file or directory\n", STDERR);
 		return (127);
 	}
 	else if (fd == -1 && folder != NULL)
 		ft_putstr_fd (": is a directory\n", STDERR);
-	else if (fd != -1 && folder == NULL)
-		ft_putstr_fd (": Permission denied\n", STDERR);
 	exec_error_msg_close(folder, fd, data);
 	return (126);
 }
@@ -75,6 +77,7 @@ int	input_error_msg(char *path, t_data **data, t_cursors *crs)
 		ft_putstr_fd ("No such file or directory\n", STDERR);
 		free(path);
 		(*data)->exit_return = 127;
+		free(*data);
 		exit(127);
 	}
 	else if (fd != -1 && folder == NULL)

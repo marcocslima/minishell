@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirinput.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 15:34:56 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:43:28 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_input(t_data **data, t_cursors *crs)
 {
 	pid_t	pid;
 
-	ft_input_doc_pipe(data, crs);
+	if (ft_memcmp((*data)->cmds[0][0], "echo", 5))
+		ft_input_doc_pipe(data, crs);
 	if (crs->flagpipe == 10 || crs->flag == 5 || crs->flag == 1
 		|| crs->flagpipe == 9)
 		return ;
@@ -69,7 +70,7 @@ void	ft_doc_pipe_2(t_data **data, t_cursors *crs)
 			[crs->i2][1], "<", 2) && ft_strncmp ((*data)->cmds[crs->i2 + 1][1],
 				"<", 2))))
 	{
-		crs->flag = 1;
+		crs->flag = 1;//checar
 		builtin_execute(data, crs);
 	}
 	if (crs->flag == 5)
@@ -80,7 +81,7 @@ void	ft_doc_pipe_2(t_data **data, t_cursors *crs)
 		(*data)->cmds[crs->i2 + 1][0] = ft_clean_quotes((*data)->cmds
 			[crs->i2 + 1][0], '\'');
 			crs->input = open((*data)->cmds[crs->i2 + 1][0], O_RDONLY,
-				S_IRWXU);
+				0644);
 		no_input(data, crs, 1);
 		crs->i2++;
 		(*data)->cmds[crs->i2][0] = ft_strdup((*data)->cmds[0][0]);
@@ -112,7 +113,7 @@ void	ft_fork_1(t_data **data, t_cursors *crs)
 		}
 		else
 			crs->input = open((*data)->cmds[crs->i2 + 1][0], O_RDONLY,
-					S_IRWXU);
+					0644);
 	}
 }
 

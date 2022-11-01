@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 15:38:49 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:53:01 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ void	execute_pipe(char *argv, t_data **data, t_cursors *crs)
 		path = pathexec(cmd[0], (*data)->envp);
 		if (execve(path, cmd, (*data)->envp) == -1)
 		{
-			free(cmd);
-			free(path);
-			clean_all(data, crs);
+			free_paths(NULL, path, cmd);
+			clean_data(data);
+			free(crs);
+			destroy_pointers_char((*data)->envp);
 			exit(exec_error_msg(argv, data));
 		}
 	}
