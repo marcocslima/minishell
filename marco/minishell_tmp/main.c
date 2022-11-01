@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:37:48 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:17:19 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	open_prompt(char **envp)
+char	*open_prompt(char **envp)
 {
 	char	cwd[4097];
 	char	*path;
@@ -21,16 +21,17 @@ void	open_prompt(char **envp)
 		envp++;
 	getcwd(cwd, 4096);
 	path = ft_strdup(cwd);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd(": ", 1);
-	free(path);
+	return (path);
 }
 
 void	get_input(t_data **data)
 {
-	open_prompt((*data)->envp);
+	char	*path;
+
+	path = ft_strjoin(open_prompt((*data)->envp), ": ");
 	signal(SIGINT, signal_handler);
-	(*data)->tmp = readline(" ");
+	(*data)->tmp = readline(path);
+	free(path);
 	if (!(*data)->tmp)
 	{
 		destroy_pointers_char((*data)->envp);
