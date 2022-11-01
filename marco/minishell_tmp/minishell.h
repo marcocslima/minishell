@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/01 00:56:36 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:20:38 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_data
 	char			***cmds;
 	int				qtd_cmds;
 	int				exit_return;
+	pid_t			p_id;
 }	t_data;
 
 typedef struct s_cursors
@@ -131,6 +132,7 @@ int		ft_cd(t_data **data, char *input, int i);
 void	ft_cd_2(t_data **data, char *path);
 int		ft_env(t_data **data, char *input);
 int		ft_pwd(void);
+void	echo_input(t_data **data, t_cursors *crs);
 void	echo_preper(t_data **data, char **input, t_cursors	*crs);
 int		handle_quotes(t_data **data, char *param, t_cursors *crs);
 void	select_echo(t_data **data, t_cursors *crs, char cmd2[]);
@@ -170,6 +172,7 @@ void	quotes_index(char *s, char c, int init, int end);
 int		input_error_msg(char *path, t_data **data, t_cursors *crs);
 int		input_error_msg_noexit(char *path, t_data **data, t_cursors *crs);
 int		check_sep(char c);
+int		verify_if_slicer(char *s);
 
 /*Exit and Clean*/
 void	clean_data(t_data **data);

@@ -6,7 +6,7 @@
 #    By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/11/01 00:20:57 by mcesar-d         ###   ########.fr        #
+#    Updated: 2022/11/01 15:21:19 by mcesar-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./bash.c ./signal.c ./main.c ./utils.c ./parser.c \
-./export.c ./cd_pwd.c ./exec_and_pipe.c ./echo.c ./echo_utils.c ./exit.c \
-./cmd_exec.c ./cmd_exec_utils.c ./clean_data.c ./error.c env.c ./here_doc.c \
+SRC = ./bash.c ./signal.c ./main.c ./utils.c ./utils_two.c ./parser.c \
+./export.c ./cd_pwd.c ./exec_and_pipe.c ./echo.c ./echo_utils.c ./echo_utils_two.c \
+./exit.c ./cmd_exec.c ./cmd_exec_utils.c ./clean_data.c ./error.c env.c ./here_doc.c \
 ./redirinput.c rediroutput.c init_scream.c ./redirinput_utils.c \
-./clean_error_utils.c ./pipe.c ./utils_main.c ./parser_utils.c ./parser_utils_2.c \
+./clean_error_utils.c ./pipe.c ./utils_main.c ./parser_utils.c ./parser_utils_two.c \
 ./rediroutput_utils.c
 
 #BONUS =

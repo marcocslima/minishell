@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 20:04:07 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:22:14 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	print_echo(t_data **data, t_cursors *crs, char **input, char tp[])
 	crs->s = 0;
 	while (tp[crs->s])
 	{
-		if (input[crs->i][0] != '\'' && tp[crs->s] == '$' && tp[crs->s + 1]
-		!= ' ')
+		if (input[crs->i][0] != '\'' && tp[crs->s] == '$'
+			&& tp[crs->s + 1] != ' ')
 		{
 			while (tp[crs->s + crs->counter] && tp[crs->s
 					+ crs->counter] != ' ' && tp[crs->s + crs->counter]
@@ -62,34 +62,6 @@ void	print_echo(t_data **data, t_cursors *crs, char **input, char tp[])
 	free((*data)->tmp2);
 }
 
-void	echo_input(t_data **data, t_cursors *crs)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	j = 1;
-	k = 0;
-	while ((*data)->cmds[0][k])
-		k++;
-	k--;
-	while (i < crs->k2 - 1 && (*data)->cmds[i])
-	{
-		if ((*data)->cmds[i] && (*data)->cmds[i][2]
-			&& !ft_memcmp((*data)->cmds[i][2], "<", 2) && (*data)->cmds[i + 1]
-			&& (*data)->cmds[i + 1][1] && ft_memcmp((*data)->cmds[i + 1][1]
-				, "|", 2) && ft_memcmp((*data)->cmds[i + 1][1], "<", 2))
-				crs->input = open((*data)->cmds[i + 1][0], O_RDONLY, S_IRWXU);
-		no_input(data, crs, 0);
-		i++;
-		echo_input_change(data, k, i, j);
-		i++;
-	}
-	crs->flag = 5;
-	crs->i2 += 3;
-}
-
 void	echo_input_change(t_data **data, int k, int i, int j)
 {
 	while ((*data)->cmds[i][j])
@@ -100,6 +72,17 @@ void	echo_input_change(t_data **data, int k, int i, int j)
 		k++;
 	}
 	(*data)->cmds[0][k] = 0;
+}
+
+void	ft_echo_while(t_data **data, char **input, t_cursors *crs, char tp[])
+{
+	while (++crs->m < crs->w)
+	{
+		if (!verify_if_slicer(input[crs->i]))
+			tp[crs->m] = (*data)->tmp2[crs->m];
+		else
+			tp[crs->m] = '\0';
+	}
 }
 
 void	ft_echo(t_data **data, char **input, t_cursors	*crs)
@@ -118,9 +101,7 @@ void	ft_echo(t_data **data, char **input, t_cursors	*crs)
 			crs->i++;
 		}
 		crs->err = handle_quotes(data, input[crs->i], crs);
-		while (++crs->m < crs->w)
-			tp[crs->m] = (*data)->tmp2[crs->m];
-		tp[crs->m] = '\0';
+		ft_echo_while(data, input, crs, tp);
 		if (crs->err == 0)
 			print_echo(data, crs, input, tp);
 		else
