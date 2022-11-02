@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 22:35:27 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/02 02:58:04 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,16 @@ int	ft_export(t_data **data, char *input, t_cursors *crs)
 	{
 		if (ft_memcmp((*data)->envp[i], input, ft_strlen(input) - 1) == 0)
 		{
+			free((*data)->envp[i]);
 			(*data)->envp[i] = ft_strdup(input);
 			updated = 1;
 		}
 		i++;
 	}
 	if (updated == 0)
+	{
 		(*data)->envp[i] = ft_strdup(input);
+	}
 	return (0);
 }
 
@@ -115,15 +118,15 @@ int	ft_unset(t_data **data, char *input)
 	{
 		if (ft_memcmp((*data)->envp[crs->j], input, crs->len) == 0)
 		{
-			ft_bzero((*data)->envp[crs->j], ft_strlen((*data)->envp[crs->j]));
+			(*data)->envp[crs->j] = NULL;
 			if ((*data)->envp[crs->j] && (*data)->envp[crs->j + 1])
 				(*data)->envp[crs->j] = (*data)->envp[crs->j + 1];
 			crs->k = crs->j - 1;
 			while ((*data)->envp[crs->k++] && (*data)->envp[crs->k + 1])
 				(*data)->envp[crs->k] = (*data)->envp[crs->k + 1];
-			if ((*data)->envp[crs->k] == NULL
-				|| (*data)->envp[crs->k][0] == '\0')
-					(*data)->envp[crs->k] = NULL;
+			if (!ft_memcmp((*data)->envp[crs->k], (*data)->envp[crs->k - 1],
+					ft_strlen((*data)->envp[crs->k])))
+				(*data)->envp[crs->k] = NULL;
 		}
 		crs->j++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/01 15:22:14 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/02 02:29:00 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,6 @@ void	print_echo(t_data **data, t_cursors *crs, char **input, char tp[])
 			ft_putchar_fd(' ', 1);
 	}
 	free((*data)->tmp2);
-}
-
-void	echo_input_change(t_data **data, int k, int i, int j)
-{
-	while ((*data)->cmds[i][j])
-	{
-		(*data)->cmds[0][k] = (*data)->cmds[i][j];
-		(*data)->cmds[i][j] = NULL;
-		j++;
-		k++;
-	}
-	(*data)->cmds[0][k] = 0;
 }
 
 void	ft_echo_while(t_data **data, char **input, t_cursors *crs, char tp[])

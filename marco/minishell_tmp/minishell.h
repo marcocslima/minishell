@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/01 15:20:38 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:15:29 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		no_error_msg(char *message);
 int		error_msg(char *message);
 void	signal_handler(int input);
 void	child_signal_handler(int input);
+void	here_signal_handler(int input);
 char	*ft_strjoin_2(char *s1, char *s2);
 void	get_token(t_data **data, char token, int n);
 void	get_cmds(t_data **data, t_cursors *cursor);
@@ -130,7 +131,7 @@ int		ft_export(t_data **data, char *input, t_cursors *crs);
 int		ft_unset(t_data **data, char *input);
 int		ft_cd(t_data **data, char *input, int i);
 void	ft_cd_2(t_data **data, char *path);
-int		ft_env(t_data **data, char *input);
+int		ft_env(t_data **data, char *input, t_cursors *crs);
 int		ft_pwd(void);
 void	echo_input(t_data **data, t_cursors *crs);
 void	echo_preper(t_data **data, char **input, t_cursors	*crs);

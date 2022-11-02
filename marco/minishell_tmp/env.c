@@ -6,13 +6,13 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 00:57:01 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/30 10:34:03 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/02 00:42:51 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_data **data, char *input)
+int	ft_env(t_data **data, char *input, t_cursors *crs)
 {
 	int	i;
 	int	p;
@@ -32,7 +32,10 @@ int	ft_env(t_data **data, char *input)
 		i++;
 	}
 	if (p > 0 && (*data)->cmds[0][1])
+	{
+		clean_all(data, crs);
 		exit(0);
+	}
 	return (0);
 }
 
