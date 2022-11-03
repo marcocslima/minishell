@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   rediroutput_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/02 02:12:16 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:20:10 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int input)
+int	check_sep(char c)
 {
-	char	cwd[4097];
+	t_cursors	*crs;
+	char		slicers[4];
 
-	if (input == SIGINT)
+	ft_strlcpy(slicers, ";|", 4);
+	init_crs(&crs);
+	while (crs->i < 2)
 	{
-		getcwd(cwd, 4096);
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd(cwd, 1);
-		ft_putstr_fd(": ", 1);
+		if (c == slicers[crs->i++])
+		{
+			free(crs);
+			return (1);
+		}
 	}
-}
-
-void	child_signal_handler(int input)
-{
-	if (input == SIGINT)
-		write(2, "\n", 1);
+	free(crs);
+	return (0);
 }

@@ -6,22 +6,11 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 00:08:10 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/04 00:27:37 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/01 00:42:33 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
-size_t	ft_strlen(const char *s)
-{
-	int	cont;
-
-	cont = 0;
-	while (*s++)
-		cont++;
-	return (cont);
-}
-*/
 
 size_t	ft_strlen(const char *str)
 {
@@ -34,4 +23,3 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-

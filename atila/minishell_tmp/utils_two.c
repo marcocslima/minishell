@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/02 02:12:16 by acosta-a         ###   ########.fr       */
+/*   Created: 2022/08/14 11:59:29 by acosta-a          #+#    #+#             */
+/*   Updated: 2022/11/01 15:07:27 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int input)
+int	verify_if_slicer(char *s)
 {
-	char	cwd[4097];
+	int		i;
+	int		len;
+	char	slicers[4];
 
-	if (input == SIGINT)
-	{
-		getcwd(cwd, 4096);
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd(cwd, 1);
-		ft_putstr_fd(": ", 1);
-	}
-}
-
-void	child_signal_handler(int input)
-{
-	if (input == SIGINT)
-		write(2, "\n", 1);
+	ft_strlcpy(slicers, ";|<>", 5);
+	len = ft_strlen(s);
+	i = -1;
+	if (len == 1)
+		while (++i < 4)
+			if (slicers[i] == s[0])
+				return (1);
+	return (0);
 }

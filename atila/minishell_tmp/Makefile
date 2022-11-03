@@ -6,14 +6,14 @@
 #    By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/10/03 22:15:06 by acosta-a         ###   ########.fr        #
+#    Updated: 2022/11/02 13:24:27 by acosta-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 # Compilation #
-CC = gcc
+CC = clang
 CFLAGS = -g -Wall -Wextra -Werror
 OPTCC=  -I. -c
 RM = rm -rf
@@ -22,10 +22,12 @@ RM = rm -rf
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
 # SOURCE FILES #
-SRC = ./bash.c ./signal.c ./main.c ./utils.c ./parser.c \
-./export.c ./cd_pwd.c ./delimiters.c ./echo.c ./exit.c ./cmd_exec.c \
-clean_data.c error.c env.c here_doc.c
-
+SRC = ./bash.c ./signal.c ./main.c ./utils.c ./utils_two.c ./parser.c \
+./export.c ./cd_pwd.c ./exec_and_pipe.c ./echo.c ./echo_utils.c ./echo_utils_two.c \
+./exit.c ./cmd_exec.c ./builtin_exec.c ./clean_data.c ./error.c env.c ./here_doc.c \
+./redirinput.c rediroutput.c init_scream.c ./redirinput_utils.c \
+./clean_error_utils.c ./pipe.c ./utils_main.c ./parser_utils.c ./parser_utils_two.c \
+./rediroutput_utils.c
 
 #BONUS =
 

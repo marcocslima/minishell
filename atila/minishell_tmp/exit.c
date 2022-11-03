@@ -6,13 +6,13 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:12:25 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/10/05 23:21:49 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/03 08:05:23 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(t_data **data, t_cursors *crs)
+void	ft_exit(t_data *data, t_cursors *crs)
 {
 	clean_all(data, crs);
 	exit (0);
