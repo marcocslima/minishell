@@ -6,12 +6,13 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/03 16:09:07 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/04 00:34:21 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-t_data *dt;
+
+t_data	*g_data;
 
 char	*open_prompt(char **envp)
 {

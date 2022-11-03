@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/03 16:09:32 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/04 00:33:51 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_data
 	pid_t			p_id;
 }	t_data;
 
-extern t_data *dt;
+extern t_data	*g_data;
 
 typedef struct s_cursors
 {

@@ -6,7 +6,7 @@
 /*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/11/03 16:41:10 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/04 00:32:03 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,21 @@ int	parser(t_data **data)
 	int			t;
 
 	i = -1;
-	dt = *data;
+	g_data = *data;
 	init_crs(&cursor);
 	ft_strlcpy(token, ";|'\" $\\<>", 10);
 	ft_memmove(slicers, ";|<>", 4);
-	dt->tokens = ft_calloc(9, sizeof(size_t));
-	dt->len_tokens = ft_calloc(9, sizeof(int));
-	dt->tmp = parser_in_quotes(&dt);
+	g_data->tokens = ft_calloc(9, sizeof(size_t));
+	g_data->len_tokens = ft_calloc(9, sizeof(int));
+	g_data->tmp = parser_in_quotes(&g_data);
 	while (++i < 9)
-		get_token(&dt, token[i], i);
-	parser_middle(&dt, cursor, token, slicers);
-	get_slc_seq(&dt);
-	get_cmds(&dt, cursor);
+		get_token(&g_data, token[i], i);
+	parser_middle(&g_data, cursor, token, slicers);
+	get_slc_seq(&g_data);
+	get_cmds(&g_data, cursor);
 	t = 0;
 	while (++t < i)
-		free(dt->tokens[t]);
-	free(dt->tokens);
+		free(g_data->tokens[t]);
+	free(g_data->tokens);
 	return (0);
 }
