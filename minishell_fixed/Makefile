@@ -6,7 +6,7 @@
 #    By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/11/03 11:16:12 by mcesar-d         ###   ########.fr        #
+#    Updated: 2022/11/03 22:08:06 by mcesar-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ RM = rm -rf
 #HEADER = /include#
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft
+
 # SOURCE FILES #
 SRC = ./bash.c ./signal.c ./main.c ./utils.c ./utils_two.c ./parser.c \
 ./export.c ./cd_pwd.c ./exec_and_pipe.c ./echo.c ./echo_utils.c ./echo_utils_two.c \
@@ -28,8 +29,6 @@ SRC = ./bash.c ./signal.c ./main.c ./utils.c ./utils_two.c ./parser.c \
 ./redirinput.c rediroutput.c init_scream.c ./redirinput_utils.c \
 ./clean_error_utils.c ./pipe.c ./utils_main.c ./parser_utils.c ./parser_utils_two.c \
 ./rediroutput_utils.c
-
-#BONUS =
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:%.c=%.o)
@@ -54,9 +53,10 @@ fclean: clean
 re: fclean all
 	make clean
 
-debug:
-					$(MAKE) -C $(LIBFT_PATH)
-					$(CC) -g $(CFLAGS) $(SRC) $(LIBFT) -o $@
-					gdb --tui --args ./minishell
+leaks:
+	valgrind --suppressions=./local.supp --leak-resolution=med --leak-check=full --show-leak-kinds=all ./$(NAME)
+
+debug: all
+	gdb ./minishell
 
 .PHONY: clean fclean re
