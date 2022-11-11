@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 00:57:01 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/10 00:51:58 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:20:47 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,34 @@ char	**copy_env2(t_data **data, int add)
 	{
 		copy[i] = ft_strdup((*data)->envp[i]);
 		printf("%s %d\n", copy[i], i);
+	}
+	return (copy);
+}
+
+char	**copy__env_unset(char **envp, int add, char *input, t_cursors *crs)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	**copy;
+
+	len = 0;
+	while (envp[len])
+		len++;
+	copy = (char **)ft_calloc(sizeof(char *), (len + add + 1));
+	if (!copy)
+		return (0);
+	i = -1;
+	j = -1;
+	while (i++ <= len - 1 && j++ <= len - 1)
+	{
+		if (envp[i] && ft_memcmp(envp[i], input, crs->len) != 0)
+			copy[j] = ft_strdup(envp[i]);
+		else if (envp[i + 1])
+		{
+			copy[j] = ft_strdup(envp[i + 1]);
+			i++;
+		}
 	}
 	return (copy);
 }

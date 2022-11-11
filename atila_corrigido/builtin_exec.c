@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/10 01:03:49 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:01:56 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	builtin_execute(t_data **data, t_cursors *crs)
 		crs->s++;
 	}
 	crs->len = ft_strlen((*data)->tmp2);
-	ft_bzero(cmd2, 1000);
+	ft_bzero(cmd2, 4096);
 	ft_memcpy(cmd2, (*data)->tmp2, crs->len);
 	free((*data)->tmp2);
 	select_echo(data, crs, cmd2);

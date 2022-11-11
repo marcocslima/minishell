@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/10 02:40:19 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:23:12 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,16 @@ int	ft_unset_errors(int i, char *input, t_data **data, t_cursors *crs)
 int	ft_unset(t_data **data, char *input)
 {
 	t_cursors	*crs;
+	char		**envp2;
 
 	init_crs(&crs);
 	if (ft_unset_errors(crs->l, input, data, crs) > 0)
 		return (ERROR);
 	while (input[crs->len])
 		crs->len++;
-	while ((*data)->envp[crs->j])
-	{
-		if (ft_memcmp((*data)->envp[crs->j], input, crs->len) == 0)
-		{
-			(*data)->envp[crs->j] = NULL;
-			if ((*data)->envp[crs->j] && (*data)->envp[crs->j + 1])
-				(*data)->envp[crs->j] = (*data)->envp[crs->j + 1];
-			crs->k = crs->j - 1;
-			while ((*data)->envp[crs->k++] && (*data)->envp[crs->k + 1])
-				(*data)->envp[crs->k] = (*data)->envp[crs->k + 1];
-			if (!ft_memcmp((*data)->envp[crs->k], (*data)->envp[crs->k - 1],
-					ft_strlen((*data)->envp[crs->k])))
-				(*data)->envp[crs->k] = NULL;
-		}
-		crs->j++;
-	}
+	envp2 = copy__env_unset((*data)->envp, 0, input, crs);
+	destroy_pointers_char((*data)->envp);
+	(*data)->envp = envp2;
 	free(crs);
 	return (0);
 }

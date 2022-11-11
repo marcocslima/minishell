@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/03 21:29:42 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:27:40 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	ft_pipe_close(t_data **data, int status, int pipefd[2], t_cursors *crs)
 		(*data)->exit_return = WEXITSTATUS(status);
 	close(pipefd[OUT]);
 	dup2(pipefd[IN], STDIN);
+	close(pipefd[IN]);
 	if (crs->flagpipe == 1)
 		exit(0);
 }
@@ -80,6 +81,7 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 		{
 			close (pipefd[IN]);
 			dup2 (pipefd[OUT], STDOUT);
+//			close (pipefd[OUT]);
 			if (flag == 8)
 			{
 				crs->flagpipe = 0;
@@ -89,7 +91,7 @@ void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs)
 			else
 				builtin_execute(data, crs);
 		}
-		waitpid(pid, &status, 0);
+		waitpid(pid, &status, WNOHANG);
 		ft_pipe_close(data, status, pipefd, crs);
 	}
 }

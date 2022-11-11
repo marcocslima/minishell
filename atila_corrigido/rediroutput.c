@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/03 22:37:46 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:22:36 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_output(t_data **data, t_cursors *crs)
 	if (pid == 0)
 	{
 		ft_output_fork(data, crs, jc, ncmd);
-		ft_output_2(data, crs);
+		ft_output_2(data, crs, jc, ncmd);
 		exit(0);
 	}
 	destroy_pointers_char(ncmd);
@@ -102,7 +102,7 @@ void	ft_output(t_data **data, t_cursors *crs)
 		(*data)->exit_return = WEXITSTATUS(crs->status);
 }
 
-void	ft_output_2(t_data **data, t_cursors *crs)
+void	ft_output_2(t_data **data, t_cursors *crs, char *jc, char **ncmd)
 {
 	crs->saved_stdout = dup(STDOUT);
 	dup2(crs->output, STDOUT);
@@ -110,4 +110,7 @@ void	ft_output_2(t_data **data, t_cursors *crs)
 	builtin_execute(data, crs);
 	dup2(crs->saved_stdout, STDOUT);
 	close(crs->saved_stdout);
+	clean_all(data, crs);
+	destroy_pointers_char(ncmd);
+	free(jc);
 }

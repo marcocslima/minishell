@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/10 01:27:17 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:26:07 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	builtin_execute(t_data **data, t_cursors *crs);
 void	builtin_execute_2(t_data **data, char *cmd2, t_cursors *crs);
 /*BUILTINS*/
 int		ft_export(t_data **data, char *input, t_cursors *crs);
+char	**copy__env_unset(char **envp, int add, char *input, t_cursors *crs);
 int		ft_unset(t_data **data, char *input);
 int		ft_cd(t_data **data, char *input, int i);
 void	ft_cd_2(t_data **data, char *path);
@@ -149,13 +150,12 @@ void	one_substitution_2(char **cmd, int i, int x);
 char	**cmd_one_substitution(char **cmd);
 void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs);
 void	ft_output(t_data **data, t_cursors *crs);
-void	ft_output_2(t_data **data, t_cursors *crs);
+void	ft_output_2(t_data **data, t_cursors *crs, char *jc, char **ncmd);
 void	ft_input(t_data **data, t_cursors *crs);
 void	ft_doc_pipe_2(t_data **data, t_cursors *crs);
 void	ft_fork_1(t_data **data, t_cursors *crs);
 void	ft_input_doc_pipe(t_data **data, t_cursors *crs);
 void	execute(char *argv, t_data **data);
-//void	execute_pipe(char *argv, t_data **data);
 char	*cmd_space_substitution(char *argv);
 void	*pathexec(char *cmd, char *envp[]);
 void	execute_pipe(char *argv, t_data **data, t_cursors *crs);
