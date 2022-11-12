@@ -6,7 +6,7 @@
 #    By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 02:03:37 by acosta-a          #+#    #+#              #
-#    Updated: 2022/11/03 11:16:12 by mcesar-d         ###   ########.fr        #
+#    Updated: 2022/11/12 12:44:03 by mcesar-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,9 @@ fclean: clean
 
 re: fclean all
 	make clean
+
+leaks:
+	valgrind --suppressions=./local.supp --leak-resolution=med --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 debug:
 					$(MAKE) -C $(LIBFT_PATH)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/02 02:10:29 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:28:19 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,8 @@ void	cmd_check_2(t_data **data, t_cursors *crs)
 	}
 }
 
-void	cmd_check_2_1(t_data **data, t_cursors *crs)
+void	cmd_check_2_1_middle(t_data **data, t_cursors *crs)
 {
-	if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
-		[crs->i2][crs->j2], "|", 2))
-		ft_pipe(data, crs->i2, crs->flag, crs);
-	if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
-		[crs->i2][crs->j2], ">", 2))
-	{
-		ft_output(data, crs);
-		crs->i2 = (*data)->jump;
-		crs->j2 = 0;
-	}
 	while (crs->flagpipe == 8 && crs->i2 <= crs->k2 && (*data)->cmds
 		[crs->i2] && (*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
 			[crs->i2][crs->j2], "<", 2))
@@ -84,5 +74,25 @@ void	cmd_check_2_1(t_data **data, t_cursors *crs)
 		crs->flag = 1;
 		builtin_execute(data, crs);
 	}
+}
+
+void	cmd_check_2_1(t_data **data, t_cursors *crs)
+{
+	if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
+		[crs->i2][crs->j2], "|", 2))
+		ft_pipe(data, crs->i2, crs->flag, crs);
+	if ((*data)->cmds[crs->i2][crs->j2] && !ft_memcmp((*data)->cmds
+		[crs->i2][crs->j2], ">", 2))
+	{
+		ft_output(data, crs);
+		if ((*data)->cmds[crs->i2 + (*data)->jump] && (crs->i2 == 0
+				|| !ft_memcmp((*data)->cmds[crs->i2 + (*data)->jump][0],
+				"echo", 5)))
+				crs->i2 = (*data)->jump + crs->i2;
+		else
+			crs->i2 = (*data)->jump + crs->i2 + 1;
+		crs->j2 = 0;
+	}
+	cmd_check_2_1_middle(data, crs);
 	crs->j2++;
 }

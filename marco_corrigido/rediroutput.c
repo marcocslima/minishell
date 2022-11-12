@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediroutput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/11 02:22:36 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:12:43 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*join_cmds_middle(t_data **data, char *jinput, int cmd, t_cursors *c)
 		if (check_sep((*data)->cmds[cmd][c->j][c->k]) == 1)
 		{
 			jinput[c->w] = '\0';
-			free(c);
+			c->flag = 1;
 			return (jinput);
 		}
 		jinput[c->w] = (*data)->cmds[cmd][c->j][c->k];
@@ -36,7 +36,7 @@ char	*join_cmds(t_data **data, int cmd)
 
 	init_crs(&c);
 	jinput = ft_calloc(4097, sizeof(char));
-	while ((*data)->cmds[cmd])
+	while ((*data)->cmds[cmd] && c->flag != 1)
 	{
 		while ((*data)->cmds[cmd][c->j])
 		{
@@ -82,12 +82,12 @@ void	ft_output(t_data **data, t_cursors *crs)
 
 	jc = join_cmds(data, crs->i2);
 	ncmd = ft_split(jc, '>');
+	(*data)->jump = 0;
 	while (ncmd[crs->o])
+	{
+		(*data)->jump = (*data)->jump + 1;
 		crs->o++;
-	if ((*data)->qtd_cmds < crs->o + 1)
-		(*data)->jump = crs->o;
-	else
-		(*data)->jump = crs->o + 1;
+	}
 	pid = fork();
 	if (pid == 0)
 	{

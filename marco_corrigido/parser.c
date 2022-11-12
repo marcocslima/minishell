@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 13:36:21 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/11/03 21:12:08 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:09:54 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	parser(t_data **data)
 	parser_middle(&g_dt, cursor, token, slicers);
 	get_slc_seq(&g_dt);
 	get_cmds(&g_dt, cursor);
-	t = 0;
+	t = -1;
 	while (++t < i)
 		free(g_dt->tokens[t]);
 	free(g_dt->tokens);

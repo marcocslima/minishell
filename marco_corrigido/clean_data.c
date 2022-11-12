@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:52:45 by mcesar-d          #+#    #+#             */
-/*   Updated: 2022/11/03 22:26:29 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 11:07:21 by mcesar-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	destroy_mat_char(t_data **data, char ***p, t_cursors *crs)
 		while (crs->i < crs->len + 1)
 		{
 			crs->j = 0;
-			while (p[crs->i][crs->j])
+			while (p[crs->i] && p[crs->i][crs->j])
 			{
 				{
 					free(p[crs->i][crs->j]);
