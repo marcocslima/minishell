@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/12 13:28:19 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:47:01 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	cmd_check(t_data **data)
 	t_cursors	*crs;
 
 	init_crs(&crs);
+	if ((*data)->cmds[0] && (*data)->cmds[0][0] && !ft_memcmp((*data)->cmds
+		[0][0], "<", 1))
+	{
+		crs->input = open((*data)->cmds[0][1], O_RDONLY, 0644);
+		no_input(data, crs, 1);
+		crs->i2++;
+	}
 	cmd_check_2(data, crs);
 	if (crs->i2 < crs->k2 && ft_memcmp((*data)->cmds[crs->i2][0], ">",
 		2) && ft_memcmp((*data)->cmds[crs->i2][0], ">", 2))

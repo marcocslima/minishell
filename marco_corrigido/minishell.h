@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:23 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/11 02:26:07 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:54:40 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	ft_bash(t_data **data);
 void	one_substitution_2(char **cmd, int i, int x);
 char	**cmd_one_substitution(char **cmd);
 void	ft_pipe(t_data **data, int i, int flag, t_cursors *crs);
+void	no_output(t_data **data, t_cursors *crs, char *jc, char **ncmd);
 void	ft_output(t_data **data, t_cursors *crs);
 void	ft_output_2(t_data **data, t_cursors *crs, char *jc, char **ncmd);
 void	ft_input(t_data **data, t_cursors *crs);

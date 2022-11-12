@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/12 11:30:08 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:45:52 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	select_echo(t_data **data, t_cursors *crs, char cmd2[])
 		{
 			crs->flagecho = 0;
 			ft_echo(data, (*data)->cmds[crs->i2], crs);
+			(*data)->exit_return = 0;
 		}
 	}
 	else

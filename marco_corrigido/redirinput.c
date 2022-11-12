@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/11/11 02:08:39 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:56:54 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ft_input(t_data **data, t_cursors *crs)
 		redir_stdin(data, crs);
 	}
 	waitpid(pid, &crs->status, 0);
+	if (WIFEXITED(crs->status))
+		(*data)->exit_return = WEXITSTATUS(crs->status);
 	if ((*data)->cmds[crs->i2 + 1] && (*data)->cmds[crs->i2 + 1][1] && (*data)
 		->cmds[crs->i2 + 1][1][0] == '>')
 		crs->i2 += 3;

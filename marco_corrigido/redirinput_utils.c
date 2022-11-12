@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirinput_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcesar-d <mcesar-d@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 07:44:08 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/10/31 15:37:42 by mcesar-d         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:51:58 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,19 @@ void	redir_stdin_out(t_data **data, t_cursors *crs)
 
 void	no_input(t_data **data, t_cursors *crs, int flag)
 {
-	char	cwd[4096];
-	char	*path;
-
 	if (crs->input == -1)
 	{
-		getcwd(cwd, 4096);
-		path = ft_strjoin_2(cwd, "/");
-		path = ft_strjoin(path, (*data)->cmds[crs->i2 + 1][0]);
+		if (!ft_memcmp((*data)->cmds[0][0], "<", 1))
+			ft_putstrs("minishell: ", (*data)->cmds[crs->i2][1], ": ", STDERR);
+		else
+			ft_putstrs("minishell: ", (*data)->cmds[crs->i2 + 1][0], ": ",
+				STDERR);
+		ft_putstrs(strerror(errno), " \n", NULL, STDERR);
+		(*data)->exit_return = 1;
 		if (flag == 0)
 		{
-			input_error_msg(path, data, crs);
-			free(path);
-		}
-		if (flag == 1)
-		{
-			input_error_msg_noexit(path, data, crs);
-			crs->i2++;
+			clean_all(data, crs);
+			exit(ERROR);
 		}
 	}
 }
