@@ -28,7 +28,7 @@ ls | cat > cat.txt
 
 cat < file | wc > file2.txt
 
-#Ctrl + D, Ctrl + C commands.
+# Ctrl + D, Ctrl + C 
 
 
 # You can try any commands.
