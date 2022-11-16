@@ -11,9 +11,7 @@ valgrind --suppressions=./local.supp --leak-resolution=med --leak-check=full --s
 We have built for this project our own cd , env, echo, pwd export and unset functions.
 The other functions are looked for the program in the /bin folder.
 
-You can use commands like :
-
-Redirects and pipes.
+# Redirects and pipes.
 
 
 ls > file
@@ -30,10 +28,10 @@ ls | cat > cat.txt
 
 cat < file | wc > file2.txt
 
-You can use Ctrl + D, Ctrl + C commands.
+#Ctrl + D, Ctrl + C commands.
 
 
-You can try any commands.
+# You can try any commands.
 
 ls -l 
 
@@ -41,7 +39,7 @@ wc -l
 
 /bin/ls
 
-Builtin commands
+# Builtin commands
 
 
     echo
