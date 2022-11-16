@@ -1,8 +1,11 @@
 # 42 minishell
 
 This is a simple Shell program that will run the most part of shell commands.
+
 Just compile and run it with ./minishell
+
 You can run it with valgrind but the readline library need to be supressed:
+
 valgrind --suppressions=./local.supp --leak-resolution=med --leak-check=full --show-leak-kinds=all ./minishell
 
 We have built for this project our own cd , env, echo, pwd export and unset functions.
