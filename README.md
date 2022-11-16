@@ -14,7 +14,7 @@ The other functions are looked for the program in the /bin folder.
 # Redirects and pipes.
 
 
-ls > file
+ls > "file"
 
 ls >> file1 >> file2 >file23
 
