@@ -2,7 +2,7 @@
 
 This is a simple Shell program that will run the most part of shell commands.
 
-Just compile and run it with ./minishell
+Just compile and run it typing ./minishell
 
 You can run it with valgrind but the readline library need to be supressed:
 
