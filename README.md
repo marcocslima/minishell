@@ -16,7 +16,7 @@ The other functions are looked for the program in the /bin folder.
 
 ls > "file"
 
-ls >> file1 >> file2 >file23
+ls >> file1 >> file2 >file3
 
 cat << eof >> file3
 
